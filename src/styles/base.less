@@ -1,0 +1,85 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  font-family: @font-family;
+  font-size: @font-size;
+  line-height: @line-height;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+ul.default,
+ol.default {
+  padding-left: 30px;
+}
+
+ul.default {
+  list-style: disc;
+}
+
+ol.default {
+  list-style: decimal;
+}
+
+img {
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  background: transparent;
+}
+::-webkit-scrollbar-track {
+  border-radius: 6px;
+  background: #f3f4f5;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: #b0b4bb;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c1c4cb;
+}
+
+::selection {
+  color: #fff;
+  background: @primary-color;
+}
+
+#app {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #e6e8ec;
+  overflow: hidden;
+}
