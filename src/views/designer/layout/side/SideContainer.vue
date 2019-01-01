@@ -67,11 +67,11 @@ export default {
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 0;
+    left: 0;
     z-index: 1;
     width: 45px;
     text-align: center;
-    box-shadow: -1px 0 3px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 0 3px 0 rgba(0, 0, 0, 0.4);
     background: #1f5c87;
     overflow: hidden;
     a {
@@ -103,6 +103,8 @@ export default {
     }
   }
   &-content {
+    position: absolute;
+    right: 0;
     width: calc(100% - 45px);
     height: 100%;
     overflow: hidden;

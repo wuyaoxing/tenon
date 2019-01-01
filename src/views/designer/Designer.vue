@@ -9,16 +9,16 @@
       </ul>
     </header>
     <div class="tenon-designer-main f-f-1 f">
-      <!-- <Handle direction="left"
-              :handle.sync="handleVisiable">
-        <SideContainer class="tenon-designer-side" />
-      </Handle> -->
-      <EditorContainer class="tenon-designer-editor f-f-1"
-                       :componentId.sync="componentId"
-                       :project="project" />
       <SideContainer class="tenon-designer-side"
                      :componentId.sync="componentId"
                      :project="project" />
+      <EditorContainer class="tenon-designer-editor f-f-1"
+                       :componentId.sync="componentId"
+                       :project="project" />
+      <!-- <Handle direction="right"
+              :handle.sync="handleVisiable">
+        <SideContainer class="tenon-designer-side" />
+      </Handle> -->
     </div>
   </MainLayout>
 </template>
@@ -105,10 +105,11 @@ export default {
   &-side {
     width: 300px;
     height: 100%;
+    border-right: 1px solid @dark-border-color;
   }
   &-editor {
     // border-left: 1px solid @dark-border-color;
-    border-right: 1px solid @dark-border-color;
+    // border-right: 1px solid @dark-border-color;
   }
   &-properties {
     width: 250px;

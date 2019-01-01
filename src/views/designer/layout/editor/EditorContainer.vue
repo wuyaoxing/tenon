@@ -72,5 +72,7 @@ export default {
 @import "~styles/variables";
 
 .editor-container {
+    outline: none;
+    overflow: auto;
 }
 </style>
