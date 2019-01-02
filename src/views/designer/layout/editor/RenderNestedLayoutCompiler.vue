@@ -7,7 +7,8 @@
                      :showDown="component.children.length > 0 && index !== component.children.length - 1"
                      @up="upEvent(index)"
                      @down="downEvent(index)"
-                     @click="clickEvent(item.id)">
+                     @click="clickEvent(item.id)"
+                     @drop="dropEvent($event, item)">
       <RenderNestedLayoutCompiler v-if="item.name === 'NestedLayoutContainer'"
                                   :data-component-id="item.id"
                                   :properties.sync="item.properties"
@@ -63,7 +64,21 @@ export default {
         clickEvent(id) {
             console.log(this.component)
             this.currentComponentId = id
-            this.$root.$emit('show-properties', this.component)
+        },
+        dropEvent(e, component) {
+            const dragData = e.dataTransfer.getData('Text')
+            console.log('nested drop:', e, dragData, this)
+            if (dragData) {
+                const praseDragData = JSON.parse(dragData)
+
+                if (component.name === 'NestedLayoutContainer') {
+                    component.children.push(praseDragData)
+                } else if (component.name === 'PositionLayoutContainer') {
+                    component.children.push(praseDragData)
+                } else {
+                    this.component.children.push(praseDragData)
+                }
+            }
         },
     },
 }

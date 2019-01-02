@@ -1,6 +1,10 @@
 <template>
   <div class="nested-container"
        :class="{ selected }"
+       @dragover="ondragover"
+       @dragenter.stop="ondragenter"
+       @dragleave.stop="ondragleave"
+       @drop.stop="ondrop"
        @click.stop="clickEvent">
     <div class="nested-container-widget"
          v-if="selected">
@@ -10,7 +14,9 @@
       <i class="el-icon-caret-bottom"
          v-if="showDown"
          @click="downEvent"></i>
-      <i class="el-icon-delete"></i>
+      <i class="el-icon-delete"
+         v-if="showDelete"
+         @click="deleteEvent"></i>
     </div>
     NestedConatiner
     <slot></slot>
@@ -22,9 +28,28 @@ export default {
     props: {
         selected: Boolean,
         showUp: Boolean,
-        showDown: Boolean
+        showDown: Boolean,
+        showDelete: {
+            type: Boolean,
+            default: true
+        }
     },
     methods: {
+        ondragover(e) {
+            e.preventDefault()
+        },
+        ondragenter(e) {
+            console.log('enter', e.target)
+            this.$el.style.background = 'purple'
+        },
+        ondragleave(e) {
+            console.log('leve', e.target)
+            this.$el.style.background = ''
+        },
+        ondrop(e) {
+            e.preventDefault()
+            this.$emit('drop', e)
+        },
         clickEvent(e) {
             this.$emit('click', e)
         },
@@ -33,6 +58,9 @@ export default {
         },
         downEvent(e) {
             this.$emit('down', e)
+        },
+        deleteEvent(e) {
+            this.$emit('delete', e)
         },
     }
 }

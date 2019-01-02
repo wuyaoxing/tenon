@@ -1,13 +1,19 @@
 <template>
   <div class="editor-container f-f-1"
-       tabindex="1"
-       @dragover="ondragover"
-       @drop="ondrop">
-    <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
-                                :component="project.components" />
+       tabindex="1">
+    <NestedContainer :selected="project.components.id === componentId"
+                     :showUp="false"
+                     :showDown="false"
+                     :showDelete="false"
+                     @click="clickEvent(project.components.id)"
+                     @drop="dropEvent">
+      <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
+                                  :component="project.components" />
+    </NestedContainer>
   </div>
 </template>
 <script>
+import NestedContainer from './NestedContainer'
 import RenderNestedLayoutCompiler from './RenderNestedLayoutCompiler'
 
 export default {
@@ -17,6 +23,7 @@ export default {
         project: Object
     },
     components: {
+        NestedContainer,
         RenderNestedLayoutCompiler
     },
     computed: {
@@ -38,8 +45,20 @@ export default {
         ondragover(e) {
             e.preventDefault()
         },
+        dropEvent(e) {
+            const dragData = e.dataTransfer.getData('Text')
+            console.log('first drop:', e, dragData, this)
+            if (dragData) {
+                const praseDragData = JSON.parse(dragData)
+                this.project.components.children.push(praseDragData)
+            }
+        },
+
+        clickEvent(id) {
+            this.currentComponentId = id
+        },
         ondrop(e) {
-            console.log('drop:', e, this)
+            console.log('first drop:', e, this)
             const dragData = e.dataTransfer.getData('Text')
             if (dragData) {
                 const praseDragData = JSON.parse(dragData)
@@ -59,8 +78,20 @@ export default {
         },
         addComponent(data) {
             const component = { id: this.$uuid(), ...data }
-            // 注册组件
-            this.asyncLoadComponent(component)
+
+            // const recursion = (component, id) => {
+            //     if (component.id === id) {
+            //         this.component = component
+            //         return
+            //     }
+            //     for (let i = 0; i < component.children.length; i++) {
+            //         const data = component.children[i]
+            //         recursion(data, id)
+            //         if (data.id === id) break
+            //     }
+            // }
+            // recursion(this.project.components, componentId)
+
             this.components.push(component)
 
             // this.dragContainerSelect(component)
@@ -72,7 +103,7 @@ export default {
 @import "~styles/variables";
 
 .editor-container {
-    outline: none;
-    overflow: auto;
+  outline: none;
+  overflow: auto;
 }
 </style>

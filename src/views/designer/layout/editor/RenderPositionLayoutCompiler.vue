@@ -3,7 +3,7 @@
     <PositionContainer v-for="item in component.children"
                        :key="item.id"
                        :selected="item.id === componentId"
-                       @click="click(item.id)">
+                       @click="clickEvent(item.id)">
       <component :is="asyncLoadComponent(item.name)"
                  :data-component-id="item.id"
                  :properties.sync="item.properties" />
@@ -35,9 +35,8 @@ export default {
         }
     },
     methods: {
-        click(id) {
+        clickEvent(id) {
             this.currentComponentId = id
-            this.$root.$emit('show-properties', this.component)
         }
     }
 }

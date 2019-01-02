@@ -15,7 +15,7 @@ export default {
     methods: {
         clickEvent(e) {
             this.$emit('click', e)
-        }
+        },
     }
 }
 </script>

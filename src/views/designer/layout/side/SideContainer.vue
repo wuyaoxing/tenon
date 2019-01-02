@@ -108,6 +108,7 @@ export default {
     width: calc(100% - 45px);
     height: 100%;
     overflow: hidden;
+    overflow-y: auto;
   }
 }
 </style>

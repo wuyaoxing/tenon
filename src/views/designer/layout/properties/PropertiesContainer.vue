@@ -16,17 +16,32 @@ export default {
             component: {}
         }
     },
-    methods: {
-
-        showProperties(data) {
-            this.component = data
+    watch: {
+        componentId: {
+            handler: 'findComponent',
+            immediate: true
         }
     },
-    created() {
-        this.$root.$on('show-properties', this.showProperties)
-    },
-    destroyed() {
-        this.$root.$off('show-properties', this.showProperties)
-    },
+    methods: {
+        findComponent(componentId) {
+            console.log(componentId)
+            if (!componentId) {
+                this.component = {}
+                return
+            }
+            const recursion = (component, id) => {
+                if (component.id === id) {
+                    this.component = component
+                    return
+                }
+                for (let i = 0; i < component.children.length; i++) {
+                    const data = component.children[i]
+                    recursion(data, id)
+                    if (data.id === id) break
+                }
+            }
+            recursion(this.project.components, componentId)
+        }
+    }
 }
 </script>
