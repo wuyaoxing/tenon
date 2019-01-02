@@ -2,11 +2,14 @@
   <Dialog title="新建项目"
           width="500px"
           :append-to-body="true"
-          :visible.sync="currentVisiable">
+          :visible.sync="currentVisiable"
+          class="project-add">
     项目名称： <Input v-model="project.name" />
-    <ul>
-      <li v-for="item in template"
-          :key="item.name"></li>
+    <ul class="project-template f">
+      <li v-for="(item, key) in template"
+          :key="key"
+          :class="{ active: key === templateId }"
+          @click="templateId = key">{{key}}</li>
     </ul>
     <span slot="footer"
           class="dialog-footer">
@@ -26,7 +29,7 @@ export default {
             project: {
                 name: '',
             },
-            templateId: 1,
+            templateId: '1',
             template: {
                 1: {
                     name: 'NestedLayoutContainer',
@@ -98,6 +101,13 @@ export default {
                             ]
                         }
                     ],
+                },
+                2: {
+                    name: 'NestedLayoutContainer',
+                    properties: {
+                        minHeight: '100%'
+                    },
+                    children: []
                 }
             }
         }
@@ -149,3 +159,20 @@ export default {
     }
 }
 </script>
+<style lang="less">
+@import "~styles/variables";
+
+.project {
+  &-template {
+    padding: 15px 0;
+    li {
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+    .active {
+      color: @white-color;
+      background: @accent-color;
+    }
+  }
+}
+</style>
