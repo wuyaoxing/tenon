@@ -1,9 +1,6 @@
 <template>
   <div class="nested-container"
        :class="{ selected }"
-       @dragover="ondragover"
-       @dragenter.stop="ondragenter"
-       @dragleave.stop="ondragleave"
        @drop.stop="ondrop"
        @click.stop="clickEvent">
     <div class="nested-container-widget"
@@ -38,16 +35,9 @@ export default {
         ondragover(e) {
             e.preventDefault()
         },
-        ondragenter(e) {
-            console.log('enter', e.target)
-            this.$el.style.background = 'purple'
-        },
-        ondragleave(e) {
-            console.log('leve', e.target)
-            this.$el.style.background = ''
-        },
         ondrop(e) {
             e.preventDefault()
+            this.$el.classList.remove('hover')
             this.$emit('drop', e)
         },
         clickEvent(e) {
@@ -70,8 +60,12 @@ export default {
   position: relative;
   padding: 5px;
   border: 1px solid #000;
-  &.selected {
+  &.selected,
+  &.hover {
     outline: 1px dashed #2c6a95;
+  }
+  &.hover {
+    background: purple;
   }
   &-widget {
     position: absolute;

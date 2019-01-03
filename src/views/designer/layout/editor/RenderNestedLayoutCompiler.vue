@@ -68,7 +68,7 @@ export default {
         dropEvent(e, component) {
             const dragData = e.dataTransfer.getData('Text')
             console.log('nested drop:', e, dragData, this)
-            if (dragData) {
+            try {
                 const praseDragData = JSON.parse(dragData)
 
                 if (component.name === 'NestedLayoutContainer') {
@@ -78,6 +78,8 @@ export default {
                 } else {
                     this.component.children.push(praseDragData)
                 }
+            } catch (error) {
+                console.log('drop error:', error)
             }
         },
     },

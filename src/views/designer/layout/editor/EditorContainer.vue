@@ -38,64 +38,50 @@ export default {
     },
     data() {
         return {
-            designerContentProperties: {}
+            dragoverTarget: null
         }
     },
     methods: {
         ondragover(e) {
             e.preventDefault()
+            if (e.target.classList.contains('nested-container')) {
+                if (this.dragoverTarget === e.target) return
+                this.dragoverTarget = e.target
+                this.removeHoverHandler()
+                e.target.classList.add('hover')
+            }
+        },
+        ondrop(e) {
+            e.preventDefault()
+            this.removeHoverHandler()
+        },
+        removeHoverHandler() {
+            const nestedContainerItems = document.querySelectorAll('.nested-container')
+            nestedContainerItems.forEach(item => {
+                item.classList.remove('hover')
+            })
         },
         dropEvent(e) {
             const dragData = e.dataTransfer.getData('Text')
             console.log('first drop:', e, dragData, this)
-            if (dragData) {
+            try {
                 const praseDragData = JSON.parse(dragData)
                 this.project.components.children.push(praseDragData)
+            } catch (error) {
+                console.log('first drop error:', error)
             }
         },
-
         clickEvent(id) {
             this.currentComponentId = id
-        },
-        ondrop(e) {
-            console.log('first drop:', e, this)
-            const dragData = e.dataTransfer.getData('Text')
-            if (dragData) {
-                const praseDragData = JSON.parse(dragData)
-
-                const properties = {
-                    ...praseDragData.properties,
-                    x: e.clientX - this.designerContentProperties.x,
-                    y: e.clientY - this.designerContentProperties.y,
-                    z: 1
-                    // minWidth: 80,
-                    // minHeight: 80,
-                    // maxWidth: 120,
-                    // maxHeight: 120
-                }
-                this.addComponent({ ...praseDragData, properties })
-            }
-        },
-        addComponent(data) {
-            const component = { id: this.$uuid(), ...data }
-
-            // const recursion = (component, id) => {
-            //     if (component.id === id) {
-            //         this.component = component
-            //         return
-            //     }
-            //     for (let i = 0; i < component.children.length; i++) {
-            //         const data = component.children[i]
-            //         recursion(data, id)
-            //         if (data.id === id) break
-            //     }
-            // }
-            // recursion(this.project.components, componentId)
-
-            this.components.push(component)
-
-            // this.dragContainerSelect(component)
         }
+    },
+    created() {
+        this.$EventStack.register('editor-container', 'dragover', this.ondragover)
+        this.$EventStack.register('editor-container', 'drop', this.ondrop)
+    },
+    destroyed() {
+        this.$EventStack.dispose('editor-container', 'dragover')
+        this.$EventStack.dispose('editor-container', 'drop')
     }
 }
 </script>
