@@ -24,6 +24,11 @@ export default {
     components: {
         PositionContainer
     },
+    data() {
+        return {
+            isScroll: true
+        }
+    },
     computed: {
         currentComponentId: {
             get() {
@@ -36,6 +41,7 @@ export default {
     },
     methods: {
         clickEvent(id) {
+            this.isScroll = false
             this.currentComponentId = id
         }
     }

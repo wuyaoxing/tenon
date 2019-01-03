@@ -7,8 +7,11 @@
   </div>
 </template>
 <script>
+import scrollIntoViewMixins from './scrollIntoView'
+
 export default {
     name: 'PositionContainer',
+    mixins: [scrollIntoViewMixins],
     props: {
         selected: Boolean
     },

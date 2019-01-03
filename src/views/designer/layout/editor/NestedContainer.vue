@@ -20,8 +20,11 @@
   </div>
 </template>
 <script>
+import scrollIntoViewMixins from './scrollIntoView'
+
 export default {
     name: 'NestedContainer',
+    mixins: [scrollIntoViewMixins],
     props: {
         selected: Boolean,
         showUp: Boolean,
