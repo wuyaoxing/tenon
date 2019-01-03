@@ -1,29 +1,31 @@
 <template>
   <div class="components-container">
     <ul class="components-list"
-        v-for="(value, key) in config"
+        v-for="(value, key) in componentCategory"
         :key="key">
       <li class="components-list-title">{{key}}</li>
       <li class="components-list-item"
           v-for="name in value"
           :key="name"
           draggable
-          @dragstart="e => ondragstart(e, name)">{{name}}</li>
+          @dragstart="e => ondragstart(e, name)"
+          @dragend="ondragend">{{name}}</li>
     </ul>
   </div>
 </template>
 <script>
-import config from './config'
+import { componentCategory } from '../../components/config'
 
 export default {
     name: 'ComponentsContainer',
     data() {
         return {
-            config
+            componentCategory
         }
     },
     methods: {
         ondragstart(e, name) {
+            e.target.classList.add('drag')
             const dragData = {
                 id: this.$uuid(),
                 name,
@@ -32,6 +34,9 @@ export default {
             }
             e.dataTransfer.setData('Text', JSON.stringify(dragData))
         },
+        ondragend(e) {
+            e.target.classList.remove('drag')
+        }
     }
 }
 </script>
@@ -56,6 +61,9 @@ export default {
       &:hover {
         color: @white-color;
         background: @accent-color;
+      }
+      &.drag {
+        opacity: 0.5;
       }
     }
   }

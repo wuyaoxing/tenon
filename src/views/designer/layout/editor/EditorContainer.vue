@@ -15,6 +15,7 @@
 <script>
 import NestedContainer from './NestedContainer'
 import RenderNestedLayoutCompiler from './RenderNestedLayoutCompiler'
+import { nestedComponents } from '../../components/config'
 
 export default {
     name: 'EditContainer',
@@ -26,6 +27,11 @@ export default {
         NestedContainer,
         RenderNestedLayoutCompiler
     },
+    data() {
+        return {
+            dragoverTarget: null
+        }
+    },
     computed: {
         currentComponentId: {
             get() {
@@ -34,11 +40,6 @@ export default {
             set(val) {
                 this.$emit('update:componentId', val)
             }
-        }
-    },
-    data() {
-        return {
-            dragoverTarget: null
         }
     },
     methods: {
@@ -66,7 +67,15 @@ export default {
             console.log('first drop:', e, dragData, this)
             try {
                 const praseDragData = JSON.parse(dragData)
-                this.project.components.children.push(praseDragData)
+                if (nestedComponents.indexOf(praseDragData.name) > -1) {
+                    this.project.components.children.push(praseDragData)
+                } else {
+                    this.$Message({
+                        showClose: true,
+                        message: `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`,
+                        type: 'warning'
+                    })
+                }
             } catch (error) {
                 console.log('first drop error:', error)
             }

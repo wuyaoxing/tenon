@@ -32,6 +32,7 @@
 import asyncLoadComponentMixins from './asyncLoadComponent'
 import NestedContainer from './NestedContainer'
 import RenderPositionLayoutCompiler from './RenderPositionLayoutCompiler'
+import { nestedComponents } from '../../components/config'
 
 export default {
     name: 'RenderNestedLayoutCompiler',
@@ -84,11 +85,35 @@ export default {
                 const praseDragData = JSON.parse(dragData)
 
                 if (component.name === 'NestedLayoutContainer') {
-                    component.children.push(praseDragData)
+                    if (nestedComponents.indexOf(praseDragData.name) > -1) {
+                        component.children.unshift(praseDragData)
+                    } else {
+                        this.$Message({
+                            showClose: true,
+                            message: `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`,
+                            type: 'warning'
+                        })
+                    }
                 } else if (component.name === 'PositionLayoutContainer') {
-                    component.children.push(praseDragData)
+                    if (nestedComponents.indexOf(praseDragData.name) > -1) {
+                        this.$Message({
+                            showClose: true,
+                            message: `PositionLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`,
+                            type: 'warning'
+                        })
+                    } else {
+                        component.children.push(praseDragData)
+                    }
+                } else if (nestedComponents.indexOf(praseDragData.name) > -1) {
+                    const index = this.component.children.findIndex(item => item.id === component.id)
+                    this.component.children.splice(index + 1, 0, praseDragData)
+                    // this.component.children.push(praseDragData)
                 } else {
-                    this.component.children.push(praseDragData)
+                    this.$Message({
+                        showClose: true,
+                        message: `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`,
+                        type: 'warning'
+                    })
                 }
             } catch (error) {
                 console.log('drop error:', error)
