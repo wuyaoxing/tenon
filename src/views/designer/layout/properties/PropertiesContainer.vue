@@ -3,7 +3,7 @@
     Properties
     {{asyncSchema[component.name]}}
     <ul>
-      <li v-for="(item, key) in asyncSchema[component.name].properties"
+      <li v-for="(item, key) in componentSchema.properties"
           :key="key">
         <span>{{key}}</span>
         <component :is="asyncLoadComponent(item.format)"
@@ -29,6 +29,11 @@ export default {
     data() {
         return {
             component: {}
+        }
+    },
+    computed: {
+        componentSchema() {
+            return this.asyncSchema[this.component.name] || {}
         }
     },
     watch: {

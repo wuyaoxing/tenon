@@ -5,9 +5,12 @@ export default {
         }
     },
     methods: {
-        asyncLoadSchema(name) {
-            if (!this.asyncSchema[name]) this.asyncSchema[name] = require(`../../components/${name}/schema.js`)
-            console.log(this.asyncSchema[name])
+        async asyncLoadSchema(name) {
+            if (!this.asyncSchema[name]) {
+                await import(`../../components/${name}/schema.js`).then(module => {
+                    this.$set(this.asyncSchema, name, module.default)
+                })
+            }
             return this.asyncSchema[name]
         },
     },

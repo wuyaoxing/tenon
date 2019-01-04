@@ -5,8 +5,8 @@ export default {
         }
     },
     methods: {
-        asyncLoadDefaultData(name) {
-            if (!this.asyncDefaultData[name]) this.asyncDefaultData[name] = require(`../../components/${name}/data.json`)
+        async asyncLoadDefaultData(name) {
+            if (!this.asyncDefaultData[name]) this.asyncDefaultData[name] = await require(`../../components/${name}/data.json`)
             return this.asyncDefaultData[name]
         },
     },
