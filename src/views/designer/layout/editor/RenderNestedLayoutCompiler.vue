@@ -2,6 +2,7 @@
   <component :is="asyncLoadComponent(component.name)">
     <NestedContainer v-for="(item, index) in component.children"
                      :key="item.id"
+                     :name="item.name"
                      :isScroll.sync="isScroll"
                      :selected="item.id === componentId"
                      :showUp="index > 0"

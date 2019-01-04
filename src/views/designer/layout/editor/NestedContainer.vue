@@ -17,6 +17,7 @@
     </div>
     NestedConatiner
     <slot></slot>
+    <div class="hint">{{hint}}</div>
   </div>
 </template>
 <script>
@@ -26,6 +27,7 @@ export default {
     name: 'NestedContainer',
     mixins: [scrollIntoViewMixins],
     props: {
+        name: String,
         selected: Boolean,
         showUp: Boolean,
         showDown: Boolean,
@@ -34,13 +36,23 @@ export default {
             default: true
         }
     },
+    computed: {
+        hint() {
+            let hint = ''
+            if (this.name === 'NestedLayoutContainer') {
+                hint = '插入 NestedLayoutContainer 内部'
+            } else if (this.name === 'PositionLayoutContainer') {
+                hint = '插入 PositionLayoutContainer 内部'
+            } else {
+                hint = `插入 ${this.name} 下方`
+            }
+            return hint
+        }
+    },
     methods: {
-        ondragover(e) {
-            e.preventDefault()
-        },
         ondrop(e) {
             e.preventDefault()
-            this.$el.classList.remove('hover')
+            this.$el.classList.remove('dragover')
             this.$emit('drop', e)
         },
         clickEvent(e) {
@@ -54,21 +66,26 @@ export default {
         },
         deleteEvent(e) {
             this.$emit('delete', e)
-        },
+        }
     }
 }
 </script>
 <style lang="less">
+@import "~styles/variables";
+
 .nested-container {
   position: relative;
   padding: 5px;
   border: 1px solid #000;
   &.selected,
-  &.hover {
+  &.dragover {
     outline: 1px dashed #2c6a95;
   }
-  &.hover {
+  &.dragover {
     background: purple;
+    & > .hint {
+      display: block;
+    }
   }
   &-widget {
     position: absolute;
@@ -87,6 +104,16 @@ export default {
         color: #fff;
       }
     }
+  }
+  .hint {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: @white-color;
+    background: #1f5c87;
   }
 }
 </style>

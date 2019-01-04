@@ -1,7 +1,8 @@
 <template>
   <div class="editor-container f-f-1"
        tabindex="1">
-    <NestedContainer :selected="project.components.id === componentId"
+    <NestedContainer :name="project.components.name"
+                     :selected="project.components.id === componentId"
                      :showUp="false"
                      :showDown="false"
                      :showDelete="false"
@@ -48,18 +49,18 @@ export default {
             if (e.target.classList.contains('nested-container')) {
                 if (this.dragoverTarget === e.target) return
                 this.dragoverTarget = e.target
-                this.removeHoverHandler()
-                e.target.classList.add('hover')
+                this.removeHandler()
+                e.target.classList.add('dragover')
             }
         },
         ondrop(e) {
             e.preventDefault()
-            this.removeHoverHandler()
+            this.removeHandler()
         },
-        removeHoverHandler() {
+        removeHandler() {
             const nestedContainerItems = document.querySelectorAll('.nested-container')
             nestedContainerItems.forEach(item => {
-                item.classList.remove('hover')
+                item.classList.remove('dragover')
             })
         },
         dropEvent(e) {
