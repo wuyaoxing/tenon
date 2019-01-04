@@ -1,5 +1,3 @@
-// require('./generate')
-
 const fs = require('fs')
 const path = require('path')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')

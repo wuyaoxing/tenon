@@ -1,12 +1,27 @@
 <template>
   <div class="properties-container">
     Properties
+    {{asyncSchema[component.name]}}
+    <ul>
+      <li v-for="(item, key) in asyncSchema[component.name].properties"
+          :key="key">
+        <span>{{key}}</span>
+        <component :is="asyncLoadComponent(item.format)"
+                   :schema="item"
+                   :properties="component.properties"
+                   :value.sync="component.properties[key]"></component>
+      </li>
+    </ul>
     {{component}}
   </div>
 </template>
 <script>
+import asyncLoadSchemaMixins from './asyncLoadSchema'
+import asyncLoadComponentMixins from './asyncLoadComponent'
+
 export default {
     name: 'PropertiesContainer',
+    mixins: [asyncLoadSchemaMixins, asyncLoadComponentMixins],
     props: {
         componentId: String,
         project: Object
@@ -34,13 +49,17 @@ export default {
                     this.component = component
                     return
                 }
-                for (let i = 0; i < component.children.length; i++) {
-                    const data = component.children[i]
-                    recursion(data, id)
-                    if (data.id === id) break
+                if (component.children) {
+                    for (let i = 0; i < component.children.length; i++) {
+                        const data = component.children[i]
+                        recursion(data, id)
+                        if (data.id === id) break
+                    }
                 }
             }
             recursion(this.project.components, componentId)
+
+            this.asyncLoadSchema(this.component.name)
         }
     }
 }

@@ -68,7 +68,7 @@ export default {
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 1;
+    z-index: 15;
     width: 45px;
     text-align: center;
     box-shadow: 1px 0 3px 0 rgba(0, 0, 0, 0.4);

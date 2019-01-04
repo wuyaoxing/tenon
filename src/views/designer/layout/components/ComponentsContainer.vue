@@ -15,9 +15,11 @@
 </template>
 <script>
 import { componentCategory } from '../../components/config'
+import asyncLoadDefaultDataMixins from './asyncLoadDefaultData'
 
 export default {
     name: 'ComponentsContainer',
+    mixins: [asyncLoadDefaultDataMixins],
     data() {
         return {
             componentCategory
@@ -26,12 +28,16 @@ export default {
     methods: {
         ondragstart(e, name) {
             e.target.classList.add('drag')
+            const defaultData = this.asyncLoadDefaultData(name)
             const dragData = {
                 id: this.$uuid(),
                 name,
-                properties: { test: '123' },
-                children: []
+                properties: {
+                    name,
+                    ...defaultData
+                }
             }
+            if (name === 'NestedLayoutContainer' || name === 'PositionLayoutContainer') dragData.children = []
             e.dataTransfer.setData('Text', JSON.stringify(dragData))
         },
         ondragend(e) {

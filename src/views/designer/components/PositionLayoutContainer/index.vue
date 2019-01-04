@@ -12,5 +12,8 @@ export default {
 <style lang="less">
 .position-layout-container {
   position: relative;
+  //   & > * {
+  //     position: absolute;
+  //   }
 }
 </style>

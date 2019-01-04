@@ -3,6 +3,7 @@ import Vue from 'vue'
 import 'styles/app.less'
 
 import uuid from 'utils/uuid'
+import sleep from 'utils/sleep'
 import EventStack from 'utils/EventStack'
 
 import components from 'components'
@@ -16,6 +17,7 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 
 Vue.prototype.$uuid = uuid
+Vue.prototype.$sleep = sleep
 Vue.prototype.$EventStack = new EventStack()
 
 new Vue({
