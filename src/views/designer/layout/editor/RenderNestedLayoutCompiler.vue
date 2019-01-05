@@ -2,7 +2,10 @@
   <component :is="asyncLoadComponent(component.name)">
     <NestedContainer v-for="(item, index) in component.children"
                      :key="item.id"
-                     :name="item.name"
+                     :data-component-id="item.id"
+                     :data-component-name="item.name"
+                     :isDragover="currentDragoverInfo.componentId === item.id"
+                     :hint="currentDragoverInfo.hint"
                      :isScroll.sync="isScroll"
                      :selected="item.id === componentId"
                      :showUp="index > 0"
@@ -16,7 +19,8 @@
                                   :data-component-id="item.id"
                                   :properties.sync="item.properties"
                                   :component="item"
-                                  :componentId.sync="currentComponentId" />
+                                  :componentId.sync="currentComponentId"
+                                  :dragoverInfo.sync="currentDragoverInfo" />
       <RenderPositionLayoutCompiler v-else-if="item.name === 'PositionLayoutContainer'"
                                     :data-component-id="item.id"
                                     :properties.sync="item.properties"
@@ -41,6 +45,7 @@ export default {
     props: {
         componentId: String,
         component: Object,
+        dragoverInfo: Object
     },
     components: {
         NestedContainer,
@@ -58,6 +63,14 @@ export default {
             },
             set(val) {
                 this.$emit('update:componentId', val)
+            },
+        },
+        currentDragoverInfo: {
+            get() {
+                return this.dragoverInfo
+            },
+            set(val) {
+                this.$emit('update:dragoverInfo', val)
             },
         },
     },
@@ -82,6 +95,7 @@ export default {
         dropEvent(e, component) {
             const dragData = e.dataTransfer.getData('Text')
             console.log('nested drop:', e, dragData, this)
+            this.currentDragoverInfo = {}
             try {
                 const praseDragData = JSON.parse(dragData)
 

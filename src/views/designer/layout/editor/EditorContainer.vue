@@ -1,7 +1,10 @@
 <template>
   <div class="editor-container f-f-1"
        tabindex="1">
-    <NestedContainer :name="project.components.name"
+    <NestedContainer :data-component-id="project.components.id"
+                     :data-component-name="project.components.name"
+                     :isDragover="dragoverInfo.componentId === project.components.id"
+                     :hint="dragoverInfo.hint"
                      :selected="project.components.id === componentId"
                      :showUp="false"
                      :showDown="false"
@@ -9,7 +12,8 @@
                      @click="clickEvent(project.components.id)"
                      @drop="dropEvent">
       <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
-                                  :component="project.components" />
+                                  :component="project.components"
+                                  :dragoverInfo.sync="dragoverInfo" />
     </NestedContainer>
   </div>
 </template>
@@ -30,7 +34,8 @@ export default {
     },
     data() {
         return {
-            dragoverTarget: null
+            dragoverTarget: null,
+            dragoverInfo: {}
         }
     },
     computed: {
@@ -46,22 +51,20 @@ export default {
     methods: {
         ondragover(e) {
             e.preventDefault()
+            // TODO：判断点与矩形相交，可设置偏移量，以区分同级插入或子级插入以及提示信息
             if (e.target.classList.contains('nested-container')) {
                 if (this.dragoverTarget === e.target) return
                 this.dragoverTarget = e.target
-                this.removeHandler()
-                e.target.classList.add('dragover')
+                this.dragoverInfo = {
+                    componentId: this.dragoverTarget.dataset.componentId,
+                    hint: this.hint(this.dragoverTarget.dataset.componentName)
+                }
             }
         },
         ondrop(e) {
             e.preventDefault()
-            this.removeHandler()
-        },
-        removeHandler() {
-            const nestedContainerItems = document.querySelectorAll('.nested-container')
-            nestedContainerItems.forEach(item => {
-                item.classList.remove('dragover')
-            })
+            this.dragoverTarget = null
+            this.dragoverInfo = {}
         },
         dropEvent(e) {
             const dragData = e.dataTransfer.getData('Text')
@@ -83,6 +86,17 @@ export default {
         },
         clickEvent(id) {
             this.currentComponentId = id
+        },
+        hint(name) {
+            let hint = ''
+            if (name === 'NestedLayoutContainer') {
+                hint = '插入 NestedLayoutContainer 内部'
+            } else if (name === 'PositionLayoutContainer') {
+                hint = '插入 PositionLayoutContainer 内部'
+            } else {
+                hint = `插入 ${name} 下方`
+            }
+            return hint
         }
     },
     created() {

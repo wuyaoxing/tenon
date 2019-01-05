@@ -1,6 +1,6 @@
 <template>
   <div class="nested-container"
-       :class="{ selected }"
+       :class="{ selected, dragover: isDragover }"
        @drop.stop="ondrop"
        @click.stop="clickEvent">
     <div class="nested-container-widget"
@@ -17,7 +17,8 @@
     </div>
     NestedConatiner
     <slot></slot>
-    <div class="hint">{{hint}}</div>
+    <div class="hint"
+         v-if="isDragover">{{hint}}</div>
   </div>
 </template>
 <script>
@@ -27,32 +28,19 @@ export default {
     name: 'NestedContainer',
     mixins: [scrollIntoViewMixins],
     props: {
-        name: String,
         selected: Boolean,
         showUp: Boolean,
         showDown: Boolean,
         showDelete: {
             type: Boolean,
             default: true
-        }
-    },
-    computed: {
-        hint() {
-            let hint = ''
-            if (this.name === 'NestedLayoutContainer') {
-                hint = '插入 NestedLayoutContainer 内部'
-            } else if (this.name === 'PositionLayoutContainer') {
-                hint = '插入 PositionLayoutContainer 内部'
-            } else {
-                hint = `插入 ${this.name} 下方`
-            }
-            return hint
-        }
+        },
+        isDragover: Boolean,
+        hint: String
     },
     methods: {
         ondrop(e) {
             e.preventDefault()
-            this.$el.classList.remove('dragover')
             this.$emit('drop', e)
         },
         clickEvent(e) {
@@ -83,9 +71,6 @@ export default {
   }
   &.dragover {
     background: purple;
-    & > .hint {
-      display: block;
-    }
   }
   &-widget {
     position: absolute;
@@ -106,7 +91,6 @@ export default {
     }
   }
   .hint {
-    display: none;
     position: absolute;
     top: 0;
     left: 0;
