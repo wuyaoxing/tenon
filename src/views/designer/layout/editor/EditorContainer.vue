@@ -1,7 +1,8 @@
 <template>
   <div class="editor-container f-f-1"
        tabindex="1">
-    <NestedContainer :data-component-id="project.components.id"
+    <NestedContainer class="editor-container-stage"
+                     :data-component-id="project.components.id"
                      :data-component-name="project.components.name"
                      :isDragover="dragoverInfo.componentId === project.components.id"
                      :hint="dragoverInfo.hint"
@@ -34,8 +35,14 @@ export default {
     },
     data() {
         return {
+            isStage: false,
             dragoverTarget: null,
-            dragoverInfo: {}
+            dragoverRect: {},
+            dragoverInfo: {
+                componentId: '',
+                hint: '',
+                inside: false
+            }
         }
     },
     computed: {
@@ -51,22 +58,50 @@ export default {
     methods: {
         ondragover(e) {
             e.preventDefault()
-            // TODO：判断点与矩形相交，可设置偏移量，以区分同级插入或子级插入以及提示信息
             if (e.target.classList.contains('nested-container')) {
-                if (this.dragoverTarget === e.target) return
-                this.dragoverTarget = e.target
-                this.dragoverInfo = {
-                    componentId: this.dragoverTarget.dataset.componentId,
-                    hint: this.hint(this.dragoverTarget.dataset.componentName)
+                // console.log('dragover:', e)
+                if (this.dragoverTarget !== e.target) {
+                    this.dragoverTarget = e.target
+                    this.isStage = e.target.classList.contains('editor-container-stage')
+                    this.dragoverInfo.componentId = this.dragoverTarget.dataset.componentId
+                    this.dragoverRect = this.dragoverTarget.getBoundingClientRect()
                 }
             }
+
+            // TODO：判断点与矩形相交，可设置偏移量，以区分同级插入或子级插入以及提示信息
+            if (this.dragoverTarget) {
+                const offset = {
+                    x: 15,
+                    y: 15
+                }
+                const point = {
+                    x: e.clientX,
+                    y: e.clientY
+                }
+                const rect = {
+                    x: this.dragoverRect.x + offset.x,
+                    y: this.dragoverRect.y + offset.y,
+                    w: this.dragoverRect.width - (offset.x * 2),
+                    h: this.dragoverRect.height - (offset.y * 2)
+                }
+                // console.log('pointInRect', point, rect, this.dragoverRect, this.pointInRect(point, rect), this.dragoverInfo.componentId, e, this.dragoverTarget)
+                this.dragoverInfo.inside = this.isStage || this.pointInRect(point, rect)
+                this.dragoverInfo.hint = this.hint(this.dragoverTarget.dataset.componentName, this.dragoverInfo.inside)
+            }
+        },
+        pointInRect(point, rect) {
+            return point.x >= rect.x && point.y >= rect.y && point.x <= rect.x + rect.w && point.y <= rect.y + rect.h
         },
         ondrop(e) {
             e.preventDefault()
             this.dragoverTarget = null
-            this.dragoverInfo = {}
+            this.dragoverInfo = {
+                componentId: '',
+                hint: ''
+            }
         },
         dropEvent(e) {
+            this.ondrop(e)
             const dragData = e.dataTransfer.getData('Text')
             console.log('first drop:', e, dragData, this)
             try {
@@ -87,12 +122,13 @@ export default {
         clickEvent(id) {
             this.currentComponentId = id
         },
-        hint(name) {
+        hint(name, inside) {
+            const placement = inside ? '内部' : '下方'
             let hint = ''
             if (name === 'NestedLayoutContainer') {
-                hint = '插入 NestedLayoutContainer 内部'
+                hint = `插入 ${name} ${placement}`
             } else if (name === 'PositionLayoutContainer') {
-                hint = '插入 PositionLayoutContainer 内部'
+                hint = `插入 ${name} ${placement}`
             } else {
                 hint = `插入 ${name} 下方`
             }

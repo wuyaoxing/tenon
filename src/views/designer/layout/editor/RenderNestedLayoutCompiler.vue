@@ -30,6 +30,7 @@
                  :data-component-id="item.id"
                  :properties.sync="item.properties"
                  v-else />
+      {{item.id}}
     </NestedContainer>
   </component>
 </template>
@@ -93,45 +94,62 @@ export default {
             this.currentComponentId = id
         },
         dropEvent(e, component) {
+            let message = ''
             const dragData = e.dataTransfer.getData('Text')
             console.log('nested drop:', e, dragData, this)
-            this.currentDragoverInfo = {}
+
             try {
                 const praseDragData = JSON.parse(dragData)
-
-                if (component.name === 'NestedLayoutContainer') {
+                // 同级插入
+                if (!this.currentDragoverInfo.inside) {
                     if (nestedComponents.indexOf(praseDragData.name) > -1) {
-                        component.children.unshift(praseDragData)
+                        const index = this.component.children.findIndex(item => item.id === component.id)
+                        this.component.children.splice(index + 1, 0, praseDragData)
                     } else {
-                        this.$Message({
-                            showClose: true,
-                            message: `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`,
-                            type: 'warning'
-                        })
+                        message = `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
                     }
-                } else if (component.name === 'PositionLayoutContainer') {
-                    if (nestedComponents.indexOf(praseDragData.name) > -1) {
-                        this.$Message({
-                            showClose: true,
-                            message: `PositionLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`,
-                            type: 'warning'
-                        })
-                    } else {
-                        component.children.push(praseDragData)
-                    }
-                } else if (nestedComponents.indexOf(praseDragData.name) > -1) {
-                    const index = this.component.children.findIndex(item => item.id === component.id)
-                    this.component.children.splice(index + 1, 0, praseDragData)
-                    // this.component.children.push(praseDragData)
                 } else {
-                    this.$Message({
-                        showClose: true,
-                        message: `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`,
-                        type: 'warning'
-                    })
+                    switch (component.name) {
+                        case 'NestedLayoutContainer': {
+                            if (nestedComponents.indexOf(praseDragData.name) > -1) {
+                                component.children.unshift(praseDragData)
+                            } else {
+                                message = `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
+                            }
+                            break
+                        }
+                        case 'PositionLayoutContainer': {
+                            if (nestedComponents.indexOf(praseDragData.name) > -1) {
+                                message = `PositionLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
+                            } else {
+                                component.children.push(praseDragData)
+                            }
+                            break
+                        }
+                        default: {
+                            if (nestedComponents.indexOf(praseDragData.name) > -1) {
+                                const index = this.component.children.findIndex(item => item.id === component.id)
+                                this.component.children.splice(index + 1, 0, praseDragData)
+                                // this.component.children.push(praseDragData)
+                            } else {
+                                message = `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
+                            }
+                            break
+                        }
+                    }
                 }
             } catch (error) {
                 console.log('drop error:', error)
+            }
+            message && this.$Message({
+                showClose: true,
+                message,
+                type: 'warning'
+            })
+            this.currentDragoverInfo = {
+                componentId: '',
+                hint: '',
+                inside: false
             }
         },
     },
