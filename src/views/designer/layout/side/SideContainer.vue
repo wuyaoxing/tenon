@@ -21,7 +21,7 @@
 import { sideRouter } from 'pages/designer/router'
 
 export default {
-    name: 'sideContainer',
+    name: 'SideContainer',
     props: {
         componentId: String,
         project: Object
@@ -42,9 +42,17 @@ export default {
             }
         }
     },
+    watch: {
+        $route() {
+            this.expandHandler()
+        }
+    },
     methods: {
         collapseEvent() {
             this.collapse = !this.collapse
+        },
+        expandHandler() {
+            this.collapse = false
         }
     }
 }
