@@ -1,6 +1,12 @@
 <template>
   <div class="editor-container f-f-1"
        tabindex="1">
+    <div class="editor-container-layer">
+      <div class="highlight-box"
+           :style="highlight.style">
+        <div class="highlight-name">{{highlight.tagName}}</div>
+      </div>
+    </div>
     <NestedContainer class="editor-container-stage"
                      :data-component-id="project.components.id"
                      :data-component-name="project.components.name"
@@ -42,6 +48,10 @@ export default {
                 componentId: '',
                 hint: '',
                 inside: false
+            },
+            highlight: {
+                tagName: '',
+                style: {}
             }
         }
     },
@@ -133,13 +143,27 @@ export default {
                 hint = `插入 ${name} 下方`
             }
             return hint
+        },
+        mousemove(e) {
+            const container = this.$el
+            const rect = e.target.getBoundingClientRect()
+            this.highlight.style = {
+                width: `${rect.width}px`,
+                height: `${rect.height}px`,
+                top: `${container.scrollTop - container.offsetTop + rect.top}px`,
+                left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
+            }
+            this.highlight.tagName = e.target.tagName
+            console.log(this, e, rect, this.highlightStyle)
         }
     },
     created() {
+        this.$EventStack.register('editor-container', 'mousemove', this.mousemove)
         this.$EventStack.register('editor-container', 'dragover', this.ondragover)
         this.$EventStack.register('editor-container', 'drop', this.ondrop)
     },
     destroyed() {
+        this.$EventStack.dispose('editor-container', 'mousemove')
         this.$EventStack.dispose('editor-container', 'dragover')
         this.$EventStack.dispose('editor-container', 'drop')
     }
@@ -149,7 +173,33 @@ export default {
 @import "~styles/variables";
 
 .editor-container {
+  position: relative;
   outline: none;
   overflow: auto;
+  .highlight {
+    &-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      z-index: inherit;
+      border: 1px solid @accent-color;
+    }
+    &-name {
+      display: inline-block;
+      position: relative;
+      top: -20px;
+      left: -1px;
+      z-index: 1;
+      width: auto;
+      height: 20px;
+      padding: 2px 5px;
+      border-radius: 3px 3px 0px 0px;
+      font-size: @font-size-small;
+      color: @white-color;
+      background: @accent-color;
+    }
+  }
 }
 </style>
