@@ -80,7 +80,7 @@ export default {
     width: 45px;
     text-align: center;
     box-shadow: 1px 0 3px 0 rgba(0, 0, 0, 0.4);
-    background: #1f5c87;
+    background: @primary-color;
     overflow: hidden;
     a {
       display: inline-block;
@@ -93,7 +93,7 @@ export default {
       }
       &.active {
         color: @white-color;
-        background: rgb(21, 69, 102);
+        background: @primary-dark-color;
       }
     }
     li:first-of-type {
@@ -102,7 +102,7 @@ export default {
         height: 45px;
         line-height: 45px;
         text-align: center;
-        color: #bbdaef;
+        color: @primary-light-color;
         cursor: pointer;
         &:hover {
           color: @white-color;

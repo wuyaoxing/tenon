@@ -78,7 +78,7 @@ export default {
     font-size: 18px;
     font-weight: 700;
     color: @white-color;
-    background-color: #1f5c87;
+    background-color: @primary-color;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
   }
   &-projects {

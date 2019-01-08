@@ -79,7 +79,7 @@ export default {
   &-header {
     height: 50px;
     line-height: 50px;
-    background-color: #1f5c87;
+    background-color: @primary-color;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
     overflow: hidden;
     z-index: 10;
@@ -93,8 +93,8 @@ export default {
       text-align: center;
       li {
         width: 50px;
-        color: #bbdaef;
-        border-left: 1px solid #2c6a95;
+        color: @primary-light-color;
+        border-left: 1px solid @primary-dark-color;
         cursor: pointer;
         &:hover {
           color: @white-color;
