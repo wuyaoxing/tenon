@@ -4,6 +4,7 @@
       <h1>Tenon</h1>
       {{project.name}} Designer projectId: {{projectId}}
       <ul class="tenon-designer-header-action f">
+        <li @click="fullScreen"><i class="icon-full-screen"></i></li>
         <li @click="save"><i class="icon-save"></i></li>
         <li @click="view"><i class="icon-preview"></i></li>
       </ul>
@@ -47,6 +48,20 @@ export default {
         }
     },
     methods: {
+        fullScreen() {
+            if (document.documentElement.requestFullScreen) {
+                if (document.FullScreenElement) { document.exitFullScreen() } else { document.documentElement.requestFullScreen() }
+            } else if (document.documentElement.mozRequestFullScreen) {
+                // mozilla
+                if (document.mozFullScreenElement) { document.mozCancelFullScreen() } else { document.documentElement.mozRequestFullScreen() }
+            } else if (document.documentElement.webkitRequestFullScreen) {
+                // webkit
+                if (document.webkitFullscreenElement) { document.webkitExitFullscreen() } else { document.documentElement.webkitRequestFullScreen() }
+            } else if (document.documentElement.msRequestFullscreen) {
+                // ie
+                if (document.msFullScreenElement) { document.msExitFullscreen() } else { document.documentElement.msRequestFullscreen() }
+            }
+        },
         save() {
             const data = localStorage.getItem('Tenon-projects')
             const projects = data ? JSON.parse(data) : []
