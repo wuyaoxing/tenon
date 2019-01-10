@@ -1,28 +1,28 @@
 <template>
-  <div class="editor-container f-f-1"
-       tabindex="1">
-    <div class="editor-container-layer">
-      <div class="highlight-box"
-           :style="highlight.style">
-        <div class="highlight-name">{{highlight.tagName}}</div>
-      </div>
+    <div class="editor-container f-f-1"
+         tabindex="1">
+        <div class="editor-container-layer">
+            <div class="highlight-box"
+                 :style="highlight.style">
+                <div class="highlight-name">{{highlight.tagName}}</div>
+            </div>
+        </div>
+        <NestedContainer class="editor-container-stage"
+                         :data-component-id="project.components.id"
+                         :data-component-name="project.components.name"
+                         :isDragover="dragoverInfo.componentId === project.components.id"
+                         :hint="dragoverInfo.hint"
+                         :selected="project.components.id === componentId"
+                         :showUp="false"
+                         :showDown="false"
+                         :showDelete="false"
+                         @click="clickEvent(project.components.id)"
+                         @drop="dropEvent">
+            <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
+                                        :component="project.components"
+                                        :dragoverInfo.sync="dragoverInfo" />
+        </NestedContainer>
     </div>
-    <NestedContainer class="editor-container-stage"
-                     :data-component-id="project.components.id"
-                     :data-component-name="project.components.name"
-                     :isDragover="dragoverInfo.componentId === project.components.id"
-                     :hint="dragoverInfo.hint"
-                     :selected="project.components.id === componentId"
-                     :showUp="false"
-                     :showDown="false"
-                     :showDelete="false"
-                     @click="clickEvent(project.components.id)"
-                     @drop="dropEvent">
-      <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
-                                  :component="project.components"
-                                  :dragoverInfo.sync="dragoverInfo" />
-    </NestedContainer>
-  </div>
 </template>
 <script>
 import NestedContainer from './NestedContainer'
@@ -47,7 +47,7 @@ export default {
             dragoverInfo: {
                 componentId: '',
                 hint: '',
-                inside: false
+                placement: 'inside'
             },
             highlight: {
                 target: null,
@@ -79,25 +79,52 @@ export default {
                 }
             }
 
-            // TODO：判断点与矩形相交，可设置偏移量，以区分同级插入或子级插入以及提示信息
+            // 判断点与矩形相交，可设置偏移量，区分同级插入或子级插入以及提示信息
             if (this.dragoverTarget) {
+                const { componentName } = this.dragoverTarget.dataset
+
                 const offset = {
-                    x: 15,
+                    x: 0,
                     y: 15
                 }
+
+                if (componentName !== 'NestedLayoutContainer' && componentName !== 'PositionLayoutContainer') {
+                    offset.y = this.dragoverRect.height / 2
+                }
+
                 const point = {
                     x: e.clientX,
                     y: e.clientY
                 }
-                const rect = {
+                // up
+                const rect1 = {
+                    x: this.dragoverRect.x + offset.x,
+                    y: this.dragoverRect.y,
+                    w: this.dragoverRect.width - (offset.x * 2),
+                    h: offset.y
+                }
+                // down
+                const rect2 = {
+                    x: this.dragoverRect.x + offset.x,
+                    y: this.dragoverRect.y + this.dragoverRect.height - offset.y,
+                    w: this.dragoverRect.width - (offset.x * 2),
+                    h: offset.y
+                }
+                // inside
+                const rect3 = {
                     x: this.dragoverRect.x + offset.x,
                     y: this.dragoverRect.y + offset.y,
                     w: this.dragoverRect.width - (offset.x * 2),
                     h: this.dragoverRect.height - (offset.y * 2)
                 }
+
+                if (this.pointInRect(point, rect1)) this.dragoverInfo.placement = 'up'
+                if (this.pointInRect(point, rect2)) this.dragoverInfo.placement = 'down'
+                if (this.pointInRect(point, rect3)) this.dragoverInfo.placement = 'inside'
+                if (this.isStage) this.dragoverInfo.placement = 'inside'
                 // console.log('pointInRect', point, rect, this.dragoverRect, this.pointInRect(point, rect), this.dragoverInfo.componentId, e, this.dragoverTarget)
-                this.dragoverInfo.inside = this.isStage || this.pointInRect(point, rect)
-                this.dragoverInfo.hint = this.hint(this.dragoverTarget.dataset.componentName, this.dragoverInfo.inside)
+
+                this.dragoverInfo.hint = `insert ${componentName} ${this.dragoverInfo.placement}`
             }
         },
         pointInRect(point, rect) {
@@ -108,7 +135,8 @@ export default {
             this.dragoverTarget = null
             this.dragoverInfo = {
                 componentId: '',
-                hint: ''
+                hint: '',
+                placement: 'inside'
             }
         },
         dropEvent(e) {
@@ -132,18 +160,6 @@ export default {
         },
         clickEvent(id) {
             this.currentComponentId = id
-        },
-        hint(name, inside) {
-            const placement = inside ? '内部' : '下方'
-            let hint = ''
-            if (name === 'NestedLayoutContainer') {
-                hint = `插入 ${name} ${placement}`
-            } else if (name === 'PositionLayoutContainer') {
-                hint = `插入 ${name} ${placement}`
-            } else {
-                hint = `插入 ${name} 下方`
-            }
-            return hint
         },
         mousemove(e) {
             if (!this.$el.contains(e.target)) {
@@ -189,35 +205,35 @@ export default {
 @import "~styles/variables";
 
 .editor-container {
-  position: relative;
-  outline: none;
-  overflow: auto;
-  scroll-behavior: smooth;
-  .highlight {
-    &-box {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 0;
-      z-index: inherit;
-      border: 1px solid @primary-color;
+    position: relative;
+    outline: none;
+    overflow: auto;
+    scroll-behavior: smooth;
+    .highlight {
+        &-box {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            z-index: inherit;
+            border: 1px solid @primary-color;
+        }
+        &-name {
+            display: inline-block;
+            position: relative;
+            top: -20px;
+            left: -1px;
+            z-index: 1;
+            width: auto;
+            height: 20px;
+            padding: 2px 5px;
+            border-radius: 3px 3px 0px 0px;
+            font-size: @font-size-small;
+            color: @white-color;
+            background: @primary-color;
+        }
     }
-    &-name {
-      display: inline-block;
-      position: relative;
-      top: -20px;
-      left: -1px;
-      z-index: 1;
-      width: auto;
-      height: 20px;
-      padding: 2px 5px;
-      border-radius: 3px 3px 0px 0px;
-      font-size: @font-size-small;
-      color: @white-color;
-      background: @primary-color;
-    }
-  }
 }
 </style>

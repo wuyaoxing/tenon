@@ -1,38 +1,38 @@
 <template>
-  <component :is="asyncLoadComponent(component.name)">
-    <NestedContainer v-for="(item, index) in component.children"
-                     :key="item.id"
-                     :data-component-id="item.id"
-                     :data-component-name="item.name"
-                     :isDragover="currentDragoverInfo.componentId === item.id"
-                     :hint="currentDragoverInfo.hint"
-                     :isScroll.sync="isScroll"
-                     :selected="item.id === componentId"
-                     :showUp="index > 0"
-                     :showDown="component.children.length > 0 && index !== component.children.length - 1"
-                     @up="upEvent(index)"
-                     @down="downEvent(index)"
-                     @delete="deleteEvent(index)"
-                     @click="clickEvent(item.id)"
-                     @drop="dropEvent($event, item)">
-      <RenderNestedLayoutCompiler v-if="item.name === 'NestedLayoutContainer'"
-                                  :data-component-id="item.id"
-                                  :properties.sync="item.properties"
-                                  :component="item"
-                                  :componentId.sync="currentComponentId"
-                                  :dragoverInfo.sync="currentDragoverInfo" />
-      <RenderPositionLayoutCompiler v-else-if="item.name === 'PositionLayoutContainer'"
-                                    :data-component-id="item.id"
-                                    :properties.sync="item.properties"
-                                    :component="item"
-                                    :componentId.sync="currentComponentId" />
-      <component :is="asyncLoadComponent(item.name)"
-                 :data-component-id="item.id"
-                 :properties.sync="item.properties"
-                 v-else />
-      {{item.id}}
-    </NestedContainer>
-  </component>
+    <component :is="asyncLoadComponent(component.name)">
+        <NestedContainer v-for="(item, index) in component.children"
+                         :key="item.id"
+                         :data-component-id="item.id"
+                         :data-component-name="item.name"
+                         :isDragover="currentDragoverInfo.componentId === item.id"
+                         :hint="currentDragoverInfo.hint"
+                         :isScroll.sync="isScroll"
+                         :selected="item.id === componentId"
+                         :showUp="index > 0"
+                         :showDown="component.children.length > 0 && index !== component.children.length - 1"
+                         @up="upEvent(index)"
+                         @down="downEvent(index)"
+                         @delete="deleteEvent(index)"
+                         @click="clickEvent(item.id)"
+                         @drop="dropEvent($event, item)">
+            <RenderNestedLayoutCompiler v-if="item.name === 'NestedLayoutContainer'"
+                                        :data-component-id="item.id"
+                                        :properties.sync="item.properties"
+                                        :component="item"
+                                        :componentId.sync="currentComponentId"
+                                        :dragoverInfo.sync="currentDragoverInfo" />
+            <RenderPositionLayoutCompiler v-else-if="item.name === 'PositionLayoutContainer'"
+                                          :data-component-id="item.id"
+                                          :properties.sync="item.properties"
+                                          :component="item"
+                                          :componentId.sync="currentComponentId" />
+            <component :is="asyncLoadComponent(item.name)"
+                       :data-component-id="item.id"
+                       :properties.sync="item.properties"
+                       v-else />
+            {{item.id}}
+        </NestedContainer>
+    </component>
 </template>
 <script>
 import asyncLoadComponentMixins from './asyncLoadComponent'
@@ -100,9 +100,15 @@ export default {
 
             try {
                 const praseDragData = JSON.parse(dragData)
-                // 同级插入
-                if (!this.currentDragoverInfo.inside) {
-                    if (nestedComponents.indexOf(praseDragData.name) > -1) {
+                if (this.currentDragoverInfo.placement === 'up') {
+                    if (this.checkNestedName(praseDragData.name)) {
+                        const index = this.component.children.findIndex(item => item.id === component.id)
+                        this.component.children.splice(index, 0, praseDragData)
+                    } else {
+                        message = `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
+                    }
+                } else if (this.currentDragoverInfo.placement === 'down') {
+                    if (this.checkNestedName(praseDragData.name)) {
                         const index = this.component.children.findIndex(item => item.id === component.id)
                         this.component.children.splice(index + 1, 0, praseDragData)
                     } else {
@@ -111,31 +117,23 @@ export default {
                 } else {
                     switch (component.name) {
                         case 'NestedLayoutContainer': {
-                            if (nestedComponents.indexOf(praseDragData.name) > -1) {
-                                component.children.unshift(praseDragData)
+                            if (this.checkNestedName(praseDragData.name)) {
+                                component.children.push(praseDragData)
                             } else {
                                 message = `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
                             }
                             break
                         }
                         case 'PositionLayoutContainer': {
-                            if (nestedComponents.indexOf(praseDragData.name) > -1) {
+                            if (this.checkNestedName(praseDragData.name)) {
                                 message = `PositionLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
                             } else {
                                 component.children.push(praseDragData)
                             }
                             break
                         }
-                        default: {
-                            if (nestedComponents.indexOf(praseDragData.name) > -1) {
-                                const index = this.component.children.findIndex(item => item.id === component.id)
-                                this.component.children.splice(index + 1, 0, praseDragData)
-                                // this.component.children.push(praseDragData)
-                            } else {
-                                message = `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
-                            }
-                            break
-                        }
+                        default:
+                            console.log(`Sorry, we are out of ${component.name}.`)
                     }
                 }
             } catch (error) {
@@ -149,8 +147,11 @@ export default {
             this.currentDragoverInfo = {
                 componentId: '',
                 hint: '',
-                inside: false
+                placement: 'inside'
             }
+        },
+        checkNestedName(name) {
+            return nestedComponents.indexOf(name) > -1
         },
     },
 }
