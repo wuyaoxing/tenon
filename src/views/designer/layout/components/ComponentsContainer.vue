@@ -34,6 +34,8 @@ export default {
                 name,
                 properties: {
                     name,
+                    css: {},
+                    style: '',
                     ...defaultData
                 }
             }

@@ -1,8 +1,14 @@
 export default {
     props: {
         value: [String, Number],
+        readonly: Boolean,
         properties: Object,
-        schema: Object,
+        schema: {
+            type: Object,
+            default() {
+                return {}
+            }
+        },
         constraint: Object,
     },
     computed: {
@@ -14,9 +20,6 @@ export default {
                 const formatValue = this.schema.type === 'number' ? Number(val) : val
                 this.$emit('update:value', formatValue)
             },
-        },
-        readonly() {
-            return !!this.schema.readonly
-        },
+        }
     },
 }

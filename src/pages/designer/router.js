@@ -33,7 +33,7 @@ const routes = [
     {
         name: 'designer',
         path: '/projects/:id',
-        redirect: { name: 'tree' },
+        redirect: { name: 'components' },
         component: AsyncComp('designer/Designer'),
         fields: 'designer',
         children: sideRouter,

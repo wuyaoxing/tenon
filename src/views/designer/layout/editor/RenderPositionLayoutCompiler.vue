@@ -2,6 +2,7 @@
   <component :is="asyncLoadComponent(component.name)">
     <PositionContainer v-for="item in component.children"
                        :key="item.id"
+                       :isScroll.sync="isScroll"
                        :selected="item.id === componentId"
                        @click="clickEvent(item.id)">
       <component :is="asyncLoadComponent(item.name)"

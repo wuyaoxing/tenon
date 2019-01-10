@@ -105,7 +105,10 @@ export default {
                 2: {
                     name: 'NestedLayoutContainer',
                     properties: {
-                        minHeight: '100%'
+                        name: 'NestedLayoutContainer',
+                        minHeight: '100%',
+                        css: {},
+                        style: ''
                     },
                     children: []
                 }

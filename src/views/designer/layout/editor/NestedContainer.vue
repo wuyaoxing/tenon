@@ -64,29 +64,28 @@ export default {
 .nested-container {
   position: relative;
   padding: 5px;
-  border: 1px solid #000;
+  //   border: 1px solid #000;
   &.selected,
   &.dragover {
-    outline: 1px dashed #2c6a95;
+    outline: 1px dashed @primary-color;
   }
   &.dragover {
-    background: purple;
+    background: @primary-light-color;
   }
   &-widget {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -26px;
+    right: -1px;
     z-index: 10;
-    width: 30px;
-    border-radius: 2px;
+    border-radius: 3px 3px 0px 0px;
     overflow: hidden;
     i {
-      padding: 8px;
-      color: #bbdaef;
-      background: #1f5c87;
+      padding: 6px;
+      color: @primary-light-color;
+      background: @primary-color;
       cursor: pointer;
       &:hover {
-        color: #fff;
+        color: @white-color;
       }
     }
   }
@@ -97,7 +96,7 @@ export default {
     right: 0;
     text-align: center;
     color: @white-color;
-    background: #1f5c87;
+    background: @primary-color;
   }
 }
 </style>

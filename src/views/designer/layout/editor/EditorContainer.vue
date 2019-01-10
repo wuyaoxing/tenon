@@ -50,6 +50,7 @@ export default {
                 inside: false
             },
             highlight: {
+                target: null,
                 tagName: '',
                 style: {}
             }
@@ -145,16 +146,31 @@ export default {
             return hint
         },
         mousemove(e) {
+            if (!this.$el.contains(e.target)) {
+                this.highlight = {
+                    target: null,
+                    tagName: '',
+                    style: {
+                        display: 'none'
+                    }
+                }
+                return
+            }
+            if (!e.target.classList.contains('nested-container') && !e.target.classList.contains('position-container')) return
+            if (this.highlight.target === e.target) return
+
             const container = this.$el
             const rect = e.target.getBoundingClientRect()
             this.highlight.style = {
+                display: 'block',
                 width: `${rect.width}px`,
                 height: `${rect.height}px`,
                 top: `${container.scrollTop - container.offsetTop + rect.top}px`,
                 left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
             }
+            this.highlight.target = e.target
             this.highlight.tagName = e.target.tagName
-            console.log(this, e, rect, this.highlightStyle)
+            console.log(this, e, rect, this.highlight)
         }
     },
     created() {
@@ -176,15 +192,17 @@ export default {
   position: relative;
   outline: none;
   overflow: auto;
+  scroll-behavior: smooth;
   .highlight {
     &-box {
+      display: none;
       position: absolute;
       top: 0;
       left: 0;
       width: 0;
       height: 0;
       z-index: inherit;
-      border: 1px solid @accent-color;
+      border: 1px solid @primary-color;
     }
     &-name {
       display: inline-block;
@@ -198,7 +216,7 @@ export default {
       border-radius: 3px 3px 0px 0px;
       font-size: @font-size-small;
       color: @white-color;
-      background: @accent-color;
+      background: @primary-color;
     }
   }
 }

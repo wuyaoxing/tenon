@@ -1,23 +1,192 @@
 <template>
   <div class="properties-container">
-    Properties
-    {{asyncSchema[component.name]}}
-    <ul>
-      <li v-for="(item, key) in componentSchema.properties"
-          :key="key">
-        <span>{{key}}</span>
-        <component :is="asyncLoadComponent(item.format)"
-                   :schema="item"
-                   :properties="component.properties"
-                   :value.sync="component.properties[key]"></component>
-      </li>
-    </ul>
-    {{component}}
+    <Collapse v-model="actives"
+              v-if="componentId">
+      <CollapseItem name="name">
+        <template slot="title">
+          name
+        </template>
+        <ul class="properties-item">
+          <li>
+            <span>ClassName</span>
+            <component class="f-f-1"
+                       :is="asyncLoadComponent('text')"
+                       :readonly="true"
+                       :properties="component.properties"
+                       :value.sync="component.name"></component>
+          </li>
+          <li>
+            <span>name</span>
+            <component class="f-f-1"
+                       :is="asyncLoadComponent('text')"
+                       :properties="component.properties"
+                       :value.sync="component.properties.name"></component>
+          </li>
+        </ul>
+      </CollapseItem>
+      <CollapseItem name="width">
+        <template slot="title">
+          {{schema.widthSchema.title}}
+        </template>
+        <ul class="properties-item">
+          <li v-for="(item, key) in schema.widthSchema.properties"
+              :key="key">
+            <span>{{key}}</span>
+            <component class="f-f-1"
+                       :is="asyncLoadComponent(item.format)"
+                       :schema="item"
+                       :readonly="item.readonly"
+                       :properties="component.properties"
+                       :value.sync="component.properties.css[key]"></component>
+          </li>
+        </ul>
+      </CollapseItem>
+      <CollapseItem name="height">
+        <template slot="title">
+          {{schema.heightSchema.title}}
+        </template>
+        <ul class="properties-item">
+          <li v-for="(item, key) in schema.heightSchema.properties"
+              :key="key">
+            <span>{{key}}</span>
+            <component class="f-f-1"
+                       :is="asyncLoadComponent(item.format)"
+                       :schema="item"
+                       :readonly="item.readonly"
+                       :properties="component.properties"
+                       :value.sync="component.properties.css[key]"></component>
+          </li>
+        </ul>
+      </CollapseItem>
+      <CollapseItem name="margin">
+        <template slot="title">
+          {{schema.marginSchema.title}}
+        </template>
+        <ul class="properties-item">
+          <li v-for="(item, key) in schema.marginSchema.properties"
+              :key="key">
+            <span>{{key}}</span>
+            <component class="f-f-1"
+                       :is="asyncLoadComponent(item.format)"
+                       :schema="item"
+                       :readonly="item.readonly"
+                       :properties="component.properties"
+                       :value.sync="component.properties.css[key]"></component>
+          </li>
+        </ul>
+      </CollapseItem>
+      <CollapseItem name="padding">
+        <template slot="title">
+          {{schema.paddingSchema.title}}
+        </template>
+        <ul class="properties-item">
+          <li v-for="(item, key) in schema.paddingSchema.properties"
+              :key="key">
+            <span>{{key}}</span>
+            <component class="f-f-1"
+                       :is="asyncLoadComponent(item.format)"
+                       :schema="item"
+                       :readonly="item.readonly"
+                       :properties="component.properties"
+                       :value.sync="component.properties.css[key]"></component>
+          </li>
+        </ul>
+      </CollapseItem>
+      <CollapseItem name="border">
+        <template slot="title">
+          {{schema.borderSchema.title}}
+        </template>
+        <ul class="properties-item">
+          <li v-for="(item, key) in schema.borderSchema.properties"
+              :key="key">
+            <span>{{key}}</span>
+            <component class="f-f-1"
+                       :is="asyncLoadComponent(item.format)"
+                       :schema="item"
+                       :readonly="item.readonly"
+                       :properties="component.properties"
+                       :value.sync="component.properties.css[key]"></component>
+          </li>
+        </ul>
+      </CollapseItem>
+      <CollapseItem name="position">
+        <template slot="title">
+          {{schema.positionSchema.title}}
+        </template>
+        <ul class="properties-item">
+          <li v-for="(item, key) in schema.positionSchema.properties"
+              :key="key">
+            <span>{{key}}</span>
+            <component class="f-f-1"
+                       :is="asyncLoadComponent(item.format)"
+                       :schema="item"
+                       :readonly="item.readonly"
+                       :properties="component.properties"
+                       :value.sync="component.properties.css[key]"></component>
+          </li>
+        </ul>
+      </CollapseItem>
+      <CollapseItem name="properties">
+        <template slot="title">
+          properties
+        </template>
+        <ul class="properties-item">
+          <li v-for="(item, key) in schema.commonSchema.properties"
+              :key="key">
+            <span>{{key}}</span>
+            <component class="f-f-1"
+                       :is="asyncLoadComponent(item.format)"
+                       :schema="item"
+                       :readonly="item.readonly"
+                       :properties="component.properties"
+                       :value.sync="component.properties[key]"></component>
+          </li>
+        </ul>
+      </CollapseItem>
+      <CollapseItem name="data">
+        <template slot="title">
+          data
+        </template>
+        <div>
+
+          {{asyncSchema[component.name]}}
+
+          {{component}}
+        </div>
+      </CollapseItem>
+      <CollapseItem name="style">
+        <template slot="title">
+          style
+        </template>
+        <Code :value.sync="component.properties.style"></Code>
+      </CollapseItem>
+      <CollapseItem name="custom">
+        <template slot="title">
+          custom
+        </template>
+        <ul class="properties-item">
+          <li v-for="(item, key) in componentSchema.properties"
+              :key="key">
+            <span>{{key}}</span>
+            <component class="f-f-1"
+                       :is="asyncLoadComponent(item.format)"
+                       :schema="item"
+                       :properties="component.properties"
+                       :value.sync="component.properties[key]"></component>
+          </li>
+        </ul>
+      </CollapseItem>
+    </Collapse>
+    <div v-else>请选择组件</div>
   </div>
 </template>
 <script>
+import schema from '../../components/config/common-schema'
+
 import asyncLoadSchemaMixins from './asyncLoadSchema'
 import asyncLoadComponentMixins from './asyncLoadComponent'
+
+import Code from './components/code'
 
 export default {
     name: 'PropertiesContainer',
@@ -26,8 +195,13 @@ export default {
         componentId: String,
         project: Object
     },
+    components: {
+        Code
+    },
     data() {
         return {
+            schema,
+            actives: ['name', 'width', 'height', 'margin', 'padding', 'border', 'position', 'style', 'custom'],
             component: {}
         }
     },
@@ -69,3 +243,43 @@ export default {
     }
 }
 </script>
+<style lang="less">
+@import "~styles/variables";
+.properties {
+  &-container {
+    .el-collapse {
+      border-top: none;
+      &-item__header {
+        height: 30px;
+        line-height: 30px;
+        padding-left: 8px;
+        // color: @primary-color;
+        font-weight: 600;
+        font-size: 14px;
+        &:hover {
+          color: @white-color;
+          background: @accent-color;
+        }
+      }
+      &-item__arrow {
+        line-height: 30px;
+      }
+      &-item__content {
+        padding-bottom: 0;
+      }
+    }
+  }
+  &-item {
+    li {
+      display: flex;
+      align-items: center;
+      //   border: 1px solid #333;
+      height: 30px;
+      padding: 0 24px 0 16px;
+      span {
+        width: 80px;
+      }
+    }
+  }
+}
+</style>

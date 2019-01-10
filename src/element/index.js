@@ -1,7 +1,7 @@
 import './theme/index.css'
 
 import {
-    Button, Input, Checkbox, Form, FormItem, Dropdown, DropdownItem, DropdownMenu, Select, Option, Message, Dialog, Switch, Loading, Tree
+    Button, Input, Checkbox, Form, FormItem, Dropdown, DropdownItem, DropdownMenu, Select, Option, Message, Dialog, Switch, Loading, Tree, Collapse, CollapseItem, ColorPicker
 } from 'element-ui'
 
 const components = {
@@ -18,7 +18,10 @@ const components = {
     Dialog,
     ISwitch: Switch,
     Loading,
-    Tree
+    Tree,
+    Collapse,
+    CollapseItem,
+    ColorPicker
 }
 
 export default {

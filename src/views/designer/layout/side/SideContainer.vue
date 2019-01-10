@@ -12,8 +12,10 @@
       </li>
     </ul>
     <div class="side-content">
-      <router-view :componentId.sync="currentComponentId"
-                   :project="project"></router-view>
+      <keep-alive include="PropertiesContainer">
+        <router-view :componentId.sync="currentComponentId"
+                     :project="project"></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>
