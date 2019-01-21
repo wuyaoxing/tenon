@@ -26,17 +26,18 @@ export default {
             if (this.undoIndex > 0) {
                 this.enabled = false
                 this.undoIndex -= 1
-
-                this.project = this.undos[this.undoIndex]
+                this.updateProject()
             }
         },
         redo() {
             if (this.undoIndex < this.undos.length - 1) {
                 this.enabled = false
                 this.undoIndex += 1
-
-                this.project = this.undos[this.undoIndex]
+                this.updateProject()
             }
+        },
+        updateProject() {
+            this.project = JSON.parse(JSON.stringify(this.undos[this.undoIndex]))
         }
     }
 }
