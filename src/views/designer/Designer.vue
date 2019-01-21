@@ -5,13 +5,28 @@
             {{project.name}} Designer projectId: {{projectId}}
             <ul class="tenon-designer-header-action f">
                 <li @click="undo"
-                    :class="{ disabled: isFirstUndo }"><i class="icon-undo"></i></li>
+                    :class="{ disabled: isFirstUndo }"
+                    title="undo">
+                    <i class="icon-undo"></i>
+                </li>
                 <li @click="redo"
-                    :class="{ disabled: isLastUndo }"><i class="icon-undo"
-                       style="transform:scaleX(-1)"></i></li>
-                <li @click="fullScreen"><i class="icon-full-screen"></i></li>
-                <li @click="save"><i class="icon-save"></i></li>
-                <li @click="view"><i class="icon-preview"></i></li>
+                    :class="{ disabled: isLastUndo }"
+                    title="redo">
+                    <i class="icon-undo"
+                       style="transform:scaleX(-1)"></i>
+                </li>
+                <li @click="fullScreen"
+                    title="full screen">
+                    <i class="icon-full-screen"></i>
+                </li>
+                <li @click="save"
+                    title="save">
+                    <i class="icon-save"></i>
+                </li>
+                <li @click="preview"
+                    title="preview">
+                    <i class="icon-preview"></i>
+                </li>
             </ul>
         </header>
         <div class="tenon-designer-main f-f-1 f">
@@ -94,7 +109,7 @@ export default {
             console.log('Tenon save projects: ', localStorage.getItem('Tenon-projects'))
             this.$Message.success('Save Success!')
         },
-        view() {
+        preview() {
             window.location = `/viewer/#/projects/${this.projectId}`
         },
         fetchProject() {
