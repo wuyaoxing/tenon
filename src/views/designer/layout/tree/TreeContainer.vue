@@ -1,11 +1,11 @@
 <template>
-  <div class="tree-container">
-    <Tree :data="[project.components]"
-          :props="defaultProps"
-          :default-expand-all="true"
-          :expand-on-click-node="false"
-          @node-click="nodeClick"></Tree>
-  </div>
+    <div class="tree-container">
+        <Tree :data="[project.components]"
+              :props="defaultProps"
+              :default-expand-all="true"
+              :expand-on-click-node="false"
+              @node-click="nodeClick"></Tree>
+    </div>
 </template>
 <script>
 export default {
@@ -30,3 +30,15 @@ export default {
     }
 }
 </script>
+<style lang="less">
+.tree-container {
+    .el-tree-node {
+        &__label {
+            min-width: 180px;
+        }
+        &__children {
+            overflow: visible;
+        }
+    }
+}
+</style>
