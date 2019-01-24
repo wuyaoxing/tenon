@@ -15,18 +15,19 @@
                v-if="showDelete"
                @click="deleteEvent"></i>
         </div>
-        NestedConatiner
-        <slot></slot>
+        <!-- NestedConatiner -->
         <div class="hint"
              v-if="isDragover">{{hint}}</div>
+        <slot></slot>
     </div>
 </template>
 <script>
 import scrollIntoViewMixins from './scrollIntoView'
+import propertiesMixins from './properties'
 
 export default {
     name: 'NestedContainer',
-    mixins: [scrollIntoViewMixins],
+    mixins: [scrollIntoViewMixins, propertiesMixins],
     props: {
         selected: Boolean,
         showUp: Boolean,
@@ -37,6 +38,11 @@ export default {
         },
         isDragover: Boolean,
         hint: String
+    },
+    data() {
+        return {
+            develop: true
+        }
     },
     methods: {
         ondrop(e) {
@@ -63,7 +69,10 @@ export default {
 
 .nested-container {
     position: relative;
-    padding: 5px;
+    // padding: 0 8px;
+    & > * {
+        min-height: 50px;
+    }
     //   border: 1px solid #000;
     &.selected,
     &.dragover {

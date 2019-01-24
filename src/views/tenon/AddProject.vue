@@ -1,23 +1,23 @@
 <template>
-  <Dialog title="新建项目"
-          width="500px"
-          :append-to-body="true"
-          :visible.sync="currentVisiable"
-          class="project-add">
-    项目名称： <Input v-model="project.name" />
-    <ul class="project-template f">
-      <li v-for="(item, key) in template"
-          :key="key"
-          :class="{ active: key === templateId }"
-          @click="templateId = key">{{key}}</li>
-    </ul>
-    <span slot="footer"
-          class="dialog-footer">
-      <Button @click="currentVisiable = false">取消</Button>
-      <Button type="primary"
-              @click="confirm">确定</Button>
-    </span>
-  </Dialog>
+    <Dialog title="新建项目"
+            width="500px"
+            :append-to-body="true"
+            :visible.sync="currentVisiable"
+            class="project-add">
+        项目名称： <Input v-model="project.name" />
+        <ul class="project-template f">
+            <li v-for="(item, key) in template"
+                :key="key"
+                :class="{ active: key === templateId }"
+                @click="templateId = key">{{key}}</li>
+        </ul>
+        <span slot="footer"
+              class="dialog-footer">
+            <Button @click="currentVisiable = false">取消</Button>
+            <Button type="primary"
+                    @click="confirm">确定</Button>
+        </span>
+    </Dialog>
 </template>
 <script>
 export default {
@@ -106,8 +106,9 @@ export default {
                     name: 'NestedLayoutContainer',
                     properties: {
                         name: 'NestedLayoutContainer',
-                        minHeight: '100%',
-                        css: {},
+                        css: {
+                            minHeight: '100%',
+                        },
                         style: ''
                     },
                     children: []
@@ -166,16 +167,16 @@ export default {
 @import "~styles/variables";
 
 .project {
-  &-template {
-    padding: 15px 0;
-    li {
-      padding: 8px 10px;
-      cursor: pointer;
+    &-template {
+        padding: 15px 0;
+        li {
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+        .active {
+            color: @white-color;
+            background: @accent-color;
+        }
     }
-    .active {
-      color: @white-color;
-      background: @accent-color;
-    }
-  }
 }
 </style>

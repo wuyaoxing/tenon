@@ -4,6 +4,7 @@
                          :key="item.id"
                          :data-component-id="item.id"
                          :data-component-name="item.name"
+                         :properties="item.properties"
                          :isDragover="currentDragoverInfo.componentId === item.id"
                          :hint="currentDragoverInfo.hint"
                          :isScroll.sync="isScroll"
@@ -28,9 +29,9 @@
                                           :componentId.sync="currentComponentId" />
             <component :is="asyncLoadComponent(item.name)"
                        :data-component-id="item.id"
+                       v-bind="item.properties"
                        :properties.sync="item.properties"
                        v-else />
-            {{item.id}}
         </NestedContainer>
     </component>
 </template>

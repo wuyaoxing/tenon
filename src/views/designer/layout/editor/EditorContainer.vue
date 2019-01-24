@@ -10,6 +10,7 @@
         <NestedContainer class="editor-container-stage"
                          :data-component-id="project.components.id"
                          :data-component-name="project.components.name"
+                         :properties="project.components.properties"
                          :isDragover="dragoverInfo.componentId === project.components.id"
                          :hint="dragoverInfo.hint"
                          :selected="project.components.id === componentId"
@@ -53,7 +54,9 @@ export default {
                 target: null,
                 tagName: '',
                 style: {}
-            }
+            },
+            timeout: '',
+            delay: 350,
         }
     },
     computed: {
@@ -67,17 +70,44 @@ export default {
         }
     },
     methods: {
-        ondragover(e) {
-            e.preventDefault()
-            if (e.target.classList.contains('nested-container')) {
-                // console.log('dragover:', e)
-                if (this.dragoverTarget !== e.target) {
-                    this.dragoverTarget = e.target
-                    this.isStage = e.target.classList.contains('editor-container-stage')
-                    this.dragoverInfo.componentId = this.dragoverTarget.dataset.componentId
-                    this.dragoverRect = this.dragoverTarget.getBoundingClientRect()
+        findParentNodeByClass(el, className) {
+            let specifyParentNode = null
+            const recursion = node => {
+                console.log('node:', node)
+                if (node === this.$el) return
+                if (node.classList.contains(className)) {
+                    specifyParentNode = node
+                    return
+                }
+                if (node.parentNode) {
+                    recursion(node.parentNode, className)
                 }
             }
+            recursion(el)
+            return specifyParentNode
+        },
+        ondragover(e) {
+            e.preventDefault()
+            if (!this.$el.contains(e.target)) {
+                this.dragoverTarget = null
+                this.dragoverInfo = {
+                    componentId: '',
+                    hint: '',
+                    placement: 'inside'
+                }
+                return
+            }
+            const parentNode = this.findParentNodeByClass(e.target, 'nested-container')
+            if (!parentNode) return
+            // if (e.target.classList.contains('nested-container')) {
+            // console.log('dragover:', e)
+            if (this.dragoverTarget !== parentNode) {
+                this.dragoverTarget = parentNode
+                this.isStage = parentNode.classList.contains('editor-container-stage')
+                this.dragoverInfo.componentId = this.dragoverTarget.dataset.componentId
+                this.dragoverRect = this.dragoverTarget.getBoundingClientRect()
+            }
+            // }
 
             // 判断点与矩形相交，可设置偏移量，区分同级插入或子级插入以及提示信息
             if (this.dragoverTarget) {
@@ -172,11 +202,22 @@ export default {
                 }
                 return
             }
-            if (!e.target.classList.contains('nested-container') && !e.target.classList.contains('position-container')) return
-            if (this.highlight.target === e.target) return
+            const parentNode = this.findParentNodeByClass(e.target, 'nested-container')
+            if (!parentNode) return
 
+            console.log('mousemove: ', this, e, this.highlight)
+            // if (!e.target.classList.contains('nested-container') && !e.target.classList.contains('position-container')) return
+            if (this.highlight.target === parentNode) return
+
+            this.highlight.target = parentNode
+            this.highlight.tagName = parentNode.dataset.componentName
+
+            this.repaintHighlight()
+        },
+        repaintHighlight() {
+            if (!this.highlight.target) return
             const container = this.$el
-            const rect = e.target.getBoundingClientRect()
+            const rect = this.highlight.target.getBoundingClientRect()
             this.highlight.style = {
                 display: 'block',
                 width: `${rect.width}px`,
@@ -184,20 +225,26 @@ export default {
                 top: `${container.scrollTop - container.offsetTop + rect.top}px`,
                 left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
             }
-            this.highlight.target = e.target
-            this.highlight.tagName = e.target.tagName
-            console.log(this, e, rect, this.highlight)
+        },
+        resizeEvent(e) {
+            if (this.timeout) clearTimeout(this.timeout)
+            this.timeout = setTimeout(() => {
+                this.repaintHighlight()
+                console.log('resize: ', e)
+            }, this.delay)
         }
     },
     created() {
         this.$EventStack.register('editor-container', 'mousemove', this.mousemove)
         this.$EventStack.register('editor-container', 'dragover', this.ondragover)
         this.$EventStack.register('editor-container', 'drop', this.ondrop)
+        window.addEventListener('resize', this.resizeEvent, false)
     },
     destroyed() {
         this.$EventStack.dispose('editor-container', 'mousemove')
         this.$EventStack.dispose('editor-container', 'dragover')
         this.$EventStack.dispose('editor-container', 'drop')
+        window.removeEventListener('resize', this.resizeEvent, false)
     }
 }
 </script>
@@ -209,6 +256,7 @@ export default {
     outline: none;
     overflow: auto;
     scroll-behavior: smooth;
+    // transition: width 0.35s cubic-bezier(0.23, 1, 0.32, 1);
     .highlight {
         &-box {
             display: none;

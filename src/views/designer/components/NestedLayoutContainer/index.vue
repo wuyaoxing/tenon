@@ -1,8 +1,8 @@
 <template>
-  <div class="nested-layout-container">
-    NestedLayoutContainer
-    <slot></slot>
-  </div>
+    <div class="nested-layout-container">
+        <!-- NestedLayoutContainer -->
+        <slot></slot>
+    </div>
 </template>
 <script>
 export default {

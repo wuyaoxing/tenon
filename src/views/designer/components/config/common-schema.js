@@ -72,21 +72,21 @@ const widthSchema = {
     properties: {
         width: {
             description: '元素宽度',
-            type: 'number',
+            type: 'string',
             minimum: 0,
-            format: 'number'
+            format: 'text'
         },
         minWidth: {
             description: '元素最小宽度',
-            type: 'number',
+            type: 'string',
             minimum: 0,
-            format: 'number'
+            format: 'text'
         },
         maxWidth: {
             description: '元素最大宽度',
-            type: 'number',
+            type: 'string',
             minimum: 0,
-            format: 'number'
+            format: 'text'
         }
     }
 }
@@ -97,21 +97,78 @@ const heightSchema = {
     properties: {
         height: {
             description: '元素高度',
-            type: 'number',
+            type: 'string',
             minimum: 0,
-            format: 'number'
+            format: 'text'
         },
         minHeight: {
             description: '元素最小高度',
-            type: 'number',
-            minimum: 0,
-            format: 'number'
+            type: 'string',
+            format: 'text'
         },
         maxHeight: {
             description: '元素最大高度',
-            type: 'number',
-            minimum: 0,
-            format: 'number'
+            type: 'string',
+            format: 'text'
+        },
+    }
+}
+
+const textSchema = {
+    title: 'text',
+    type: 'object',
+    properties: {
+        textAlign: {
+            description: '对齐方式',
+            type: 'string',
+            format: 'text'
+        },
+        color: {
+            description: '颜色',
+            type: 'string',
+            format: 'color'
+        },
+        lineHeight: {
+            description: '行高',
+            type: 'string',
+            format: 'text'
+        },
+        letterSpacing: {
+            description: '行间距',
+            type: 'string',
+            format: 'text'
+        }
+    }
+}
+
+const fontSchema = {
+    title: 'font',
+    type: 'object',
+    properties: {
+        font: {
+            description: 'font',
+            type: 'string',
+            format: 'text'
+        },
+        fontFamily: {
+            description: '字体',
+            type: 'string',
+            format: 'text'
+        },
+        fontStyle: {
+            description: '字体样式',
+            type: 'string',
+            format: 'text'
+        },
+        fontWeight: {
+            description: '字体粗细',
+            type: 'string',
+            format: 'text'
+        },
+        fontSize: {
+            description: '字体大小',
+            type: 'string',
+            format: 'text'
         },
     }
 }
@@ -120,6 +177,12 @@ const marginSchema = {
     title: 'margin',
     type: 'object',
     properties: {
+        margin: {
+            description: 'margin',
+            type: 'string',
+            minimum: 0,
+            format: 'text'
+        },
         marginTop: {
             description: '上',
             type: 'number',
@@ -151,6 +214,12 @@ const paddingSchema = {
     title: 'padding',
     type: 'object',
     properties: {
+        padding: {
+            description: 'padding',
+            type: 'string',
+            minimum: 0,
+            format: 'text'
+        },
         paddingTop: {
             description: '上',
             type: 'number',
@@ -174,6 +243,37 @@ const paddingSchema = {
             type: 'number',
             minimum: 0,
             format: 'number'
+        },
+    }
+}
+
+const backgroundSchema = {
+    title: 'background',
+    type: 'object',
+    properties: {
+        background: {
+            description: 'background',
+            type: 'string',
+            minimum: 0,
+            format: 'text'
+        },
+        backgroundColor: {
+            description: 'background color',
+            type: 'string',
+            minimum: 0,
+            format: 'color'
+        },
+        backgroundRepeat: {
+            description: 'background repeat',
+            type: 'string',
+            minimum: 0,
+            format: 'text'
+        },
+        backgroundSize: {
+            description: 'background size',
+            type: 'string',
+            minimum: 0,
+            format: 'text'
         },
     }
 }
@@ -203,6 +303,63 @@ const borderSchema = {
             description: '边框颜色',
             type: 'string',
             format: 'color'
+        },
+    }
+}
+
+const displaySchema = {
+    title: 'display',
+    type: 'object',
+    properties: {
+        display: {
+            description: 'display type',
+            type: 'string',
+            format: 'text'
+        },
+        flex: {
+            description: 'flex',
+            type: 'string',
+            format: 'text'
+        },
+        flexDirection: {
+            description: 'flex direction',
+            type: 'string',
+            format: 'text'
+        },
+        flexWrap: {
+            description: 'flex wrap',
+            type: 'string',
+            format: 'text'
+        },
+        flexFlow: {
+            description: 'flex flow',
+            type: 'string',
+            format: 'text'
+        },
+        justifyContent: {
+            description: 'justify content',
+            type: 'string',
+            format: 'text'
+        },
+        alignItems: {
+            description: 'align items',
+            type: 'string',
+            format: 'text'
+        },
+        alignContent: {
+            description: 'align content',
+            type: 'string',
+            format: 'text'
+        },
+        flexShrink: {
+            description: 'flex shrink',
+            type: 'string',
+            format: 'text'
+        },
+        flexBasis: {
+            description: 'flex basis',
+            type: 'string',
+            format: 'text'
         },
     }
 }
@@ -254,8 +411,12 @@ export default {
     commonSchema,
     widthSchema,
     heightSchema,
+    textSchema,
+    fontSchema,
     marginSchema,
     paddingSchema,
+    backgroundSchema,
     borderSchema,
+    displaySchema,
     positionSchema
 }
