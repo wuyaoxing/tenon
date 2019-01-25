@@ -137,6 +137,8 @@ export default {
                             console.log(`Sorry, we are out of ${component.name}.`)
                     }
                 }
+
+                this.currentComponentId = praseDragData.id
             } catch (error) {
                 console.log('drop error:', error)
             }

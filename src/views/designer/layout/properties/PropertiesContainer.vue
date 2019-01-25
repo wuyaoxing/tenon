@@ -269,7 +269,8 @@ export default {
     data() {
         return {
             schema,
-            actives: ['name', 'width', 'height', 'border', 'display', 'position', 'custom'],
+            // ['name', 'width', 'height', 'border', 'display', 'position', 'custom']
+            actives: [],
             component: {}
         }
     },

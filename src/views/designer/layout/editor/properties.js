@@ -60,7 +60,7 @@ export default {
         this.$nextTick(() => {
             setTimeout(() => {
                 this.repaint()
-            }, 50)
+            }, 100)
         })
     },
 }

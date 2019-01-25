@@ -177,6 +177,7 @@ export default {
                 const praseDragData = JSON.parse(dragData)
                 if (nestedComponents.indexOf(praseDragData.name) > -1) {
                     this.project.components.children.push(praseDragData)
+                    this.currentComponentId = praseDragData.id
                 } else {
                     this.$Message({
                         showClose: true,
@@ -257,6 +258,9 @@ export default {
     overflow: auto;
     scroll-behavior: smooth;
     // transition: width 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    &-layer {
+        pointer-events: none;
+    }
     .highlight {
         &-box {
             display: none;
@@ -265,7 +269,7 @@ export default {
             left: 0;
             width: 0;
             height: 0;
-            z-index: inherit;
+            z-index: 1;
             border: 1px solid @primary-color;
         }
         &-name {

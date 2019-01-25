@@ -70,9 +70,6 @@ export default {
 .nested-container {
     position: relative;
     // padding: 0 8px;
-    & > * {
-        min-height: 50px;
-    }
     //   border: 1px solid #000;
     &.selected,
     &.dragover {

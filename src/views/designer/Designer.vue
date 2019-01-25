@@ -36,10 +36,13 @@
             <EditorContainer class="tenon-designer-editor f-f-1"
                              :componentId.sync="componentId"
                              :project="project" />
-            <!-- <Handle direction="right"
-              :handle.sync="handleVisiable">
-        <SideContainer class="tenon-designer-side" />
-      </Handle> -->
+            <Handle direction="right"
+                    :offset="0"
+                    :handle.sync="handleVisiable">
+                <PropertiesContainer class="tenon-designer-properties"
+                                     :componentId.sync="componentId"
+                                     :project="project"></PropertiesContainer>
+            </Handle>
         </div>
     </MainLayout>
 </template>
@@ -47,6 +50,7 @@
 import MainLayout from 'components/layout/MainLayout'
 import EditorContainer from './layout/editor/EditorContainer'
 import SideContainer from './layout/side/SideContainer'
+import PropertiesContainer from './layout/properties/PropertiesContainer'
 
 import undoMixins from './layout/mixins/undo'
 
@@ -56,7 +60,8 @@ export default {
     components: {
         MainLayout,
         EditorContainer,
-        SideContainer
+        SideContainer,
+        PropertiesContainer
     },
     data() {
         return {
@@ -71,6 +76,12 @@ export default {
         }
     },
     watch: {
+        componentId: {
+            handler(val) {
+                this.handleVisiable = !!val
+            },
+            immediate: true
+        },
         project: {
             handler(val, oldVal) {
                 if (this.enabled) {
@@ -173,6 +184,7 @@ export default {
         width: 250px;
         height: 100%;
         border-left: 1px solid @dark-border-color;
+        overflow: auto;
     }
 }
 </style>
