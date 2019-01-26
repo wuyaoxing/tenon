@@ -76,12 +76,6 @@ export default {
         }
     },
     watch: {
-        componentId: {
-            handler(val) {
-                this.handleVisiable = !!val
-            },
-            immediate: true
-        },
         project: {
             handler(val, oldVal) {
                 if (this.enabled) {

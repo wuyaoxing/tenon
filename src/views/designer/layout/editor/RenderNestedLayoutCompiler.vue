@@ -11,9 +11,6 @@
                          :selected="item.id === componentId"
                          :showUp="index > 0"
                          :showDown="component.children.length > 0 && index !== component.children.length - 1"
-                         @up="upEvent(index)"
-                         @down="downEvent(index)"
-                         @delete="deleteEvent(index)"
                          @click="clickEvent(item.id)"
                          @drop="dropEvent($event, item)">
             <RenderNestedLayoutCompiler v-if="item.name === 'NestedLayoutContainer'"
@@ -77,18 +74,6 @@ export default {
         },
     },
     methods: {
-        upEvent(index) {
-            const arr = this.component.children
-            arr.splice(index - 1, 0, arr.splice(index, 1)[0])
-        },
-        downEvent(index) {
-            const arr = this.component.children
-            arr.splice(index + 1, 0, arr.splice(index, 1)[0])
-        },
-        deleteEvent(index) {
-            const arr = this.component.children
-            arr.splice(index, 1)
-        },
         clickEvent(id) {
             console.log(this.component)
             this.isScroll = false

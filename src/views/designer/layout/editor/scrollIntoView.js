@@ -1,5 +1,6 @@
 export default {
     props: {
+        selected: Boolean,
         isScroll: Boolean,
     },
     watch: {
