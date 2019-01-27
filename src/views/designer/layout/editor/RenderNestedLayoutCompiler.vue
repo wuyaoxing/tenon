@@ -1,6 +1,6 @@
 <template>
     <component :is="asyncLoadComponent(component.name)">
-        <NestedContainer v-for="(item, index) in component.children"
+        <NestedContainer v-for="item in component.children"
                          :key="item.id"
                          :data-component-id="item.id"
                          :data-component-name="item.name"
@@ -9,8 +9,6 @@
                          :hint="currentDragoverInfo.hint"
                          :isScroll.sync="isScroll"
                          :selected="item.id === componentId"
-                         :showUp="index > 0"
-                         :showDown="component.children.length > 0 && index !== component.children.length - 1"
                          @click="clickEvent(item.id)"
                          @drop="dropEvent($event, item)">
             <RenderNestedLayoutCompiler v-if="item.name === 'NestedLayoutContainer'"

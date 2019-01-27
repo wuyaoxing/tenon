@@ -10,13 +10,13 @@
                  :style="selectBox.style">
                 <div class="select-actions">
                     <i class="el-icon-caret-top"
-                       v-if="selectBox.showUp"
+                       v-if="selectBoxVisiable.showUp"
                        @click="upEvent"></i>
                     <i class="el-icon-caret-bottom"
-                       v-if="selectBox.showDown"
+                       v-if="selectBoxVisiable.showDown"
                        @click="downEvent"></i>
                     <i class="el-icon-delete"
-                       v-if="selectBox.showDelete"
+                       v-if="selectBoxVisiable.showDelete"
                        @click="deleteEvent"></i>
                 </div>
             </div>
@@ -73,10 +73,7 @@ export default {
             selectBox: {
                 target: null,
                 tagName: '',
-                style: {},
-                showUp: false,
-                showDown: false,
-                showDelete: false
+                style: {}
             },
             timeout: '',
             delay: 350,
@@ -90,6 +87,21 @@ export default {
             set(val) {
                 this.$emit('update:componentId', val)
             }
+        },
+        selectBoxVisiable() {
+            const visiable = {
+                showUp: false,
+                showDown: false,
+                showDelete: false
+            }
+            if (this.component.children) {
+                const index = this.component.children.findIndex(item => item.id === this.currentComponentId)
+                visiable.showUp = index > 0
+                visiable.showDown = this.component.children.length > 0 && index !== this.component.children.length - 1
+                visiable.showDelete = this.project.components.id !== this.currentComponentId
+            }
+
+            return visiable
         }
     },
     watch: {
@@ -116,9 +128,9 @@ export default {
                         recursion(data, id)
                         if (data.id === id) {
                             this.component = component
-                            this.selectBox.showUp = i > 0
-                            this.selectBox.showDown = component.children.length > 0 && i !== component.children.length - 1
-                            this.selectBox.showDelete = this.project.components.id !== id
+                            // this.selectBox.showUp = i > 0
+                            // this.selectBox.showDown = component.children.length > 0 && i !== component.children.length - 1
+                            // this.selectBox.showDelete = this.project.components.id !== id
                             break
                         }
                     }
@@ -290,35 +302,34 @@ export default {
                     tagName: '',
                     style: {
                         display: 'none'
-                    },
-                    showUp: false,
-                    showDown: false,
-                    showDelete: false
+                    }
                 }
                 return
             }
-            const target = document.querySelector(`[data-component-id="${this.currentComponentId}"]`)
-            const container = this.$el
-            const rect = target.getBoundingClientRect()
-            this.selectBox.style = {
-                display: 'block',
-                width: `${rect.width}px`,
-                height: `${rect.height}px`,
-                top: `${container.scrollTop - container.offsetTop + rect.top}px`,
-                left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
-            }
+            this.$nextTick(() => {
+                const target = document.querySelector(`[data-component-id="${this.currentComponentId}"]`)
+                const container = this.$el
+                const rect = target.getBoundingClientRect()
+                this.selectBox.style = {
+                    display: 'block',
+                    width: `${rect.width}px`,
+                    height: `${rect.height}px`,
+                    top: `${container.scrollTop - container.offsetTop + rect.top}px`,
+                    left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
+                }
+            })
         },
         upEvent() {
-            this.currentComponentId = ''
             const arr = this.component.children
             const index = arr.findIndex(item => item.id === this.currentComponentId)
             arr.splice(index - 1, 0, arr.splice(index, 1)[0])
+            this.repaintSelectBox()
         },
         downEvent() {
-            this.currentComponentId = ''
             const arr = this.component.children
             const index = arr.findIndex(item => item.id === this.currentComponentId)
             arr.splice(index + 1, 0, arr.splice(index, 1)[0])
+            this.repaintSelectBox()
         },
         deleteEvent() {
             this.currentComponentId = ''
