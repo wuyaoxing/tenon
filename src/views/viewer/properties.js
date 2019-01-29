@@ -9,8 +9,7 @@ export default {
     },
     watch: {
         style: {
-            handler(val) {
-                console.log(val)
+            handler() {
                 this.repaint()
             },
             deep: true

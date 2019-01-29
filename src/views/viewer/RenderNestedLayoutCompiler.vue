@@ -1,6 +1,6 @@
 <template>
     <component :is="asyncLoadComponent(component.name)"
-               :properties.sync="component.properties">
+               :properties="component.properties">
         <template v-for="item in component.children">
             <RenderNestedLayoutCompiler v-if="item.name === 'NestedLayoutContainer'"
                                         :data-component-id="item.id"
@@ -13,7 +13,7 @@
             <component :is="asyncLoadComponent(item.name)"
                        :data-component-id="item.id"
                        v-bind="item.properties"
-                       :properties.sync="item.properties"
+                       :properties="item.properties"
                        :key="item.id"
                        v-else />
         </template>

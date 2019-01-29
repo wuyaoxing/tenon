@@ -1,10 +1,11 @@
 <template>
-    <component :is="asyncLoadComponent(component.name)">
+    <component :is="asyncLoadComponent(component.name)"
+               :properties="component.properties">
         <component :is="asyncLoadComponent(item.name)"
                    v-for="item in component.children"
                    :key="item.id"
                    :data-component-id="item.id"
-                   :properties.sync="item.properties" />
+                   :properties="item.properties" />
     </component>
 </template>
 <script>
