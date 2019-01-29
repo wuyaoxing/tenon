@@ -270,7 +270,7 @@ export default {
         return {
             schema,
             // ['name', 'width', 'height', 'border', 'display', 'position', 'custom']
-            actives: [],
+            actives: ['name'],
             component: {}
         }
     },

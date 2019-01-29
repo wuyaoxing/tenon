@@ -5,6 +5,10 @@
             :visible.sync="currentVisiable"
             class="project-add">
         项目名称： <Input v-model="project.name" />
+        项目分辨率：
+        <div class="f f-ai-c">
+            <Input v-model="project.resolution.width" /> X <Input v-model="project.resolution.height" />
+        </div>
         <ul class="project-template f">
             <li v-for="(item, key) in template"
                 :key="key"
@@ -28,6 +32,10 @@ export default {
         return {
             project: {
                 name: '',
+                resolution: {
+                    width: 1920,
+                    height: 1080
+                }
             },
             templateId: '1',
             template: {
@@ -35,9 +43,7 @@ export default {
                     name: 'NestedLayoutContainer',
                     properties: {
                         name: 'NestedLayoutContainer',
-                        css: {
-                            minHeight: '100%',
-                        },
+                        css: {},
                         style: ''
                     },
                     children: []
@@ -47,7 +53,7 @@ export default {
                     properties: {
                         name: 'NestedLayoutContainer',
                         css: {
-                            minHeight: '', height: '100%', fontFamily: 'Raleway,sans-serif', fontSize: '1rem'
+                            fontFamily: 'Raleway,sans-serif', fontSize: '1rem'
                         },
                         style: ''
                     },

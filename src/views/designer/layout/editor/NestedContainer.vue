@@ -52,7 +52,8 @@ export default {
         top: 0;
         left: 0;
         right: 0;
-        text-align: center;
+        padding: 0 15px;
+        text-align: left;
         color: @white-color;
         background: @primary-color;
     }

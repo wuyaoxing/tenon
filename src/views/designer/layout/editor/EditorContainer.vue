@@ -1,5 +1,5 @@
 <template>
-    <div class="editor-container f-f-1"
+    <div class="editor-container"
          tabindex="1">
         <div class="editor-container-layer">
             <div class="highlight-box"
@@ -21,28 +21,37 @@
                 </div>
             </div>
         </div>
-        <NestedContainer class="editor-container-stage"
-                         :data-component-id="project.components.id"
-                         :data-component-name="project.components.name"
-                         :properties="project.components.properties"
-                         :isDragover="dragoverInfo.componentId === project.components.id"
-                         :hint="dragoverInfo.hint"
-                         :selected="project.components.id === componentId"
-                         :showUp="false"
-                         :showDown="false"
-                         :showDelete="false"
-                         @click="clickEvent(project.components.id)"
-                         @drop="dropEvent">
-            <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
-                                        :component="project.components"
-                                        :dragoverInfo.sync="dragoverInfo" />
-        </NestedContainer>
+        <div class="editor-container-stage"
+             ref="stage"
+             :style="{
+                width: project.resolution.width + 'px',
+                height: project.resolution.height + 'px'
+            }">
+            <NestedContainer class="editor-container-wrap"
+                             :data-component-id="project.components.id"
+                             :data-component-name="project.components.name"
+                             :properties="project.components.properties"
+                             :isDragover="dragoverInfo.componentId === project.components.id"
+                             :hint="dragoverInfo.hint"
+                             :selected="project.components.id === componentId"
+                             :showUp="false"
+                             :showDown="false"
+                             :showDelete="false"
+                             @click="clickEvent(project.components.id)"
+                             @drop="dropEvent">
+                <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
+                                            :component="project.components"
+                                            :dragoverInfo.sync="dragoverInfo" />
+            </NestedContainer>
+        </div>
     </div>
 </template>
 <script>
+import ResizeEvent from 'utils/ResizeEvent'
 import NestedContainer from './NestedContainer'
 import RenderNestedLayoutCompiler from './RenderNestedLayoutCompiler'
 import { nestedComponents } from '../../components/config'
+
 
 export default {
     name: 'EditContainer',
@@ -56,6 +65,7 @@ export default {
     },
     data() {
         return {
+            ResizeEvent: null,
             component: {},
             isStage: false,
             dragoverTarget: null,
@@ -171,7 +181,7 @@ export default {
             // console.log('dragover:', e)
             if (this.dragoverTarget !== parentNode) {
                 this.dragoverTarget = parentNode
-                this.isStage = parentNode.classList.contains('editor-container-stage')
+                this.isStage = parentNode.classList.contains('editor-container-wrap')
                 this.dragoverInfo.componentId = this.dragoverTarget.dataset.componentId
                 this.dragoverRect = this.dragoverTarget.getBoundingClientRect()
             }
@@ -285,15 +295,18 @@ export default {
         },
         repaintHighlightBox() {
             if (!this.highlightBox.target) return
-            const container = this.$el
-            const rect = this.highlightBox.target.getBoundingClientRect()
-            this.highlightBox.style = {
-                display: 'block',
-                width: `${rect.width}px`,
-                height: `${rect.height}px`,
-                top: `${container.scrollTop - container.offsetTop + rect.top}px`,
-                left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
-            }
+            this.$nextTick(() => {
+                const stage = this.$refs.stage
+                const rect = this.highlightBox.target.getBoundingClientRect()
+                console.log('stage: ', stage, rect)
+                this.highlightBox.style = {
+                    display: 'block',
+                    width: `${rect.width}px`,
+                    height: `${rect.height}px`,
+                    top: `${stage.scrollTop - stage.offsetTop + rect.top}px`,
+                    left: `${stage.scrollLeft - stage.offsetLeft + rect.left}px`
+                }
+            })
         },
         repaintSelectBox() {
             if (!this.currentComponentId) {
@@ -304,19 +317,21 @@ export default {
                         display: 'none'
                     }
                 }
+                this.destroyResizeEvent()
                 return
             }
             this.$nextTick(() => {
                 const target = document.querySelector(`[data-component-id="${this.currentComponentId}"]`)
-                const container = this.$el
+                const stage = this.$refs.stage
                 const rect = target.getBoundingClientRect()
                 this.selectBox.style = {
                     display: 'block',
                     width: `${rect.width}px`,
                     height: `${rect.height}px`,
-                    top: `${container.scrollTop - container.offsetTop + rect.top}px`,
-                    left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
+                    top: `${stage.scrollTop - stage.offsetTop + rect.top}px`,
+                    left: `${stage.scrollLeft - stage.offsetLeft + rect.left}px`
                 }
+                this.registerResizeEvent(target, this.resize)
             })
         },
         upEvent() {
@@ -337,26 +352,34 @@ export default {
             const index = arr.findIndex(item => item.id === this.currentComponentId)
             arr.splice(index, 1)
         },
-        resizeEvent(e) {
+        registerResizeEvent(el, callback) {
+            if (this.ResizeEvent) this.destroyResizeEvent()
+            this.ResizeEvent = new ResizeEvent(el, callback)
+        },
+        destroyResizeEvent() {
+            this.ResizeEvent && this.ResizeEvent.destroy()
+        },
+        resize(e) {
             if (this.timeout) clearTimeout(this.timeout)
             this.timeout = setTimeout(() => {
                 this.repaintHighlightBox()
                 this.repaintSelectBox()
                 console.log('resize: ', e)
             }, this.delay)
-        },
+        }
     },
     created() {
         this.$EventStack.register('editor-container', 'mousemove', this.mousemove)
         this.$EventStack.register('editor-container', 'dragover', this.ondragover)
         this.$EventStack.register('editor-container', 'drop', this.ondrop)
-        window.addEventListener('resize', this.resizeEvent, false)
+        window.addEventListener('resize', this.resize, false)
     },
     destroyed() {
+        this.destroyResizeEvent()
         this.$EventStack.dispose('editor-container', 'mousemove')
         this.$EventStack.dispose('editor-container', 'dragover')
         this.$EventStack.dispose('editor-container', 'drop')
-        window.removeEventListener('resize', this.resizeEvent, false)
+        window.removeEventListener('resize', this.resize, false)
     }
 }
 </script>
@@ -365,12 +388,17 @@ export default {
 
 .editor-container {
     position: relative;
-    outline: none;
-    overflow: auto;
     scroll-behavior: smooth;
     transition: width 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    outline: none;
+    overflow: auto;
     &-layer {
         pointer-events: none;
+    }
+    &-stage {
+        margin: 0 auto;
+        background: @white-color;
+        overflow: auto;
     }
     .highlight {
         &-box {

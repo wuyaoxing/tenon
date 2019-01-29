@@ -132,6 +132,7 @@ export default {
 @import "~styles/variables";
 
 .tenon-designer {
+    background: #e6e8ec;
     &-header {
         height: 50px;
         line-height: 50px;

@@ -43,7 +43,7 @@ export default {
                 dragData.children = []
                 dragData.properties.css = {
                     padding: '8px',
-                    minHeight: '80px'
+                    height: '150px'
                 }
             }
             e.dataTransfer.setData('Text', JSON.stringify(dragData))
