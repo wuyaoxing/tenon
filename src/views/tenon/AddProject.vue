@@ -43,7 +43,9 @@ export default {
                     name: 'NestedLayoutContainer',
                     properties: {
                         name: 'NestedLayoutContainer',
-                        css: {},
+                        css: {
+                            minHeight: '100%'
+                        },
                         style: ''
                     },
                     children: []
@@ -53,7 +55,9 @@ export default {
                     properties: {
                         name: 'NestedLayoutContainer',
                         css: {
-                            fontFamily: 'Raleway,sans-serif', fontSize: '1rem'
+                            minHeight: '100%',
+                            fontFamily: 'Raleway,sans-serif',
+                            fontSize: '1rem'
                         },
                         style: ''
                     },

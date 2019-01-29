@@ -26,7 +26,8 @@
              :style="{
                 width: project.resolution.width + 'px',
                 height: project.resolution.height + 'px'
-            }">
+            }"
+             @scroll="resize">
             <NestedContainer class="editor-container-wrap"
                              :data-component-id="project.components.id"
                              :data-component-name="project.components.name"
@@ -86,7 +87,7 @@ export default {
                 style: {}
             },
             timeout: '',
-            delay: 350,
+            delay: 200,
         }
     },
     computed: {
@@ -296,15 +297,16 @@ export default {
         repaintHighlightBox() {
             if (!this.highlightBox.target) return
             this.$nextTick(() => {
+                const container = this.$el
                 const stage = this.$refs.stage
                 const rect = this.highlightBox.target.getBoundingClientRect()
-                console.log('stage: ', stage, rect)
+                console.log('stage: ', stage, rect, this)
                 this.highlightBox.style = {
                     display: 'block',
                     width: `${rect.width}px`,
                     height: `${rect.height}px`,
-                    top: `${stage.scrollTop - stage.offsetTop + rect.top}px`,
-                    left: `${stage.scrollLeft - stage.offsetLeft + rect.left}px`
+                    top: `${container.scrollTop - container.offsetTop + rect.top}px`,
+                    left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
                 }
             })
         },
@@ -322,14 +324,15 @@ export default {
             }
             this.$nextTick(() => {
                 const target = document.querySelector(`[data-component-id="${this.currentComponentId}"]`)
+                const container = this.$el
                 const stage = this.$refs.stage
                 const rect = target.getBoundingClientRect()
                 this.selectBox.style = {
                     display: 'block',
                     width: `${rect.width}px`,
                     height: `${rect.height}px`,
-                    top: `${stage.scrollTop - stage.offsetTop + rect.top}px`,
-                    left: `${stage.scrollLeft - stage.offsetLeft + rect.left}px`
+                    top: `${container.scrollTop - container.offsetTop + rect.top}px`,
+                    left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
                 }
                 this.registerResizeEvent(target, this.resize)
             })
@@ -396,7 +399,7 @@ export default {
         pointer-events: none;
     }
     &-stage {
-        margin: 0 auto;
+        margin: 30px auto;
         background: @white-color;
         overflow: auto;
     }
