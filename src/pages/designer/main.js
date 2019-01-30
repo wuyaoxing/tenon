@@ -5,6 +5,7 @@ import 'styles/app.less'
 import uuid from 'utils/uuid'
 import sleep from 'utils/sleep'
 import EventStack from 'utils/EventStack'
+import ResizeEvent from 'utils/ResizeEvent'
 
 import components from 'components'
 import ElementUI from 'element'
@@ -19,6 +20,7 @@ Vue.config.productionTip = false
 Vue.prototype.$uuid = uuid
 Vue.prototype.$sleep = sleep
 Vue.prototype.$EventStack = new EventStack()
+Vue.prototype.$ResizeEvent = new ResizeEvent()
 
 new Vue({
     router,

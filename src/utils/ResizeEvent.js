@@ -1,54 +1,76 @@
 export default class ResizeEvent {
-    constructor(el, callback) {
-        this.el = el
-        this.callback = callback
-
-        this.width = el.offsetWidth
-        this.height = el.offsetHeight
-
-        this.iframe = null
-        this.timer = ''
-        this.delay = 50
-
-        this.resize()
+    constructor() {
+        this.resizeStack = {}
     }
 
-    resized = e => {
-        if (this.timer) clearTimeout(this.timer)
-        this.timer = setTimeout(() => {
-            const width = this.el.offsetWidth
-            const height = this.el.offsetHeight
+    resize = e => {
+        console.log('!!! resize event: ', e, e.target, e.target.resizeId)
+        const id = e.target.resizeId
+        if (!this.resizeStack[id]) return
+        const {
+            el, callback, width: oldWidth, height: oldHeight, timer, delay
+        } = this.resizeStack[id]
 
-            if (width !== this.width || height !== this.height) {
-                this.callback()
-                this.width = width
-                this.height = height
+        if (timer) clearTimeout(timer)
+        this.resizeStack[id].timer = setTimeout(() => {
+            const width = el.offsetWidth
+            const height = el.offsetHeight
+
+            if (oldWidth !== width || oldHeight !== height) {
+                callback(e)
+                this.resizeStack[id].width = width
+                this.resizeStack[id].height = height
             }
-            console.log('resize event: ', e)
-        }, this.delay)
+        }, delay)
     }
 
-    resize() {
+    register(id, option) {
+        this.dispose(id)
+        const { el, callback, delay = 50 } = option
         const iframe = document.createElement('iframe')
 
         Object.assign(iframe.style, {
             position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
             width: '100%',
             height: '100%',
-            visibility: 'hidden',
             padding: 0,
-            margin: 0
+            margin: 0,
+            visibility: 'hidden'
         })
 
-        this.el.appendChild(iframe)
+        el.appendChild(iframe)
+        iframe.contentWindow.resizeId = id
+        iframe.contentWindow.addEventListener('resize', this.resize, false)
 
-        this.iframe = iframe
+        this.resizeStack[id] = {
+            id,
+            el,
+            callback,
+            iframe,
+            width: el.offsetWidth,
+            height: el.offsetHeight,
+            timer: '',
+            delay
+        }
+    }
 
-        this.iframe.contentWindow.addEventListener('resize', this.resized, false)
+    dispose(id) {
+        if (this.resizeStack[id]) {
+            const { iframe, el } = this.resizeStack[id]
+            iframe.contentWindow.removeEventListener('resize', this.resize, false)
+            el.removeChild(iframe)
+
+            delete this.resizeStack[id]
+        }
     }
 
     destroy() {
-        this.iframe.contentWindow.removeEventListener('resize', this.resized, false)
-        this.el.removeChild(this.iframe)
+        Object.keys(this.resizeStack).forEach(id => {
+            this.dispose(id)
+        })
     }
 }

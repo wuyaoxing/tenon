@@ -48,7 +48,6 @@
     </div>
 </template>
 <script>
-import ResizeEvent from 'utils/ResizeEvent'
 import NestedContainer from './NestedContainer'
 import RenderNestedLayoutCompiler from './RenderNestedLayoutCompiler'
 import { nestedComponents } from '../../components/config'
@@ -66,7 +65,6 @@ export default {
     },
     data() {
         return {
-            ResizeEvent: null,
             component: {},
             isStage: false,
             dragoverTarget: null,
@@ -116,7 +114,8 @@ export default {
         }
     },
     watch: {
-        componentId(val) {
+        componentId(val, oldVal) {
+            this.disposeResizeEvent(oldVal)
             this.findComponentById(val)
             this.repaintHighlightBox()
             this.repaintSelectBox()
@@ -298,9 +297,8 @@ export default {
             if (!this.highlightBox.target) return
             this.$nextTick(() => {
                 const container = this.$el
-                const stage = this.$refs.stage
                 const rect = this.highlightBox.target.getBoundingClientRect()
-                console.log('stage: ', stage, rect, this)
+                console.log('stage: ', rect, this)
                 this.highlightBox.style = {
                     display: 'block',
                     width: `${rect.width}px`,
@@ -319,13 +317,11 @@ export default {
                         display: 'none'
                     }
                 }
-                this.destroyResizeEvent()
                 return
             }
             this.$nextTick(() => {
                 const target = document.querySelector(`[data-component-id="${this.currentComponentId}"]`)
                 const container = this.$el
-                const stage = this.$refs.stage
                 const rect = target.getBoundingClientRect()
                 this.selectBox.style = {
                     display: 'block',
@@ -356,11 +352,14 @@ export default {
             arr.splice(index, 1)
         },
         registerResizeEvent(el, callback) {
-            if (this.ResizeEvent) this.destroyResizeEvent()
-            this.ResizeEvent = new ResizeEvent(el, callback)
+            this.$ResizeEvent.register(this.currentComponentId, {
+                el,
+                callback
+            })
+            console.log(this.$ResizeEvent)
         },
-        destroyResizeEvent() {
-            this.ResizeEvent && this.ResizeEvent.destroy()
+        disposeResizeEvent(id) {
+            this.$ResizeEvent.dispose(id)
         },
         resize(e) {
             if (this.timeout) clearTimeout(this.timeout)
@@ -377,8 +376,19 @@ export default {
         this.$EventStack.register('editor-container', 'drop', this.ondrop)
         window.addEventListener('resize', this.resize, false)
     },
+    mounted() {
+        this.$nextTick(() => {
+            const option = {
+                el: this.$el,
+                callback: this.resize
+            }
+            this.$ResizeEvent.register('EditorContainer', option)
+        })
+    },
     destroyed() {
-        this.destroyResizeEvent()
+        this.$ResizeEvent.destroy()
+
+        this.$ResizeEvent.dispose('EditorContainer')
         this.$EventStack.dispose('editor-container', 'mousemove')
         this.$EventStack.dispose('editor-container', 'dragover')
         this.$EventStack.dispose('editor-container', 'drop')
