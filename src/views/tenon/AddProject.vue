@@ -44,7 +44,8 @@ export default {
                     properties: {
                         name: 'NestedLayoutContainer',
                         css: {
-                            minHeight: '100%'
+                            minHeight: '100%',
+                            padding: '8px'
                         },
                         style: ''
                     },

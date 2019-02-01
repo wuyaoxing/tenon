@@ -35,9 +35,6 @@
                              :isDragover="dragoverInfo.componentId === project.components.id"
                              :hint="dragoverInfo.hint"
                              :selected="project.components.id === componentId"
-                             :showUp="false"
-                             :showDown="false"
-                             :showDelete="false"
                              @click="clickEvent(project.components.id)"
                              @drop="dropEvent">
                 <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
@@ -124,10 +121,8 @@ export default {
     methods: {
         findComponentById(componentId) {
             console.log(componentId)
-            if (!componentId) {
-                this.component = {}
-                return
-            }
+            this.component = {}
+            if (!componentId) return
             const recursion = (component, id) => {
                 if (component.id === id) {
                     return
