@@ -20,6 +20,9 @@ import asyncLoadDefaultDataMixins from './asyncLoadDefaultData'
 export default {
     name: 'ComponentsContainer',
     mixins: [asyncLoadDefaultDataMixins],
+    props: {
+        componentId: String
+    },
     data() {
         return {
             componentCategory
@@ -27,6 +30,7 @@ export default {
     },
     methods: {
         ondragstart(e, name) {
+            this.$emit('update:componentId', '')
             e.target.classList.add('drag')
             const defaultData = this.asyncLoadDefaultData(name)
             const dragData = {
