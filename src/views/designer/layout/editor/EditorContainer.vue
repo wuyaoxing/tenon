@@ -12,14 +12,21 @@
             </div>
             <div class="select-box"
                  :style="selectBox.style">
-                <div class="select-actions">
+                <div class="select-actions f f-ai-c">
+                    <i class="icon-left-up"
+                       title="Select parent"
+                       v-if="selectBoxVisiable.showSelectParent"
+                       @click="selectParentComponent"></i>
                     <i class="el-icon-caret-top"
+                       title="Up"
                        v-if="selectBoxVisiable.showUp"
                        @click="upEvent"></i>
                     <i class="el-icon-caret-bottom"
+                       title="Down"
                        v-if="selectBoxVisiable.showDown"
                        @click="downEvent"></i>
                     <i class="el-icon-delete"
+                       title="Remove"
                        v-if="selectBoxVisiable.showDelete"
                        @click="deleteEvent"></i>
                 </div>
@@ -99,6 +106,7 @@ export default {
                 visiable.showUp = index > 0
                 visiable.showDown = this.component.children.length > 0 && index !== this.component.children.length - 1
                 visiable.showDelete = this.project.components.id !== this.currentComponentId
+                visiable.showSelectParent = this.project.components.id !== this.currentComponentId
             }
 
             return visiable
@@ -388,6 +396,24 @@ export default {
                 this.registerResizeEvent(target, this.resize)
             })
         },
+        selectParentComponent() {
+            const recursion = (component, id) => {
+                if (component.id === id) {
+                    return
+                }
+                if (component.children) {
+                    for (let i = 0; i < component.children.length; i++) {
+                        const data = component.children[i]
+                        recursion(data, id)
+                        if (data.id === id) {
+                            this.currentComponentId = component.id
+                            break
+                        }
+                    }
+                }
+            }
+            recursion(this.project.components, this.currentComponentId)
+        },
         upEvent() {
             const arr = this.component.children
             const index = arr.findIndex(item => item.id === this.currentComponentId)
@@ -519,6 +545,7 @@ export default {
                 color: @primary-light-color;
                 background: @primary-color;
                 pointer-events: auto;
+                line-height: 1;
                 cursor: pointer;
                 &:hover {
                     color: @white-color;
