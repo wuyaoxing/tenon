@@ -31,23 +31,16 @@
                 width: project.resolution.width + 'px',
                 height: project.resolution.height + 'px'
             }"
+             @click="clickEvent"
              @scroll="resize">
-            <NestedContainer class="editor-container-wrap"
-                             :data-component-id="project.components.id"
-                             :data-component-name="project.components.name"
-                             :properties="project.components.properties"
-                             :selected="project.components.id === componentId"
-                             @click="clickEvent(project.components.id)">
-                <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
-                                            :component="project.components"
-                                            :project="project" />
-            </NestedContainer>
+            <RenderNestedLayoutCompiler class="editor-container-wrap"
+                                        :component="project.components"
+                                        :project="project" />
         </div>
     </div>
 </template>
 <script>
-import NestedContainer from './NestedContainer'
-import RenderNestedLayoutCompiler from './RenderNestedLayoutCompiler'
+import RenderNestedLayoutCompiler from 'views/designer/compiler/RenderNestedLayoutCompiler'
 import { nestedComponents } from '../../components/config'
 
 
@@ -58,7 +51,6 @@ export default {
         project: Object
     },
     components: {
-        NestedContainer,
         RenderNestedLayoutCompiler
     },
     data() {
@@ -315,8 +307,10 @@ export default {
         checkNestedName(name) {
             return nestedComponents.indexOf(name) > -1
         },
-        clickEvent(id) {
-            this.currentComponentId = id
+        clickEvent(e) {
+            const parentNode = this.findParentNodeByClass(e.target, 'nested-container')
+            if (!parentNode) return
+            this.currentComponentId = parentNode.dataset.componentId
         },
         mousemove(e) {
             if (!this.$el.contains(e.target)) {
@@ -449,7 +443,6 @@ export default {
     destroyed() {
         this.$ResizeEvent.destroy()
 
-        this.$ResizeEvent.dispose('EditorContainer')
         this.$EventStack.dispose('editor-container', 'mousemove')
         this.$EventStack.dispose('editor-container', 'dragover')
         this.$EventStack.dispose('editor-container', 'drop')

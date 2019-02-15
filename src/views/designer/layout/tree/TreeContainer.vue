@@ -25,7 +25,14 @@ export default {
     methods: {
         nodeClick(data, node) {
             this.$emit('update:componentId', data.id)
+            this.scrollIntoView(data.id)
             console.log(data, node)
+        },
+        scrollIntoView(id) {
+            const el = document.querySelector(`[data-component-id="${id}"]`)
+            this.$nextTick(() => {
+                el.scrollIntoView()
+            })
         }
     }
 }

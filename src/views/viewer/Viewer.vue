@@ -1,10 +1,11 @@
 <template>
     <div class="tenon-viewer">
-        <RenderNestedLayoutCompiler :component="project.components" />
+        <RenderNestedLayoutCompiler :component="project.components"
+                                    :project="project" />
     </div>
 </template>
 <script>
-import RenderNestedLayoutCompiler from './RenderNestedLayoutCompiler'
+import RenderNestedLayoutCompiler from 'views/designer/compiler/RenderNestedLayoutCompiler'
 
 export default {
     name: 'tenon-viewer',

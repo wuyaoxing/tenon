@@ -1,47 +1,27 @@
 <template>
-    <component :is="asyncLoadComponent(component.name)">
-        <NestedContainer :data-component-id="tabPanelComponent.id"
-                         :data-component-name="tabPanelComponent.name"
-                         :properties="tabPanelComponent.properties"
-                         :selected="tabPanelComponent.id === componentId"
-                         @click="clickEvent(tabPanelComponent.id)"
-                         v-if="tabPanelComponent">
-            <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
-                                        :component="tabPanelComponent"
-                                        :project="project" />
-        </NestedContainer>
+    <component :is="asyncLoadComponent(component.name)"
+               :data-component-id="component.id"
+               :data-component-name="component.name"
+               :properties.sync="component.properties">
+        <RenderNestedLayoutCompiler :component="tabPanelComponent"
+                                    :project="project"
+                                    v-if="tabPanelComponent" />
     </component>
 </template>
 <script>
 import asyncLoadComponentMixins from './asyncLoadComponent'
-import NestedContainer from './NestedContainer'
 
 export default {
     name: 'RenderTabPanelLayoutCompiler',
     mixins: [asyncLoadComponentMixins],
     props: {
-        componentId: String,
         component: Object,
         project: Object
     },
     components: {
-        NestedContainer,
         RenderNestedLayoutCompiler: () => import('./RenderNestedLayoutCompiler')
     },
-    data() {
-        return {
-            isScroll: true
-        }
-    },
     computed: {
-        currentComponentId: {
-            get() {
-                return this.componentId
-            },
-            set(val) {
-                this.$emit('update:componentId', val)
-            }
-        },
         tabPanelComponent() {
             let currentComponent = null
             const componentId = this.component.properties.tabsId
@@ -61,12 +41,6 @@ export default {
                 recursion(this.project.components, componentId)
             }
             return currentComponent
-        }
-    },
-    methods: {
-        clickEvent(id) {
-            this.isScroll = false
-            this.currentComponentId = id
         }
     }
 }
