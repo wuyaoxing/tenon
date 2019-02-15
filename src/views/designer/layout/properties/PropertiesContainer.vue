@@ -238,6 +238,7 @@
                         <span>{{key}}</span>
                         <component class="f-f-1"
                                    :is="asyncLoadComponent(item.format)"
+                                   :component="component"
                                    :schema="item"
                                    :properties="component.properties"
                                    :value.sync="component.properties[key]"></component>
@@ -270,7 +271,7 @@ export default {
         return {
             schema,
             // ['name', 'width', 'height', 'border', 'display', 'position', 'custom']
-            actives: ['name'],
+            actives: ['name', 'custom'],
             component: {}
         }
     },

@@ -12,15 +12,22 @@
                                         :data-component-id="item.id"
                                         :properties.sync="item.properties"
                                         :component="item"
-                                        :componentId.sync="currentComponentId" />
+                                        :componentId.sync="currentComponentId"
+                                        :project="project" />
             <RenderPositionLayoutCompiler v-else-if="item.name === 'PositionLayoutContainer'"
                                           :data-component-id="item.id"
                                           :properties.sync="item.properties"
                                           :component="item"
                                           :componentId.sync="currentComponentId" />
+            <RenderTabPanelLayoutCompiler v-else-if="item.name === 'TabPanel'"
+                                          :data-component-id="item.id"
+                                          :properties.sync="item.properties"
+                                          :component="item"
+                                          :componentId.sync="currentComponentId"
+                                          :project="project" />
             <component :is="asyncLoadComponent(item.name)"
                        :data-component-id="item.id"
-                       v-bind="item.properties"
+                       v-bind.sync="item.properties"
                        :properties.sync="item.properties"
                        v-else />
         </NestedContainer>
@@ -30,17 +37,20 @@
 import asyncLoadComponentMixins from './asyncLoadComponent'
 import NestedContainer from './NestedContainer'
 import RenderPositionLayoutCompiler from './RenderPositionLayoutCompiler'
+import RenderTabPanelLayoutCompiler from './RenderTabPanelLayoutCompiler'
 
 export default {
     name: 'RenderNestedLayoutCompiler',
     mixins: [asyncLoadComponentMixins],
     props: {
         componentId: String,
-        component: Object
+        component: Object,
+        project: Object
     },
     components: {
         NestedContainer,
         RenderPositionLayoutCompiler,
+        RenderTabPanelLayoutCompiler
     },
     data() {
         return {

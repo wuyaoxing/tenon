@@ -1,0 +1,10 @@
+{
+  "tabsId": "",
+  "css": {
+    "width": "200px",
+    "height": "200px",
+    "borderWidth": "1px",
+    "borderStyle": "solid",
+    "borderColor": "red"
+  }
+}

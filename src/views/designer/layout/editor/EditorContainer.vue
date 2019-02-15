@@ -39,7 +39,8 @@
                              :selected="project.components.id === componentId"
                              @click="clickEvent(project.components.id)">
                 <RenderNestedLayoutCompiler :componentId.sync="currentComponentId"
-                                            :component="project.components" />
+                                            :component="project.components"
+                                            :project="project" />
             </NestedContainer>
         </div>
     </div>

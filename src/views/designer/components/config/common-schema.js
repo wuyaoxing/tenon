@@ -289,15 +289,15 @@ const borderSchema = {
         },
         borderWidth: {
             description: '边框宽度',
-            type: 'number',
+            type: 'string',
             minimum: 0,
-            format: 'number'
+            format: 'text'
         },
         borderRadius: {
             description: '边框圆角',
-            type: 'number',
+            type: 'string',
             minimum: 0,
-            format: 'number'
+            format: 'text'
         },
         borderColor: {
             description: '边框颜色',
