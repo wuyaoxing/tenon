@@ -5,6 +5,6 @@ const componentCategory = {
     component: ['Button'],
 }
 
-const nestedComponents = ['NestedLayoutContainer', 'PositionLayoutContainer', 'Header', 'Text', 'Tabs', 'TabPanel']
+const nestedComponents = ['NestedLayoutContainer', 'PositionLayoutContainer', 'RecombinationLayoutContainer', 'Header', 'Text', 'Tabs', 'TabPanel']
 
 export { componentCategory, nestedComponents }

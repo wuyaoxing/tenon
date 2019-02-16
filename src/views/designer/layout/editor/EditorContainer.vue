@@ -13,6 +13,10 @@
             <div class="select-box"
                  :style="selectBox.style">
                 <div class="select-actions f f-ai-c">
+                    <i class="icon-generate-component"
+                       title="Generate component"
+                       v-if="selectBoxVisiable.showRecombination"
+                       @click="recombinationComponent"></i>
                     <i class="icon-left-up"
                        title="Select parent"
                        v-if="selectBoxVisiable.showSelectParent"
@@ -106,6 +110,7 @@ export default {
                 visiable.showUp = index > 0
                 visiable.showDown = this.component.children.length > 0 && index !== this.component.children.length - 1
                 visiable.showDelete = this.project.components.id !== this.currentComponentId
+                visiable.showRecombination = this.project.components.id !== this.currentComponentId
                 visiable.showSelectParent = this.project.components.id !== this.currentComponentId
             }
 
@@ -395,6 +400,19 @@ export default {
                 }
                 this.registerResizeEvent(target, this.resize)
             })
+        },
+        recombinationComponent() {
+            const data = localStorage.getItem('Tenon-recombination-components')
+            const recombinationComponent = data ? JSON.parse(data) : []
+            const currentComponent = this.component.children.find(item => item.id === this.currentComponentId)
+
+            recombinationComponent.push({
+                id: this.$uuid(),
+                name: currentComponent.name + currentComponent.id,
+                data: currentComponent
+            })
+            localStorage.setItem('Tenon-recombination-components', JSON.stringify(recombinationComponent))
+            console.log('showRecombination: ', recombinationComponent)
         },
         selectParentComponent() {
             const recursion = (component, id) => {

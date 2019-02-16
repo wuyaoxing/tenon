@@ -11,6 +11,15 @@
                 @dragstart="e => ondragstart(e, name)"
                 @dragend="ondragend">{{name}}</li>
         </ul>
+        <ul class="components-list">
+            <li class="components-list-title">Recombination Components</li>
+            <li class="components-list-item"
+                v-for="item in recombinationComponents"
+                :key="item.id"
+                draggable
+                @dragstart="e => ondragstart(e, 'RecombinationLayoutContainer', item.data)"
+                @dragend="ondragend">{{item.name}}</li>
+        </ul>
     </div>
 </template>
 <script>
@@ -25,11 +34,12 @@ export default {
     },
     data() {
         return {
-            componentCategory
+            componentCategory,
+            recombinationComponents: []
         }
     },
     methods: {
-        ondragstart(e, name) {
+        ondragstart(e, name, data) {
             this.$emit('update:componentId', '')
             e.target.classList.add('drag')
             const defaultData = this.asyncLoadDefaultData(name)
@@ -50,11 +60,48 @@ export default {
                     minHeight: '150px'
                 }
             }
+            if (name === 'RecombinationLayoutContainer') {
+                dragData.children = [
+                    {
+                        ...this.formatComponents(data)
+                    }
+                ]
+                dragData.properties.css = {
+                    padding: '8px',
+                    minHeight: '150px'
+                }
+            }
             e.dataTransfer.setData('Text', JSON.stringify(dragData))
         },
         ondragend(e) {
             e.target.classList.remove('drag')
-        }
+        },
+        formatComponents(data) {
+            const recursion = children => children.map(item => {
+                if (item.children) item.children = recursion(item.children)
+                return {
+                    ...item,
+                    id: this.$uuid()
+                }
+            })
+
+            const component = {
+                ...data,
+                id: this.$uuid
+            }
+            if (data.children) {
+                component.children = recursion(data.children)
+            }
+
+            return component
+        },
+        fetchRecombinationComponents() {
+            const data = localStorage.getItem('Tenon-recombination-components')
+            this.recombinationComponents = data ? JSON.parse(data) : []
+        },
+    },
+    created() {
+        this.fetchRecombinationComponents()
     }
 }
 </script>
