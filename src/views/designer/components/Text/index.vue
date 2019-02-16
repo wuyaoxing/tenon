@@ -1,5 +1,6 @@
 <script>
 export default {
+    name: 'TextComponent',
     render(h) {
         return h(this.label, {
             class: {

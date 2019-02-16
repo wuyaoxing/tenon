@@ -1,7 +1,7 @@
 import './theme/index.css'
 
 import {
-    Button, Input, Checkbox, Form, FormItem, Dropdown, DropdownItem, DropdownMenu, Select, Option, Message, Dialog, Switch, Loading, Tree, Collapse, CollapseItem, ColorPicker
+    Button, Input, Checkbox, Form, FormItem, Dropdown, DropdownItem, DropdownMenu, Select, Option, Message, MessageBox, Dialog, Switch, Loading, Tree, Collapse, CollapseItem, ColorPicker
 } from 'element-ui'
 
 const components = {
@@ -33,6 +33,7 @@ export default {
         Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
 
         Vue.prototype.$Message = Message
+        Vue.prototype.$Prompt = MessageBox.prompt
 
         Vue.use(Loading.directive)
         Vue.prototype.$Loading = Loading.service

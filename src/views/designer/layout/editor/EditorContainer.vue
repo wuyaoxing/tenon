@@ -15,12 +15,11 @@
                 <div class="select-actions f f-ai-c">
                     <i class="icon-generate-component"
                        title="Generate component"
-                       v-if="selectBoxVisiable.showRecombination"
-                       @click="recombinationComponent"></i>
+                       @click="recombinationComponentEvent"></i>
                     <i class="icon-left-up"
                        title="Select parent"
                        v-if="selectBoxVisiable.showSelectParent"
-                       @click="selectParentComponent"></i>
+                       @click="selectParentComponentEvent"></i>
                     <i class="el-icon-caret-top"
                        title="Up"
                        v-if="selectBoxVisiable.showUp"
@@ -107,11 +106,11 @@ export default {
             }
             if (this.component.children) {
                 const index = this.component.children.findIndex(item => item.id === this.currentComponentId)
+                // visiable.showRecombination = this.project.components.id !== this.currentComponentId
+                visiable.showSelectParent = this.project.components.id !== this.currentComponentId
                 visiable.showUp = index > 0
                 visiable.showDown = this.component.children.length > 0 && index !== this.component.children.length - 1
                 visiable.showDelete = this.project.components.id !== this.currentComponentId
-                visiable.showRecombination = this.project.components.id !== this.currentComponentId
-                visiable.showSelectParent = this.project.components.id !== this.currentComponentId
             }
 
             return visiable
@@ -150,7 +149,6 @@ export default {
         findParentNodeByClass(el, className) {
             let specifyParentNode = null
             const recursion = node => {
-                console.log('node:', node)
                 if (node === this.$el) return
                 if (node.classList.contains(className)) {
                     specifyParentNode = node
@@ -306,8 +304,10 @@ export default {
                             console.log(`Sorry, we are out of ${component.name}.`)
                     }
                 }
-
-                this.currentComponentId = praseDragData.id
+                // 通过drop event插入组件数据，DOM重绘时间不确定，使用this.$nextTick()，仍不行，暂时加个延迟
+                setTimeout(() => {
+                    this.currentComponentId = praseDragData.id
+                }, 200)
             } catch (error) {
                 console.log('drop error:', error)
             }
@@ -339,7 +339,6 @@ export default {
             const parentNode = this.findParentNodeByClass(e.target, 'nested-container')
             if (!parentNode) return
 
-            console.log('mousemove: ', this, e, this.highlightBox)
             // if (!e.target.classList.contains('nested-container') && !e.target.classList.contains('position-container')) return
             if (this.highlightBox.target === parentNode) return
 
@@ -401,20 +400,33 @@ export default {
                 this.registerResizeEvent(target, this.resize)
             })
         },
-        recombinationComponent() {
-            const data = localStorage.getItem('Tenon-recombination-components')
-            const recombinationComponent = data ? JSON.parse(data) : []
-            const currentComponent = this.component.children.find(item => item.id === this.currentComponentId)
+        recombinationComponentEvent() {
+            this.$Prompt('name：', 'Recombination component', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                inputPattern: /\S/,
+                inputErrorMessage: '请输入 name'
+            }).then(({ value }) => {
+                const data = localStorage.getItem('Tenon-recombination-components')
+                const recombinationComponent = data ? JSON.parse(data) : []
+                const currentComponent = this.component.children.find(item => item.id === this.currentComponentId)
 
-            recombinationComponent.push({
-                id: this.$uuid(),
-                name: currentComponent.name + currentComponent.id,
-                data: currentComponent
-            })
-            localStorage.setItem('Tenon-recombination-components', JSON.stringify(recombinationComponent))
-            console.log('showRecombination: ', recombinationComponent)
+                const formatComponent = JSON.parse(JSON.stringify(currentComponent))
+                formatComponent.properties.name = value
+                recombinationComponent.push({
+                    id: this.$uuid(),
+                    name: value,
+                    data: formatComponent
+                })
+                localStorage.setItem('Tenon-recombination-components', JSON.stringify(recombinationComponent))
+                console.log('RecombinationComponent: ', recombinationComponent)
+                this.$message({
+                    type: 'success',
+                    message: `Recombination component: ${value}`
+                })
+            }).catch(() => { })
         },
-        selectParentComponent() {
+        selectParentComponentEvent() {
             const recursion = (component, id) => {
                 if (component.id === id) {
                     return

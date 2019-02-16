@@ -3,8 +3,8 @@
         <ul class="components-list"
             v-for="(value, key) in componentCategory"
             :key="key">
-            <li class="components-list-title">{{key}}</li>
-            <li class="components-list-item"
+            <li class="components-list-title ellipsis">{{key}}</li>
+            <li class="components-list-item ellipsis"
                 v-for="name in value"
                 :key="name"
                 draggable
@@ -12,8 +12,8 @@
                 @dragend="ondragend">{{name}}</li>
         </ul>
         <ul class="components-list">
-            <li class="components-list-title">Recombination Components</li>
-            <li class="components-list-item"
+            <li class="components-list-title ellipsis">Recombination Components</li>
+            <li class="components-list-item ellipsis"
                 v-for="item in recombinationComponents"
                 :key="item.id"
                 draggable
@@ -42,33 +42,29 @@ export default {
         ondragstart(e, name, data) {
             this.$emit('update:componentId', '')
             e.target.classList.add('drag')
-            const defaultData = this.asyncLoadDefaultData(name)
-            const dragData = {
-                id: this.$uuid(),
-                name,
-                properties: {
-                    name,
-                    css: {},
-                    style: '',
-                    ...defaultData
-                }
-            }
-            if (name === 'NestedLayoutContainer' || name === 'PositionLayoutContainer') {
-                dragData.children = []
-                dragData.properties.css = {
-                    padding: '8px',
-                    minHeight: '150px'
-                }
-            }
+            let dragData = {}
             if (name === 'RecombinationLayoutContainer') {
-                dragData.children = [
-                    {
-                        ...this.formatComponents(data)
+                dragData = {
+                    ...this.formatComponents(data)
+                }
+            } else {
+                const defaultData = this.asyncLoadDefaultData(name)
+                dragData = {
+                    id: this.$uuid(),
+                    name,
+                    properties: {
+                        name,
+                        css: {},
+                        style: '',
+                        ...defaultData
                     }
-                ]
-                dragData.properties.css = {
-                    padding: '8px',
-                    minHeight: '150px'
+                }
+                if (name === 'NestedLayoutContainer' || name === 'PositionLayoutContainer') {
+                    dragData.children = []
+                    dragData.properties.css = {
+                        padding: '8px',
+                        minHeight: '150px'
+                    }
                 }
             }
             e.dataTransfer.setData('Text', JSON.stringify(dragData))
@@ -84,10 +80,9 @@ export default {
                     id: this.$uuid()
                 }
             })
-
             const component = {
                 ...data,
-                id: this.$uuid
+                id: this.$uuid()
             }
             if (data.children) {
                 component.children = recursion(data.children)
