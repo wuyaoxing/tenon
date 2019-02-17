@@ -1,5 +1,6 @@
 <template>
-  <ColorPicker v-model="currentValue"></ColorPicker>
+    <ColorPicker v-model="currentValue"
+                 size="mini"></ColorPicker>
 </template>
 <script>
 export default {

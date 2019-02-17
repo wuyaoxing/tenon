@@ -4,7 +4,7 @@
             :class="{ active: item.id === active }"
             v-for="item in tablist"
             :key="item.id"
-            @click="click(item.id)">{{item.name}}</li>
+            @click="selectEvent(item.id)">{{item.name}}</li>
     </ul>
 </template>
 <script>
@@ -13,11 +13,22 @@ export default {
     props: {
         tabs: String,
         tablist: Array,
-        active: String
+        selected: String
+    },
+    data() {
+        return {
+            active: ''
+        }
+    },
+    watch: {
+        selected: {
+            handler: 'selectEvent',
+            immediate: true,
+        },
     },
     methods: {
-        click(val) {
-            this.$emit('update:active', val)
+        selectEvent(val) {
+            this.active = val
         }
     }
 }

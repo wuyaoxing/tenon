@@ -6,64 +6,64 @@ const commonSchema = {
             description: '组件名称',
             type: 'string',
             readonly: true,
-            format: 'text'
+            format: 'text',
         },
         width: {
             description: '元素宽度',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         height: {
             description: '元素高度',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         minWidth: {
             description: '元素最小宽度',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         minHeight: {
             description: '元素最小高度',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         maxWidth: {
             description: '元素最大宽度',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         maxHeight: {
             description: '元素最大高度',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         x: {
             description: 'x轴偏移量',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         y: {
             description: 'y轴偏移量',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         z: {
             description: 'z序',
             type: 'number',
             minimum: 1,
-            format: 'number'
-        }
+            format: 'number',
+        },
     },
-    required: ['name']
+    required: ['name'],
 }
 
 const widthSchema = {
@@ -74,21 +74,21 @@ const widthSchema = {
             description: '元素宽度',
             type: 'string',
             minimum: 0,
-            format: 'text'
+            format: 'text',
         },
         minWidth: {
             description: '元素最小宽度',
             type: 'string',
             minimum: 0,
-            format: 'text'
+            format: 'text',
         },
         maxWidth: {
             description: '元素最大宽度',
             type: 'string',
             minimum: 0,
-            format: 'text'
-        }
-    }
+            format: 'text',
+        },
+    },
 }
 
 const heightSchema = {
@@ -99,19 +99,19 @@ const heightSchema = {
             description: '元素高度',
             type: 'string',
             minimum: 0,
-            format: 'text'
+            format: 'text',
         },
         minHeight: {
             description: '元素最小高度',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         maxHeight: {
             description: '元素最大高度',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
-    }
+    },
 }
 
 const textSchema = {
@@ -121,24 +121,38 @@ const textSchema = {
         textAlign: {
             description: '对齐方式',
             type: 'string',
-            format: 'text'
+            enum: [
+                {
+                    text: '左对齐',
+                    value: 'left',
+                },
+                {
+                    text: '居中对齐',
+                    value: 'center',
+                },
+                {
+                    text: '右对齐',
+                    value: 'right',
+                },
+            ],
+            format: 'select',
         },
         color: {
             description: '颜色',
             type: 'string',
-            format: 'color'
+            format: 'color',
         },
         lineHeight: {
             description: '行高',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         letterSpacing: {
             description: '行间距',
             type: 'string',
-            format: 'text'
-        }
-    }
+            format: 'text',
+        },
+    },
 }
 
 const fontSchema = {
@@ -148,29 +162,29 @@ const fontSchema = {
         font: {
             description: 'font',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         fontFamily: {
             description: '字体',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         fontStyle: {
             description: '字体样式',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         fontWeight: {
             description: '字体粗细',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         fontSize: {
             description: '字体大小',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
-    }
+    },
 }
 
 const marginSchema = {
@@ -181,33 +195,33 @@ const marginSchema = {
             description: 'margin',
             type: 'string',
             minimum: 0,
-            format: 'text'
+            format: 'text',
         },
         marginTop: {
             description: '上',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         marginRight: {
             description: '右',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         marginBottom: {
             description: '下',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         marginLeft: {
             description: '左',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
-    }
+    },
 }
 
 const paddingSchema = {
@@ -218,33 +232,33 @@ const paddingSchema = {
             description: 'padding',
             type: 'string',
             minimum: 0,
-            format: 'text'
+            format: 'text',
         },
         paddingTop: {
             description: '上',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         paddingRight: {
             description: '右',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         paddingBottom: {
             description: '下',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         paddingLeft: {
             description: '左',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
-    }
+    },
 }
 
 const backgroundSchema = {
@@ -255,27 +269,27 @@ const backgroundSchema = {
             description: 'background',
             type: 'string',
             minimum: 0,
-            format: 'text'
+            format: 'text',
         },
         backgroundColor: {
             description: 'background color',
             type: 'string',
             minimum: 0,
-            format: 'color'
+            format: 'color',
         },
         backgroundRepeat: {
             description: 'background repeat',
             type: 'string',
             minimum: 0,
-            format: 'text'
+            format: 'text',
         },
         backgroundSize: {
             description: 'background size',
             type: 'string',
             minimum: 0,
-            format: 'text'
+            format: 'text',
         },
-    }
+    },
 }
 
 const borderSchema = {
@@ -285,26 +299,26 @@ const borderSchema = {
         borderStyle: {
             description: '边框样式',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         borderWidth: {
             description: '边框宽度',
             type: 'string',
             minimum: 0,
-            format: 'text'
+            format: 'text',
         },
         borderRadius: {
             description: '边框圆角',
             type: 'string',
             minimum: 0,
-            format: 'text'
+            format: 'text',
         },
         borderColor: {
             description: '边框颜色',
             type: 'string',
-            format: 'color'
+            format: 'color',
         },
-    }
+    },
 }
 
 const displaySchema = {
@@ -314,54 +328,54 @@ const displaySchema = {
         display: {
             description: 'display type',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         flex: {
             description: 'flex',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         flexDirection: {
             description: 'flex direction',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         flexWrap: {
             description: 'flex wrap',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         flexFlow: {
             description: 'flex flow',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         justifyContent: {
             description: 'justify content',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         alignItems: {
             description: 'align items',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         alignContent: {
             description: 'align content',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         flexShrink: {
             description: 'flex shrink',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         flexBasis: {
             description: 'flex basis',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
-    }
+    },
 }
 
 const positionSchema = {
@@ -371,41 +385,40 @@ const positionSchema = {
         position: {
             description: '定位方式',
             type: 'string',
-            format: 'text'
+            format: 'text',
         },
         top: {
             description: '上',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         right: {
             description: '右',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         bottom: {
             description: '下',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         left: {
             description: '左',
             type: 'number',
             minimum: 0,
-            format: 'number'
+            format: 'number',
         },
         zIndex: {
             description: 'z序',
             type: 'number',
             minimum: 1,
-            format: 'number'
-        }
-    }
+            format: 'number',
+        },
+    },
 }
-
 
 export default {
     commonSchema,
@@ -418,5 +431,5 @@ export default {
     backgroundSchema,
     borderSchema,
     displaySchema,
-    positionSchema
+    positionSchema,
 }

@@ -27,7 +27,7 @@ export default {
             try {
                 this.$set(this.component.properties, 'tablist', JSON.parse(val))
                 this.$set(this.component.properties, 'enum', this.component.properties.tablist.map(item => ({ text: item.name, value: item.id })))
-                this.$set(this.component.properties, 'active', this.component.properties.tablist[0].id)
+                this.$set(this.component.properties, 'selected', this.component.properties.tablist[0].id)
                 let tabs = []
                 if (this.component.tabs) {
                     tabs = this.component.properties.tablist.map(item => {

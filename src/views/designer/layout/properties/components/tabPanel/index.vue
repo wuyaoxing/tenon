@@ -10,12 +10,6 @@
                 :value="item.id">
         </Option>
     </Select>
-    <!-- <select class="properties-tab-panel"
-            v-model="currentValue">
-        <option v-for="item in schemaEnum"
-                :key="item.value"
-                :value="item.value">{{item.text}}</option>
-    </select> -->
 </template>
 <script>
 export default {

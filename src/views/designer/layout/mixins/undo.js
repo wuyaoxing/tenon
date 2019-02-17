@@ -3,7 +3,7 @@ export default {
         return {
             undos: [],
             undoIndex: 0,
-            enabled: true
+            enabled: true,
         }
     },
     computed: {
@@ -12,7 +12,7 @@ export default {
         },
         isLastUndo() {
             return this.undoIndex === this.undos.length - 1
-        }
+        },
     },
     methods: {
         addUndo(data) {
@@ -37,7 +37,8 @@ export default {
             }
         },
         updateProject() {
+            this.componentId = ''
             this.project = JSON.parse(JSON.stringify(this.undos[this.undoIndex]))
-        }
-    }
+        },
+    },
 }

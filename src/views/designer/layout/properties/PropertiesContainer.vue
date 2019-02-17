@@ -340,13 +340,13 @@ export default {
         }
     }
     &-item {
-        li {
+        & > li {
             display: flex;
             align-items: center;
             //   border: 1px solid #333;
             height: 30px;
             padding: 0 24px 0 16px;
-            span {
+            & > span {
                 width: 80px;
             }
         }

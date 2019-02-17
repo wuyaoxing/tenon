@@ -7,7 +7,7 @@ export default {
             type: 'string',
             format: 'tabs'
         },
-        active: {
+        selected: {
             description: 'tabs 高亮标签',
             type: 'string',
             format: 'select'
