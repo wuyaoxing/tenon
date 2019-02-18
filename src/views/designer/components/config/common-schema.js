@@ -118,6 +118,16 @@ const textSchema = {
     title: 'text',
     type: 'object',
     properties: {
+        lineHeight: {
+            description: '行高',
+            type: 'string',
+            format: 'text',
+        },
+        letterSpacing: {
+            description: '行间距',
+            type: 'string',
+            format: 'text',
+        },
         textAlign: {
             description: '对齐方式',
             type: 'string',
@@ -137,20 +147,33 @@ const textSchema = {
             ],
             format: 'select',
         },
+        textDecoration: {
+            description: '文本排版',
+            type: 'string',
+            enum: [
+                {
+                    text: 'none',
+                    value: 'none',
+                },
+                {
+                    text: 'underline',
+                    value: 'underline',
+                },
+                {
+                    text: 'overline',
+                    value: 'overline',
+                },
+                {
+                    text: 'line-through',
+                    value: 'line-through',
+                }
+            ],
+            format: 'select',
+        },
         color: {
             description: '颜色',
             type: 'string',
             format: 'color',
-        },
-        lineHeight: {
-            description: '行高',
-            type: 'string',
-            format: 'text',
-        },
-        letterSpacing: {
-            description: '行间距',
-            type: 'string',
-            format: 'text',
         },
     },
 }
@@ -172,12 +195,72 @@ const fontSchema = {
         fontStyle: {
             description: '字体样式',
             type: 'string',
-            format: 'text',
+            enum: [
+                {
+                    text: '常规字体 - normal',
+                    value: 'normal'
+                },
+                {
+                    text: '斜体字体 - italic',
+                    value: 'italic'
+                },
+                {
+                    text: '倾斜体字体 - oblique',
+                    value: 'oblique'
+                }
+            ],
+            format: 'select',
         },
         fontWeight: {
             description: '字体粗细',
             type: 'string',
-            format: 'text',
+            enum: [
+                {
+                    text: '100 - Thin',
+                    value: '100'
+                },
+                {
+                    text: '200 - Extra Light',
+                    value: '200'
+                },
+                {
+                    text: '300 - Light',
+                    value: '300'
+                },
+                {
+                    text: '400 - Normal',
+                    value: '400'
+                },
+                {
+                    text: '500 - Medium',
+                    value: '500'
+                },
+                {
+                    text: '600 - Semi Bold',
+                    value: '600'
+                },
+                {
+                    text: '700 - Bold',
+                    value: '700'
+                },
+                {
+                    text: '800 - Extra Bold',
+                    value: '800'
+                },
+                {
+                    text: '900 - Black',
+                    value: '900'
+                },
+                {
+                    text: 'Lighter',
+                    value: 'lighter'
+                },
+                {
+                    text: 'Bolder',
+                    value: 'bolder'
+                },
+            ],
+            format: 'select',
         },
         fontSize: {
             description: '字体大小',
@@ -268,26 +351,150 @@ const backgroundSchema = {
         background: {
             description: 'background',
             type: 'string',
-            minimum: 0,
             format: 'text',
         },
-        backgroundColor: {
-            description: 'background color',
+        backgroundClip: {
+            description: 'background clip',
             type: 'string',
-            minimum: 0,
-            format: 'color',
+            enum: [
+                {
+                    text: 'border-box',
+                    value: 'border-box'
+                },
+                {
+                    text: 'padding-box',
+                    value: 'padding-box'
+                },
+                {
+                    text: 'content-box',
+                    value: 'content-box'
+                },
+                {
+                    text: 'text',
+                    value: 'text'
+                }
+            ],
+            format: 'select',
+        },
+        backgroundOrigin: {
+            description: 'background origin',
+            type: 'string',
+            enum: [
+                {
+                    text: 'border-box',
+                    value: 'border-box'
+                },
+                {
+                    text: 'padding-box',
+                    value: 'padding-box'
+                },
+                {
+                    text: 'content-box',
+                    value: 'content-box'
+                }
+            ],
+            format: 'autocomplete',
+        },
+        backgroundPosition: {
+            description: 'background position',
+            type: 'string',
+            enum: [
+                {
+                    text: 'top',
+                    value: 'top'
+                },
+                {
+                    text: 'right',
+                    value: 'right'
+                },
+                {
+                    text: 'bottom',
+                    value: 'bottom'
+                },
+                {
+                    text: 'left',
+                    value: 'left'
+                },
+                {
+                    text: 'center',
+                    value: 'center'
+                },
+                {
+                    text: 'center',
+                    value: 'center'
+                },
+            ],
+            format: 'autocomplete',
         },
         backgroundRepeat: {
             description: 'background repeat',
             type: 'string',
-            minimum: 0,
-            format: 'text',
+            enum: [
+                {
+                    text: 'repeat',
+                    value: 'repeat'
+                },
+                {
+                    text: 'repeat-x',
+                    value: 'repeat-x'
+                },
+                {
+                    text: 'repeat-y',
+                    value: 'repeat-y'
+                },
+                {
+                    text: 'no-repeat',
+                    value: 'no-repeat'
+                }
+            ],
+            format: 'select',
         },
         backgroundSize: {
             description: 'background size',
             type: 'string',
-            minimum: 0,
-            format: 'text',
+            enum: [
+                {
+                    text: 'auto',
+                    value: 'auto'
+                },
+                {
+                    text: 'cover',
+                    value: 'cover'
+                },
+                {
+                    text: 'contain',
+                    value: 'contain'
+                },
+                {
+                    text: '50% auto',
+                    value: '50% auto'
+                }
+            ],
+            format: 'autocomplete',
+        },
+        backgroundAttachment: {
+            description: 'background attachment',
+            type: 'string',
+            enum: [
+                {
+                    text: 'scroll',
+                    value: 'scroll'
+                },
+                {
+                    text: 'fixed',
+                    value: 'fixed'
+                },
+                {
+                    text: 'local',
+                    value: 'local'
+                }
+            ],
+            format: 'select',
+        },
+        backgroundColor: {
+            description: 'background color',
+            type: 'string',
+            format: 'color',
         },
     },
 }
@@ -296,11 +503,6 @@ const borderSchema = {
     title: 'border',
     type: 'object',
     properties: {
-        borderStyle: {
-            description: '边框样式',
-            type: 'string',
-            format: 'text',
-        },
         borderWidth: {
             description: '边框宽度',
             type: 'string',
@@ -312,6 +514,33 @@ const borderSchema = {
             type: 'string',
             minimum: 0,
             format: 'text',
+        },
+        borderStyle: {
+            description: '边框样式',
+            type: 'string',
+            enum: [
+                {
+                    text: 'none',
+                    value: 'none'
+                },
+                {
+                    text: 'solid',
+                    value: 'solid'
+                },
+                {
+                    text: 'dashed',
+                    value: 'dashed'
+                },
+                {
+                    text: 'dotted',
+                    value: 'dotted'
+                },
+                {
+                    text: 'double',
+                    value: 'double'
+                },
+            ],
+            format: 'select',
         },
         borderColor: {
             description: '边框颜色',
@@ -385,7 +614,25 @@ const positionSchema = {
         position: {
             description: '定位方式',
             type: 'string',
-            format: 'text',
+            enum: [
+                {
+                    text: '相对定位 - relative',
+                    value: 'relative'
+                },
+                {
+                    text: '绝对定位 - absolute',
+                    value: 'absolute'
+                },
+                {
+                    text: '固定定位 - fixed',
+                    value: 'fixed'
+                },
+                {
+                    text: '无定位 - static',
+                    value: 'static'
+                },
+            ],
+            format: 'select',
         },
         top: {
             description: '上',

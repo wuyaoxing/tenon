@@ -1,12 +1,13 @@
 import './theme/index.css'
 
 import {
-    Button, Input, Checkbox, Form, FormItem, Dropdown, DropdownItem, DropdownMenu, Select, Option, Message, MessageBox, Dialog, Switch, Loading, Tree, Collapse, CollapseItem, ColorPicker
+    Button, Input, Autocomplete, Checkbox, Form, FormItem, Dropdown, DropdownItem, DropdownMenu, Select, Option, Message, MessageBox, Dialog, Switch, Loading, Tree, Collapse, CollapseItem, ColorPicker
 } from 'element-ui'
 
 const components = {
     Button,
     Input,
+    Autocomplete,
     Checkbox,
     Form,
     FormItem,
