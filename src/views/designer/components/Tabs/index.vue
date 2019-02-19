@@ -11,7 +11,6 @@
 export default {
     name: 'tabs',
     props: {
-        tabs: String,
         tablist: Array,
         selected: String
     },
@@ -29,6 +28,7 @@ export default {
     methods: {
         selectEvent(val) {
             this.active = val
+            this.$emit('update:selected', val)
         }
     }
 }

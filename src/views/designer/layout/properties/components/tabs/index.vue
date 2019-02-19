@@ -10,28 +10,33 @@ export default {
     props: {
         component: Object
     },
+    inject: ['project'],
     data() {
         return {
             currentComponentId: ''
         }
     },
     watch: {
-        value(val, oldVal) {
+        value(val) {
             // 切换组件引起的value变化，不需处理
             if (this.currentComponentId !== this.component.id) {
                 this.currentComponentId = this.component.id
                 return
             }
 
-            console.log(val, oldVal)
             try {
-                this.$set(this.component.properties, 'tablist', JSON.parse(val))
-                this.$set(this.component.properties, 'enum', this.component.properties.tablist.map(item => ({ text: item.name, value: item.id })))
-                this.$set(this.component.properties, 'selected', this.component.properties.tablist[0].id)
+                const tablist = JSON.parse(val)
+                this.$set(this.component.properties, 'tablist', tablist)
+                this.$set(this.component.properties, 'enum', tablist.map(item => ({ text: item.name, value: item.id })))
+                if (!this.component.properties.selected) this.$set(this.component.properties, 'selected', tablist[0].id)
+
+                const component = this.findComponentByTabsId(this.currentComponentId)
+                if (!component) return
                 let tabs = []
-                if (this.component.tabs) {
+                if (component.children) {
                     tabs = this.component.properties.tablist.map(item => {
-                        const tab = this.component.tabs.find(option => option.id === item.id)
+                        const tab = component.children.find(option => option.id === item.id)
+                        if (tab) tab.properties.name = item.name
                         return tab || {
                             id: item.id,
                             name: 'NestedLayoutContainer',
@@ -61,11 +66,32 @@ export default {
                         children: []
                     }))
                 }
-                this.$set(this.component, 'tabs', tabs)
-                this.$set(this.component, 'children', tabs)
+                this.$set(component, 'children', tabs)
             } catch (error) {
                 console.log(error)
             }
+        }
+    },
+    methods: {
+        findComponentByTabsId(tabsId) {
+            let targetComponent = null
+            const recursion = (component, id) => {
+                if (component.properties.tabsId === id) {
+                    targetComponent = component
+                    return
+                }
+                if (component.children) {
+                    for (let i = 0; i < component.children.length; i++) {
+                        const data = component.children[i]
+                        recursion(data, id)
+                        if (data.id === id) {
+                            break
+                        }
+                    }
+                }
+            }
+            recursion(this.project.components, tabsId)
+            return targetComponent
         }
     },
     created() {

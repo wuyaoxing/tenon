@@ -28,7 +28,7 @@ export default {
             if (componentId) {
                 const recursion = (component, id) => {
                     if (component.id === id) {
-                        currentComponent = component.children.find(item => item.id === component.properties.active)
+                        currentComponent = this.component.children.find(item => item.id === component.properties.selected)
                         return
                     }
                     if (component.children) {

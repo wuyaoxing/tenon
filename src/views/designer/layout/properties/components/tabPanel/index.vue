@@ -3,7 +3,8 @@
             v-model="currentValue"
             size="mini"
             filterable
-            placeholder="请选择">
+            placeholder="请选择"
+            @change="change">
         <Option v-for="item in tabs"
                 :key="item.id"
                 :label="item.name"
@@ -17,6 +18,7 @@ export default {
     props: {
         component: Object
     },
+    inject: ['project'],
     computed: {
         tabs() {
             const tabs = []
@@ -24,7 +26,8 @@ export default {
                 if (component.name === 'Tabs') {
                     tabs.push({
                         id: component.id,
-                        name: component.properties.name
+                        name: component.properties.name,
+                        tablist: component.properties.tablist
                     })
                 }
                 if (component.children) {
@@ -33,20 +36,28 @@ export default {
                         recursion(data)
                     }
                 }
-                if (component.tabs) {
-                    for (let i = 0; i < component.tabs.length; i++) {
-                        const data = component.tabs[i]
-                        recursion(data)
-                    }
-                }
             }
-            recursion(this.$parent.$parent.$parent.project.components)
+            recursion(this.project.components)
             return tabs
         }
     },
-    watch: {
-        value(val, oldVal) {
-            console.log(val, oldVal)
+    methods: {
+        change(val) {
+            const tab = this.tabs.find(item => item.id === val)
+            const tabs = tab.tablist.map(item => ({
+                id: item.id,
+                name: 'NestedLayoutContainer',
+                properties: {
+                    name: item.name,
+                    css: {
+                        padding: '8px',
+                        minHeight: '150px'
+                    },
+                    style: ''
+                },
+                children: []
+            }))
+            this.$set(this.component, 'children', tabs)
         }
     }
 }

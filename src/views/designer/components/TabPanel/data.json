@@ -1,8 +1,7 @@
 {
   "tabsId": "",
   "css": {
-    "width": "200px",
-    "height": "200px",
+    "padding": "10px",
     "borderWidth": "1px",
     "borderStyle": "solid",
     "borderColor": "red"

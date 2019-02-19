@@ -267,6 +267,11 @@ export default {
     components: {
         Code
     },
+    provide() {
+        return {
+            project: this.project
+        }
+    },
     data() {
         return {
             schema,
