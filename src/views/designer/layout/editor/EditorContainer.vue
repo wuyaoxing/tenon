@@ -11,7 +11,8 @@
                 <div class="dragover-hint">{{dragoverBox.hint}}</div>
             </div>
             <div class="select-box"
-                 :style="selectBox.style">
+                 :style="selectBox.style"
+                 v-if="selectBox.layout === 'nestedLayout'">
                 <div class="select-actions f f-ai-c">
                     <i class="icon-generate-component"
                        title="Generate component"
@@ -28,6 +29,42 @@
                        title="Down"
                        v-if="selectBoxVisiable.showDown"
                        @click="downEvent"></i>
+                    <i class="el-icon-delete"
+                       title="Remove"
+                       v-if="selectBoxVisiable.showDelete"
+                       @click="deleteEvent"></i>
+                </div>
+            </div>
+            <div class="position-select-box"
+                 :style="selectBox.style"
+                 v-if="selectBox.layout === 'positionLayout'">
+                <div class="position-select-handle"
+                     ref="positionSelectHandle">
+                    <i class="handle-top-left"
+                       data-direction="top-left"></i>
+                    <i class="handle-top"
+                       data-direction="top"></i>
+                    <i class="handle-top-right"
+                       data-direction="top-right"></i>
+                    <i class="handle-bottom-left"
+                       data-direction="bottom-left"></i>
+                    <i class="handle-bottom"
+                       data-direction="bottom"></i>
+                    <i class="handle-bottom-right"
+                       data-direction="bottom-right"></i>
+                    <i class="handle-left"
+                       data-direction="left"></i>
+                    <i class="handle-right"
+                       data-direction="right"></i>
+                </div>
+                <div class="position-select-actions f f-ai-c">
+                    <i class="icon-generate-component"
+                       title="Generate component"
+                       @click="recombinationComponentEvent"></i>
+                    <i class="icon-left-up"
+                       title="Select parent"
+                       v-if="selectBoxVisiable.showSelectParent"
+                       @click="selectParentComponentEvent"></i>
                     <i class="el-icon-delete"
                        title="Remove"
                        v-if="selectBoxVisiable.showDelete"
@@ -53,9 +90,11 @@
 import RenderNestedLayoutCompiler from 'views/designer/compiler/RenderNestedLayoutCompiler'
 import { nestedComponents } from '../../components/config'
 
+import mouseEventMixins from './mouseEvent'
 
 export default {
     name: 'EditContainer',
+    mixins: [mouseEventMixins],
     props: {
         componentId: String,
         project: Object
@@ -82,7 +121,7 @@ export default {
             },
             selectBox: {
                 target: null,
-                tagName: '',
+                layout: 'nestedLayout',
                 style: {}
             },
             timeout: '',
@@ -243,13 +282,37 @@ export default {
                 const id = this.dragoverBox.componentId
                 this.findParentComponentById(id)
 
-                let component = null
+                let newComponent = null
+                let targetComponent = null
+
                 if (this.project.components.id === id) {
-                    component = this.project.components
+                    targetComponent = this.project.components
                 } else {
-                    component = this.component.children.find(item => item.id === id)
+                    targetComponent = this.component.children.find(item => item.id === id)
                 }
-                this.dropEvent(e, component)
+
+                try {
+                    const dragData = e.dataTransfer.getData('Text')
+                    const praseDragData = JSON.parse(dragData)
+                    newComponent = praseDragData
+                    newComponent.layout = 'nestedLayout'
+                    if (targetComponent.name === 'PositionLayoutContainer') {
+                        if (this.dragoverBox.placement === 'inside') {
+                            const rect = e.target.getBoundingClientRect()
+                            const css = {
+                                position: 'absolute',
+                                top: `${e.clientY - rect.top}px`,
+                                left: `${e.clientX - rect.left}px`
+                            }
+                            newComponent.layout = 'positionLayout'
+                            newComponent.properties.css = Object.assign({}, newComponent.properties.css, css)
+                            console.log('ondrop event: ', e, rect, newComponent, targetComponent, this)
+                        }
+                    }
+                    this.dropEvent(newComponent, targetComponent)
+                } catch (error) {
+                    console.log('drop error:', error)
+                }
             }
 
             this.dragoverBox = {
@@ -261,69 +324,52 @@ export default {
                 style: {}
             }
         },
-        dropEvent(e, component) {
+        dropEvent(newComponent, targetComponent) {
+            console.log('nested drop:', newComponent, targetComponent, this)
             let message = ''
-            const dragData = e.dataTransfer.getData('Text')
-            console.log('nested drop:', e, component, dragData, this)
-
-            try {
-                const praseDragData = JSON.parse(dragData)
-                if (this.dragoverBox.placement === 'up') {
-                    if (this.checkNestedName(praseDragData.name)) {
-                        const index = this.component.children.findIndex(item => item.id === component.id)
-                        this.component.children.splice(index, 0, praseDragData)
-                    } else {
-                        message = `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
+            if (this.dragoverBox.placement === 'up') {
+                const index = this.component.children.findIndex(item => item.id === targetComponent.id)
+                this.component.children.splice(index, 0, newComponent)
+                message = `insert ${newComponent.properties.name} above ${targetComponent.properties.name}`
+            } else if (this.dragoverBox.placement === 'down') {
+                const index = this.component.children.findIndex(item => item.id === targetComponent.id)
+                this.component.children.splice(index + 1, 0, newComponent)
+                message = `insert ${newComponent.properties.name} below ${targetComponent.properties.name}`
+            } else {
+                switch (targetComponent.name) {
+                    case 'NestedLayoutContainer': {
+                        targetComponent.children.push(newComponent)
+                        message = `insert ${newComponent.properties.name} into ${targetComponent.properties.name}`
+                        break
                     }
-                } else if (this.dragoverBox.placement === 'down') {
-                    if (this.checkNestedName(praseDragData.name)) {
-                        const index = this.component.children.findIndex(item => item.id === component.id)
-                        this.component.children.splice(index + 1, 0, praseDragData)
-                    } else {
-                        message = `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
+                    case 'PositionLayoutContainer': {
+                        targetComponent.children.push(newComponent)
+                        message = `insert ${newComponent.properties.name} into ${targetComponent.properties.name}`
+                        break
                     }
-                } else {
-                    switch (component.name) {
-                        case 'NestedLayoutContainer': {
-                            if (this.checkNestedName(praseDragData.name)) {
-                                component.children.push(praseDragData)
-                            } else {
-                                message = `NestedLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
-                            }
-                            break
-                        }
-                        case 'PositionLayoutContainer': {
-                            if (this.checkNestedName(praseDragData.name)) {
-                                message = `PositionLayoutContainer 不允许 ${praseDragData.name}  拖放到此处。`
-                            } else {
-                                component.children.push(praseDragData)
-                            }
-                            break
-                        }
-                        default:
-                            console.log(`Sorry, we are out of ${component.name}.`)
-                    }
+                    default:
+                        console.log(`Sorry, we are out of ${targetComponent.name}.`)
                 }
-                // 通过drop event插入组件数据，DOM重绘时间不确定，使用this.$nextTick()，仍不行，暂时加个延迟
-                setTimeout(() => {
-                    this.currentComponentId = praseDragData.id
-                }, 200)
-            } catch (error) {
-                console.log('drop error:', error)
             }
-            message && this.$Message({
+            // 通过drop event插入组件数据，DOM重绘时间不确定，使用this.$nextTick()，仍不行，暂时加个延迟
+            setTimeout(() => {
+                this.currentComponentId = newComponent.id
+                this.selectBox.layout = newComponent.layout
+            }, 200)
+            this.$Message({
                 showClose: true,
                 message,
-                type: 'warning'
+                type: 'success'
             })
         },
         checkNestedName(name) {
             return nestedComponents.indexOf(name) > -1
         },
         clickEvent(e) {
-            const parentNode = this.findParentNodeByClass(e.target, 'nested-container')
-            if (!parentNode) return
-            this.currentComponentId = parentNode.dataset.componentId
+            const targetNode = this.findParentNodeByClass(e.target, 'nested-container')
+            if (!targetNode) return
+            this.currentComponentId = targetNode.dataset.componentId
+            this.selectBox.layout = targetNode.dataset.componentLayout
         },
         mousemove(e) {
             if (!this.$el.contains(e.target)) {
@@ -437,6 +483,7 @@ export default {
                         recursion(data, id)
                         if (data.id === id) {
                             this.currentComponentId = component.id
+                            this.selectBox.layout = component.layout
                             break
                         }
                     }
@@ -525,7 +572,8 @@ export default {
     }
     .highlight-box,
     .dragover-box,
-    .select-box {
+    .select-box,
+    .position-select-box {
         display: none;
         position: absolute;
         top: 0;
@@ -566,6 +614,89 @@ export default {
         &-actions {
             position: absolute;
             top: -26px;
+            right: -1px;
+            z-index: 2;
+            border-radius: 3px 3px 0px 0px;
+            overflow: hidden;
+            i {
+                padding: 6px;
+                color: @primary-light-color;
+                background: @primary-color;
+                pointer-events: auto;
+                line-height: 1;
+                cursor: pointer;
+                &:hover {
+                    color: @white-color;
+                }
+            }
+        }
+    }
+    .position-select {
+        &-box {
+            outline: 1px dashed @primary-border-color;
+        }
+        &-handle {
+            width: 100%;
+            height: 100%;
+            pointer-events: auto;
+            cursor: grab;
+            i {
+                position: absolute;
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                border: 1px solid @primary-border-color;
+            }
+            .handle {
+                &-top-left {
+                    top: -5px;
+                    left: -5px;
+                    cursor: nwse-resize;
+                }
+                &-top {
+                    top: -5px;
+                    left: 50%;
+                    margin-left: -5px;
+                    cursor: ns-resize;
+                }
+                &-top-right {
+                    top: -5px;
+                    right: -5px;
+                    cursor: nesw-resize;
+                }
+                &-bottom-left {
+                    bottom: -5px;
+                    left: -5px;
+                    cursor: nesw-resize;
+                }
+                &-bottom {
+                    bottom: -5px;
+                    left: 50%;
+                    margin-left: -5px;
+                    cursor: ns-resize;
+                }
+                &-bottom-right {
+                    bottom: -5px;
+                    right: -5px;
+                    cursor: nwse-resize;
+                }
+                &-left {
+                    top: 50%;
+                    left: -5px;
+                    margin-top: -5px;
+                    cursor: ew-resize;
+                }
+                &-right {
+                    top: 50%;
+                    right: -5px;
+                    margin-top: -5px;
+                    cursor: ew-resize;
+                }
+            }
+        }
+        &-actions {
+            position: absolute;
+            top: -36px;
             right: -1px;
             z-index: 2;
             border-radius: 3px 3px 0px 0px;

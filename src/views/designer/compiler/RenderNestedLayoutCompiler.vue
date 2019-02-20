@@ -3,6 +3,7 @@
                :is="asyncLoadComponent(component.name)"
                :data-component-id="component.id"
                :data-component-name="component.name"
+               :data-component-layout="component.layout"
                :properties.sync="component.properties">
         <template v-for="item in component.children">
             <RenderNestedLayoutCompiler v-if="item.name === 'NestedLayoutContainer'"
@@ -22,6 +23,7 @@
                        :is="asyncLoadComponent(item.name)"
                        :data-component-id="item.id"
                        :data-component-name="item.name"
+                       :data-component-layout="item.layout"
                        v-bind.sync="item.properties"
                        :properties.sync="item.properties"
                        :key="item.id"

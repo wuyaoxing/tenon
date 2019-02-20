@@ -58,6 +58,23 @@
                     </li>
                 </ul>
             </CollapseItem>
+            <CollapseItem name="position">
+                <template slot="title">
+                    {{schema.positionSchema.title}}
+                </template>
+                <ul class="properties-item">
+                    <li v-for="(item, key) in schema.positionSchema.properties"
+                        :key="key">
+                        <span>{{key}}</span>
+                        <component class="f-f-1"
+                                   :is="asyncLoadComponent(item.format)"
+                                   :schema="item"
+                                   :readonly="item.readonly"
+                                   :properties="component.properties"
+                                   :value.sync="component.properties.css[key]"></component>
+                    </li>
+                </ul>
+            </CollapseItem>
             <CollapseItem name="text">
                 <template slot="title">
                     {{schema.textSchema.title}}
@@ -166,23 +183,6 @@
                 </template>
                 <ul class="properties-item">
                     <li v-for="(item, key) in schema.displaySchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="position">
-                <template slot="title">
-                    {{schema.positionSchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.positionSchema.properties"
                         :key="key">
                         <span>{{key}}</span>
                         <component class="f-f-1"

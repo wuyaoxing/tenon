@@ -2,6 +2,7 @@
     <component :is="asyncLoadComponent(component.name)"
                :data-component-id="component.id"
                :data-component-name="component.name"
+               :data-component-layout="component.layout"
                :properties.sync="component.properties">
         <RenderNestedLayoutCompiler :component="tabPanelComponent"
                                     :project="project"

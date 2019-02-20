@@ -61,10 +61,6 @@ export default {
                 }
                 if (name === 'NestedLayoutContainer' || name === 'PositionLayoutContainer') {
                     dragData.children = []
-                    dragData.properties.css = {
-                        padding: '8px',
-                        minHeight: '150px'
-                    }
                 }
             }
             e.dataTransfer.setData('Text', JSON.stringify(dragData))

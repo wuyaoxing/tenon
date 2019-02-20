@@ -1,8 +1,8 @@
 <template>
-  <div class="position-layout-container">
-    PositionLayoutContainer
-    <slot></slot>
-  </div>
+    <div class="position-layout-container">
+        PositionLayoutContainer
+        <slot></slot>
+    </div>
 </template>
 <script>
 export default {
@@ -11,9 +11,5 @@ export default {
 </script>
 <style lang="less">
 .position-layout-container {
-  position: relative;
-  //   & > * {
-  //     position: absolute;
-  //   }
 }
 </style>

@@ -49,100 +49,94 @@ export default {
                         },
                         style: ''
                     },
-                    children: []
+                    children: [],
+                    layout: 'nestedLayout'
                 },
                 2: {
+                    id: '6e04a6dc-47ee-4e2e-952e-1586ecf5fa51',
                     name: 'NestedLayoutContainer',
-                    properties: {
-                        name: 'NestedLayoutContainer',
-                        css: {
-                            minHeight: '100%',
-                            fontFamily: 'Raleway,sans-serif',
-                            fontSize: '1rem'
-                        },
-                        style: ''
-                    },
+                    properties: { name: 'NestedLayoutContainer', css: { minHeight: '100%', padding: '' }, style: '' },
                     children: [{
+                        id: '2e32f1df-d33c-4a64-af9a-a0dd9b0ed31b',
                         name: 'NestedLayoutContainer',
                         properties: {
-                            name: 'NestedLayoutContainer',
+                            name: 'Start Project',
                             css: {
-                                background: 'url(http://digibird.com.cn/areas/admin/static/article/201707/21/1540111742.png) no-repeat center bottom', height: '80%', backgroundSize: 'cover', minHeight: '', display: 'flex', alignItems: 'flex-end', justifyContent: 'center'
+                                padding: '8px 15px', minHeight: '', height: '50px', lineHeight: '', display: 'flex', alignItems: 'center'
                             },
                             style: '',
                             title: 'Tenon'
                         },
                         children: [{
-                            name: 'Header',
+                            id: '87d4b52c-3efb-46d9-8fd7-b85389d077b1',
+                            name: 'Text',
                             properties: {
-                                name: 'Header',
-                                css: {
-                                    background: 'none', position: 'absolute', top: 0, right: 0, left: 0
-                                },
-                                style: '',
-                                title: 'Tenon'
-                            }
-                        }, {
-                            name: 'NestedLayoutContainer',
-                            properties: {
-                                name: 'NestedLayoutContainer',
-                                css: {
-                                    width: '', padding: '10px', textAlign: 'center', color: '#333333', fontWeight: '', lineHeight: '2', borderColor: null, margin: '0 0 80px'
-                                },
-                                style: '',
-                                title: 'Tenon'
+                                name: 'Text', css: { fontSize: '2rem', width: '', display: 'inline' }, style: '', label: 'h1', text: 'Start Project'
                             },
-                            children: [{
-                                name: 'Text',
-                                properties: {
-                                    name: 'Text', css: { fontSize: '6rem', fontWeight: '300', borderColor: null }, style: '', label: 'h1', text: '全可视化操作，所见即所得'
-                                }
-                            }, {
-                                name: 'Text',
-                                properties: {
-                                    name: 'Text', css: { fontWeight: '300', fontSize: '3rem' }, style: '', label: 'h2', text: '通过视频、音频、环境的可视化操作，让用户所见即所得，让系统更易用、更可靠。'
-                                }
-                            }]
-                        }]
+                            layout: 'nestedLayout'
+                        }],
+                        layout: 'nestedLayout'
                     }, {
+                        id: 'f92f1c00-cfb4-4bc3-9783-ea752fc97e9c',
                         name: 'NestedLayoutContainer',
                         properties: {
-                            name: 'NestedLayoutContainer',
+                            name: '所见即所得',
                             css: {
-                                backgroundSize: 'cover', background: 'url(http://digibird.com.cn/images/dmis-6-1.jpg) no-repeat center bottom', height: '60%', backgroundColor: null, padding: '50px 0 0'
+                                padding: '10rem', minHeight: '150px', background: 'url(http://www.ypppt.com/uploads/allimg/181014/1-1Q014121J1-50.jpg) no-repeat center center', backgroundSize: 'cover'
                             },
                             style: '',
                             title: 'Tenon'
                         },
                         children: [{
+                            id: 'c25264e3-634a-4cbf-8ae0-98aa6881d285',
                             name: 'NestedLayoutContainer',
                             properties: {
                                 name: 'NestedLayoutContainer',
                                 css: {
-                                    textAlign: 'center', padding: '10px', marginTop: 0, margin: '', lineHeight: '2'
+                                    padding: '5rem', minHeight: '150px', textAlign: 'center', color: '#FFFFFF'
                                 },
                                 style: '',
                                 title: 'Tenon'
                             },
                             children: [{
+                                id: '8a31f19c-2649-4333-bfbd-ba4947191a34',
                                 name: 'Text',
                                 properties: {
-                                    name: 'Text', css: { fontSize: '4rem', fontWeight: '300' }, style: '', label: 'h2', text: '模块化设计，按需灵活配置'
-                                }
+                                    name: 'Text',
+                                    css: {
+                                        fontSize: '3rem', fontWeight: '300', textAlign: 'center', color: '#FFFFFF'
+                                    },
+                                    style: '',
+                                    label: 'h2',
+                                    text: '全可视化操作，所见即所得'
+                                },
+                                layout: 'nestedLayout'
                             }, {
+                                id: '124bd95d-f61d-4ae0-b5dd-ee4fdec58fd4',
                                 name: 'Text',
                                 properties: {
-                                    name: 'Text', css: { fontSize: '2rem', fontWeight: '300' }, style: '', label: 'h3', text: 'DMIS系统包含管理平台、视频处理模块、音频处理模块、环境控制模块以及操作交互终端，可随需灵活配置。'
-                                }
-                            }]
-                        }]
-                    }, {
-                        name: 'NestedLayoutContainer',
-                        properties: {
-                            name: 'NestedLayoutContainer', css: { height: '100%' }, style: '', title: 'Tenon'
-                        },
-                        children: []
-                    }]
+                                    name: 'Text',
+                                    css: {
+                                        fontSize: '6rem', color: '#FFFFFF', textAlign: 'center', fontWeight: '300'
+                                    },
+                                    style: '',
+                                    label: 'h1',
+                                    text: 'what you see is what you get'
+                                },
+                                layout: 'nestedLayout'
+                            }, {
+                                id: '6c27b5f2-4075-431f-ba9f-69da9bd17621',
+                                name: 'Text',
+                                properties: {
+                                    name: 'Text', css: { fontSize: '3rem', fontWeight: '300' }, style: '', label: 'h2', text: '内容可配置，页面结构可配置，逻辑可配置'
+                                },
+                                layout: 'nestedLayout'
+                            }],
+                            layout: 'nestedLayout'
+                        }],
+                        layout: 'nestedLayout'
+                    }],
+                    layout: 'nestedLayout'
                 }
             }
         }
