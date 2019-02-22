@@ -66,8 +66,8 @@ const commonSchema = {
     required: ['name'],
 }
 
-const widthSchema = {
-    title: 'width',
+const sizeSchema = {
+    title: 'size',
     type: 'object',
     properties: {
         width: {
@@ -88,13 +88,6 @@ const widthSchema = {
             minimum: 0,
             format: 'text',
         },
-    },
-}
-
-const heightSchema = {
-    title: 'height',
-    type: 'object',
-    properties: {
         height: {
             description: '元素高度',
             type: 'string',
@@ -170,70 +163,6 @@ const positionSchema = {
             type: 'number',
             minimum: 1,
             format: 'number',
-        },
-    },
-}
-
-const textSchema = {
-    title: 'text',
-    type: 'object',
-    properties: {
-        lineHeight: {
-            description: '行高',
-            type: 'string',
-            format: 'text',
-        },
-        letterSpacing: {
-            description: '行间距',
-            type: 'string',
-            format: 'text',
-        },
-        textAlign: {
-            description: '对齐方式',
-            type: 'string',
-            enum: [
-                {
-                    text: '左对齐',
-                    value: 'left',
-                },
-                {
-                    text: '居中对齐',
-                    value: 'center',
-                },
-                {
-                    text: '右对齐',
-                    value: 'right',
-                },
-            ],
-            format: 'select',
-        },
-        textDecoration: {
-            description: '文本排版',
-            type: 'string',
-            enum: [
-                {
-                    text: 'none',
-                    value: 'none',
-                },
-                {
-                    text: 'underline',
-                    value: 'underline',
-                },
-                {
-                    text: 'overline',
-                    value: 'overline',
-                },
-                {
-                    text: 'line-through',
-                    value: 'line-through',
-                }
-            ],
-            format: 'select',
-        },
-        color: {
-            description: '颜色',
-            type: 'string',
-            format: 'color',
         },
     },
 }
@@ -326,6 +255,63 @@ const fontSchema = {
             description: '字体大小',
             type: 'string',
             format: 'text',
+        },
+        lineHeight: {
+            description: '行高',
+            type: 'string',
+            format: 'text',
+        },
+        letterSpacing: {
+            description: '行间距',
+            type: 'string',
+            format: 'text',
+        },
+        textAlign: {
+            description: '对齐方式',
+            type: 'string',
+            enum: [
+                {
+                    text: '左对齐',
+                    value: 'left',
+                },
+                {
+                    text: '居中对齐',
+                    value: 'center',
+                },
+                {
+                    text: '右对齐',
+                    value: 'right',
+                },
+            ],
+            format: 'select',
+        },
+        textDecoration: {
+            description: '文本排版',
+            type: 'string',
+            enum: [
+                {
+                    text: 'none',
+                    value: 'none',
+                },
+                {
+                    text: 'underline',
+                    value: 'underline',
+                },
+                {
+                    text: 'overline',
+                    value: 'overline',
+                },
+                {
+                    text: 'line-through',
+                    value: 'line-through',
+                }
+            ],
+            format: 'select',
+        },
+        color: {
+            description: '颜色',
+            type: 'string',
+            format: 'color',
         },
     },
 }
@@ -669,14 +655,12 @@ const displaySchema = {
 
 export default {
     commonSchema,
-    widthSchema,
-    heightSchema,
-    textSchema,
+    sizeSchema,
+    positionSchema,
     fontSchema,
     marginSchema,
     paddingSchema,
     backgroundSchema,
     borderSchema,
     displaySchema,
-    positionSchema,
 }

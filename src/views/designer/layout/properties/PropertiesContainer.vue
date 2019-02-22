@@ -24,29 +24,12 @@
                     </li>
                 </ul>
             </CollapseItem>
-            <CollapseItem name="width">
+            <CollapseItem name="size">
                 <template slot="title">
-                    {{schema.widthSchema.title}}
+                    {{schema.sizeSchema.title}}
                 </template>
                 <ul class="properties-item">
-                    <li v-for="(item, key) in schema.widthSchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="height">
-                <template slot="title">
-                    {{schema.heightSchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.heightSchema.properties"
+                    <li v-for="(item, key) in schema.sizeSchema.properties"
                         :key="key">
                         <span>{{key}}</span>
                         <component class="f-f-1"
@@ -64,23 +47,6 @@
                 </template>
                 <ul class="properties-item">
                     <li v-for="(item, key) in schema.positionSchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="text">
-                <template slot="title">
-                    {{schema.textSchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.textSchema.properties"
                         :key="key">
                         <span>{{key}}</span>
                         <component class="f-f-1"
@@ -226,7 +192,7 @@
                 <template slot="title">
                     style
                 </template>
-                <Code :value.sync="component.properties.style"></Code>
+                <Code :value.sync="style"></Code>
             </CollapseItem>
             <CollapseItem name="custom">
                 <template slot="title">
@@ -276,13 +242,21 @@ export default {
         return {
             schema,
             // ['name', 'width', 'height', 'border', 'display', 'position', 'custom']
-            actives: ['name', 'custom'],
+            actives: ['name', 'style', 'custom'],
             component: {}
         }
     },
     computed: {
         componentSchema() {
             return this.asyncSchema[this.component.name] || {}
+        },
+        style: {
+            get() {
+                return JSON.stringify(this.component.properties.css, null, 2)
+            },
+            set(val) {
+                this.component.properties.css = JSON.parse(val)
+            }
         }
     },
     watch: {

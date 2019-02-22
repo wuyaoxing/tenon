@@ -370,6 +370,7 @@ export default {
             if (!targetNode) return
             this.currentComponentId = targetNode.dataset.componentId
             this.selectBox.layout = targetNode.dataset.componentLayout
+            this.componentSelectedStack = [targetNode.dataset.componentId]
         },
         mousemove(e) {
             if (!this.$el.contains(e.target)) {
@@ -633,7 +634,7 @@ export default {
     }
     .position-select {
         &-box {
-            outline: 1px dashed @primary-border-color;
+            outline: 1px dashed @primary-color;
         }
         &-handle {
             width: 100%;
@@ -645,7 +646,7 @@ export default {
                 display: inline-block;
                 width: 8px;
                 height: 8px;
-                border: 1px solid @primary-border-color;
+                border: 1px solid @primary-color;
             }
             .handle {
                 &-top-left {
