@@ -167,6 +167,80 @@ const positionSchema = {
     },
 }
 
+const marginSchema = {
+    title: 'margin',
+    type: 'object',
+    properties: {
+        margin: {
+            description: 'margin',
+            type: 'string',
+            minimum: 0,
+            format: 'text',
+        },
+        marginTop: {
+            description: '上',
+            type: 'number',
+            minimum: 0,
+            format: 'number',
+        },
+        marginRight: {
+            description: '右',
+            type: 'number',
+            minimum: 0,
+            format: 'number',
+        },
+        marginBottom: {
+            description: '下',
+            type: 'number',
+            minimum: 0,
+            format: 'number',
+        },
+        marginLeft: {
+            description: '左',
+            type: 'number',
+            minimum: 0,
+            format: 'number',
+        },
+    },
+}
+
+const paddingSchema = {
+    title: 'padding',
+    type: 'object',
+    properties: {
+        padding: {
+            description: 'padding',
+            type: 'string',
+            minimum: 0,
+            format: 'text',
+        },
+        paddingTop: {
+            description: '上',
+            type: 'number',
+            minimum: 0,
+            format: 'number',
+        },
+        paddingRight: {
+            description: '右',
+            type: 'number',
+            minimum: 0,
+            format: 'number',
+        },
+        paddingBottom: {
+            description: '下',
+            type: 'number',
+            minimum: 0,
+            format: 'number',
+        },
+        paddingLeft: {
+            description: '左',
+            type: 'number',
+            minimum: 0,
+            format: 'number',
+        },
+    },
+}
+
 const fontSchema = {
     title: 'font',
     type: 'object',
@@ -316,76 +390,70 @@ const fontSchema = {
     },
 }
 
-const marginSchema = {
-    title: 'margin',
+const shadowSchema = {
+    title: 'shadow',
     type: 'object',
     properties: {
-        margin: {
-            description: 'margin',
+        boxShadow: {
+            description: '边框阴影',
             type: 'string',
-            minimum: 0,
             format: 'text',
         },
-        marginTop: {
-            description: '上',
-            type: 'number',
-            minimum: 0,
-            format: 'number',
-        },
-        marginRight: {
-            description: '右',
-            type: 'number',
-            minimum: 0,
-            format: 'number',
-        },
-        marginBottom: {
-            description: '下',
-            type: 'number',
-            minimum: 0,
-            format: 'number',
-        },
-        marginLeft: {
-            description: '左',
-            type: 'number',
-            minimum: 0,
-            format: 'number',
+        textShadow: {
+            description: '文字阴影',
+            type: 'string',
+            format: 'text',
         },
     },
 }
 
-const paddingSchema = {
-    title: 'padding',
+const borderSchema = {
+    title: 'border',
     type: 'object',
     properties: {
-        padding: {
-            description: 'padding',
+        borderWidth: {
+            description: '边框宽度',
             type: 'string',
             minimum: 0,
             format: 'text',
         },
-        paddingTop: {
-            description: '上',
-            type: 'number',
+        borderRadius: {
+            description: '边框圆角',
+            type: 'string',
             minimum: 0,
-            format: 'number',
+            format: 'text',
         },
-        paddingRight: {
-            description: '右',
-            type: 'number',
-            minimum: 0,
-            format: 'number',
+        borderStyle: {
+            description: '边框样式',
+            type: 'string',
+            enum: [
+                {
+                    text: 'none',
+                    value: 'none'
+                },
+                {
+                    text: 'solid',
+                    value: 'solid'
+                },
+                {
+                    text: 'dashed',
+                    value: 'dashed'
+                },
+                {
+                    text: 'dotted',
+                    value: 'dotted'
+                },
+                {
+                    text: 'double',
+                    value: 'double'
+                },
+            ],
+            format: 'select',
         },
-        paddingBottom: {
-            description: '下',
-            type: 'number',
-            minimum: 0,
-            format: 'number',
-        },
-        paddingLeft: {
-            description: '左',
-            type: 'number',
-            minimum: 0,
-            format: 'number',
+        borderColor: {
+            description: '边框颜色',
+            type: 'string',
+            format: 'color',
         },
     },
 }
@@ -545,57 +613,6 @@ const backgroundSchema = {
     },
 }
 
-const borderSchema = {
-    title: 'border',
-    type: 'object',
-    properties: {
-        borderWidth: {
-            description: '边框宽度',
-            type: 'string',
-            minimum: 0,
-            format: 'text',
-        },
-        borderRadius: {
-            description: '边框圆角',
-            type: 'string',
-            minimum: 0,
-            format: 'text',
-        },
-        borderStyle: {
-            description: '边框样式',
-            type: 'string',
-            enum: [
-                {
-                    text: 'none',
-                    value: 'none'
-                },
-                {
-                    text: 'solid',
-                    value: 'solid'
-                },
-                {
-                    text: 'dashed',
-                    value: 'dashed'
-                },
-                {
-                    text: 'dotted',
-                    value: 'dotted'
-                },
-                {
-                    text: 'double',
-                    value: 'double'
-                },
-            ],
-            format: 'select',
-        },
-        borderColor: {
-            description: '边框颜色',
-            type: 'string',
-            format: 'color',
-        },
-    },
-}
-
 const displaySchema = {
     title: 'display',
     type: 'object',
@@ -657,10 +674,11 @@ export default {
     commonSchema,
     sizeSchema,
     positionSchema,
-    fontSchema,
     marginSchema,
     paddingSchema,
-    backgroundSchema,
+    fontSchema,
+    shadowSchema,
     borderSchema,
+    backgroundSchema,
     displaySchema,
 }
