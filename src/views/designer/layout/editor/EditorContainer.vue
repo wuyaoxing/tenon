@@ -165,9 +165,9 @@ export default {
     },
     methods: {
         findParentComponentById(componentId) {
-            console.log(componentId)
             this.component = {}
-            if (!componentId) return
+            if (!componentId) return null
+            let targetComponent = null
             const recursion = (component, id) => {
                 if (component.id === id) {
                     return
@@ -177,13 +177,16 @@ export default {
                         const data = component.children[i]
                         recursion(data, id)
                         if (data.id === id) {
-                            this.component = component
+                            targetComponent = component
                             break
                         }
                     }
                 }
             }
             recursion(this.project.components, componentId)
+
+            this.component = targetComponent
+            return targetComponent
         },
         findParentNodeByClass(el, className) {
             let specifyParentNode = null
