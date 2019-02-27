@@ -4,7 +4,7 @@
                :data-component-name="component.name"
                :data-component-layout="component.layout"
                :properties.sync="component.properties">
-        <!-- <component class="position-container nested-container"
+        <!-- <component class="position-container layout-container"
                    :is="asyncLoadComponent(item.name)"
                    v-for="item in component.children"
                    :key="item.id"
@@ -16,16 +16,16 @@
                                         :component="item"
                                         :project="project"
                                         :key="item.id" />
-            <RenderPositionLayoutCompiler class="nested-container"
+            <RenderPositionLayoutCompiler class="layout-container"
                                           v-else-if="item.name === 'PositionLayoutContainer'"
                                           :component="item"
                                           :key="item.id" />
-            <RenderTabPanelLayoutCompiler class="nested-container"
+            <RenderTabPanelLayoutCompiler class="layout-container"
                                           v-else-if="item.name === 'TabPanel'"
                                           :component="item"
                                           :project="project"
                                           :key="item.id" />
-            <component class="nested-container"
+            <component class="layout-container"
                        :is="asyncLoadComponent(item.name)"
                        :data-component-id="item.id"
                        :data-component-name="item.name"

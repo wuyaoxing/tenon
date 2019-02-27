@@ -672,13 +672,15 @@ const displaySchema = {
 
 export default {
     commonSchema,
-    sizeSchema,
-    positionSchema,
-    marginSchema,
-    paddingSchema,
-    fontSchema,
-    shadowSchema,
-    borderSchema,
-    backgroundSchema,
-    displaySchema,
+    style: {
+        sizeSchema,
+        positionSchema,
+        marginSchema,
+        paddingSchema,
+        fontSchema,
+        shadowSchema,
+        borderSchema,
+        backgroundSchema,
+        displaySchema,
+    }
 }

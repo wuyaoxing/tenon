@@ -5,8 +5,9 @@ export default {
             isMove: false, // 是否移动
             direction: '', // 移动方向
             mouseProperties: {}, // 鼠标属性
-            componentsPropertiesStack: {}, // 组件属性堆栈
+            originComponentPropertiesStack: {}, // 组件属性堆栈
             containerProperties: {}, // 组件容器堆栈
+            componentStack: {}, // 组件堆栈
         }
     },
     methods: {
@@ -32,40 +33,43 @@ export default {
                 const parentComponent = this.findParentComponentById(id)
                 const parentDom = document.querySelector(`[data-component-id="${parentComponent.id}"]`)
                 const containerProperties = parentDom.getBoundingClientRect()
-                this.containerProperties[id] = containerProperties
 
                 const component = this.findComponentById(id)
+                const originComponentProperties = JSON.parse(JSON.stringify(component.properties))
+                originComponentProperties.mouseOffsetX = e.clientX - containerProperties.x - parseInt(originComponentProperties.css.left)
+                originComponentProperties.mouseOffsetY = e.clientY - containerProperties.y - parseInt(originComponentProperties.css.top)
 
-                const componentProperties = JSON.parse(JSON.stringify(component.properties))
-
-                componentProperties.mouseOffsetX = e.clientX - containerProperties.x - parseInt(componentProperties.css.left)
-                componentProperties.mouseOffsetY = e.clientY - containerProperties.y - parseInt(componentProperties.css.top)
-                console.log(componentProperties, componentProperties)
-                this.$set(this.componentsPropertiesStack, id, componentProperties)
+                this.$set(this.containerProperties, id, containerProperties)
+                this.$set(this.originComponentPropertiesStack, id, originComponentProperties)
             })
 
             this.isMove = true
         },
         mouseupEvent() {
             this.isMove = false
-            this.mouseProperties = {}
-            this.componentsPropertiesStack = {}
-            this.containerProperties = {}
             this.direction = ''
+            this.mouseProperties = {}
+            this.originComponentPropertiesStack = {}
+            this.containerProperties = {}
+            this.componentStack = {}
         },
         mousemoveEvent(e) {
             if (!this.isMove) return
 
             this.componentSelectedStack.forEach(id => {
-                const component = this.findComponentById(id)
-                const componentProperties = component.properties.css
+                let component = null
+                if (this.componentStack[id]) {
+                    component = this.componentStack[id]
+                } else {
+                    component = this.findComponentById(id)
+                    this.$set(this.componentStack, id, component)
+                }
 
+                const componentProperties = component.properties.css
                 const containerProperties = this.containerProperties[id]
-                const elementProperties = this.componentsPropertiesStack[id].css
+                const { mouseOffsetX, mouseOffsetY, css: elementProperties } = this.originComponentPropertiesStack[id]
 
                 let { clientX, clientY } = e
-
-                const { mouseOffsetX, mouseOffsetY } = this.componentsPropertiesStack[id]
 
                 const combineProperties = elementProperties
 
@@ -211,8 +215,6 @@ export default {
                 })
                 this.repaintSelectBox()
             })
-
-            console.log(e)
         }
     },
     mounted() {

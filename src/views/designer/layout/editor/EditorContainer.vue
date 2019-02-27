@@ -88,13 +88,14 @@
 </template>
 <script>
 import RenderNestedLayoutCompiler from 'views/designer/compiler/RenderNestedLayoutCompiler'
-import { nestedComponents } from '../../components/config'
 
+import highlightBoxMixins from './highlightBox'
+import selectBoxMixins from './selectBox'
 import mouseEventMixins from './mouseEvent'
 
 export default {
     name: 'EditContainer',
-    mixins: [mouseEventMixins],
+    mixins: [highlightBoxMixins, selectBoxMixins, mouseEventMixins],
     props: {
         componentId: String,
         project: Object
@@ -106,22 +107,12 @@ export default {
         return {
             component: {},
             isStage: false,
-            highlightBox: {
-                target: null,
-                tagName: '',
-                style: {}
-            },
             dragoverBox: {
                 target: null,
                 componentId: '',
                 rect: {},
                 hint: '',
                 placement: 'inside',
-                style: {}
-            },
-            selectBox: {
-                target: null,
-                layout: 'nestedLayout',
                 style: {}
             },
             timeout: '',
@@ -137,23 +128,6 @@ export default {
                 this.$emit('update:componentId', val)
             }
         },
-        selectBoxVisiable() {
-            const visiable = {
-                showUp: false,
-                showDown: false,
-                showDelete: false
-            }
-            if (this.component.children) {
-                const index = this.component.children.findIndex(item => item.id === this.currentComponentId)
-                // visiable.showRecombination = this.project.components.id !== this.currentComponentId
-                visiable.showSelectParent = this.project.components.id !== this.currentComponentId
-                visiable.showUp = index > 0
-                visiable.showDown = this.component.children.length > 0 && index !== this.component.children.length - 1
-                visiable.showDelete = this.project.components.id !== this.currentComponentId
-            }
-
-            return visiable
-        }
     },
     watch: {
         componentId(val, oldVal) {
@@ -188,12 +162,12 @@ export default {
             this.component = targetComponent
             return targetComponent
         },
-        findParentNodeByClass(el, className) {
-            let specifyParentNode = null
+        findSpecifyNodeByClassName(el, className) {
+            let specifyNode = null
             const recursion = node => {
                 if (node === this.$el) return
                 if (node.classList.contains(className)) {
-                    specifyParentNode = node
+                    specifyNode = node
                     return
                 }
                 if (node.parentNode) {
@@ -201,7 +175,7 @@ export default {
                 }
             }
             recursion(el)
-            return specifyParentNode
+            return specifyNode
         },
         ondragover(e) {
             e.preventDefault()
@@ -216,13 +190,13 @@ export default {
                 }
                 return
             }
-            const parentNode = this.findParentNodeByClass(e.target, 'nested-container')
-            if (!parentNode) return
+            const targerNode = this.findSpecifyNodeByClassName(e.target, 'layout-container')
+            if (!targerNode) return
 
-            if (this.dragoverBox.target !== parentNode) {
-                this.dragoverBox.target = parentNode
+            if (this.dragoverBox.target !== targerNode) {
+                this.dragoverBox.target = targerNode
 
-                this.isStage = parentNode.classList.contains('editor-container-wrap')
+                this.isStage = targerNode.classList.contains('editor-container-wrap')
                 this.dragoverBox.componentId = this.dragoverBox.target.dataset.componentId
                 this.dragoverBox.rect = this.dragoverBox.target.getBoundingClientRect()
             }
@@ -357,7 +331,6 @@ export default {
             // 通过drop event插入组件数据，DOM重绘时间不确定，使用this.$nextTick()，仍不行，暂时加个延迟
             setTimeout(() => {
                 this.currentComponentId = newComponent.id
-                this.selectBox.layout = newComponent.layout
             }, 200)
             this.$Message({
                 showClose: true,
@@ -365,51 +338,11 @@ export default {
                 type: 'success'
             })
         },
-        checkNestedName(name) {
-            return nestedComponents.indexOf(name) > -1
-        },
         clickEvent(e) {
-            const targetNode = this.findParentNodeByClass(e.target, 'nested-container')
+            const targetNode = this.findSpecifyNodeByClassName(e.target, 'layout-container')
             if (!targetNode) return
             this.currentComponentId = targetNode.dataset.componentId
-            this.selectBox.layout = targetNode.dataset.componentLayout
             this.componentSelectedStack = [targetNode.dataset.componentId]
-        },
-        mousemove(e) {
-            if (!this.$el.contains(e.target)) {
-                this.highlightBox = {
-                    target: null,
-                    tagName: '',
-                    style: {
-                        display: 'none'
-                    }
-                }
-                return
-            }
-            const parentNode = this.findParentNodeByClass(e.target, 'nested-container')
-            if (!parentNode) return
-
-            // if (!e.target.classList.contains('nested-container') && !e.target.classList.contains('position-container')) return
-            if (this.highlightBox.target === parentNode) return
-
-            this.highlightBox.target = parentNode
-            this.highlightBox.tagName = parentNode.dataset.componentName
-
-            this.repaintHighlightBox()
-        },
-        repaintHighlightBox() {
-            if (!this.highlightBox.target) return
-            this.$nextTick(() => {
-                const container = this.$el
-                const rect = this.highlightBox.target.getBoundingClientRect()
-                this.highlightBox.style = {
-                    display: 'block',
-                    width: `${rect.width}px`,
-                    height: `${rect.height}px`,
-                    top: `${container.scrollTop - container.offsetTop + rect.top}px`,
-                    left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
-                }
-            })
         },
         repaintDragoverBox() {
             if (!this.dragoverBox.target) return
@@ -425,100 +358,9 @@ export default {
                 }
             })
         },
-        repaintSelectBox() {
-            if (!this.currentComponentId) {
-                this.selectBox = {
-                    target: null,
-                    tagName: '',
-                    style: {
-                        display: 'none'
-                    }
-                }
-                return
-            }
-            this.$nextTick(() => {
-                const target = document.querySelector(`[data-component-id="${this.currentComponentId}"]`)
-                const container = this.$el
-                const rect = target.getBoundingClientRect()
-                this.selectBox.style = {
-                    display: 'block',
-                    width: `${rect.width}px`,
-                    height: `${rect.height}px`,
-                    top: `${container.scrollTop - container.offsetTop + rect.top}px`,
-                    left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
-                }
-                this.registerResizeEvent(target, this.resize)
-            })
-        },
-        recombinationComponentEvent() {
-            this.$Prompt('name：', 'Recombination component', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                inputPattern: /\S/,
-                inputErrorMessage: '请输入 name'
-            }).then(({ value }) => {
-                const data = localStorage.getItem('Tenon-recombination-components')
-                const recombinationComponent = data ? JSON.parse(data) : []
-                const currentComponent = this.component.children.find(item => item.id === this.currentComponentId)
-
-                const formatComponent = JSON.parse(JSON.stringify(currentComponent))
-                formatComponent.properties.name = value
-                recombinationComponent.push({
-                    id: this.$uuid(),
-                    name: value,
-                    data: formatComponent
-                })
-                localStorage.setItem('Tenon-recombination-components', JSON.stringify(recombinationComponent))
-                console.log('RecombinationComponent: ', recombinationComponent)
-                this.$message({
-                    type: 'success',
-                    message: `Recombination component: ${value}`
-                })
-            }).catch(() => { })
-        },
-        selectParentComponentEvent() {
-            const recursion = (component, id) => {
-                if (component.id === id) {
-                    return
-                }
-                if (component.children) {
-                    for (let i = 0; i < component.children.length; i++) {
-                        const data = component.children[i]
-                        recursion(data, id)
-                        if (data.id === id) {
-                            this.currentComponentId = component.id
-                            this.selectBox.layout = component.layout
-                            break
-                        }
-                    }
-                }
-            }
-            recursion(this.project.components, this.currentComponentId)
-        },
-        upEvent() {
-            const arr = this.component.children
-            const index = arr.findIndex(item => item.id === this.currentComponentId)
-            arr.splice(index - 1, 0, arr.splice(index, 1)[0])
-            this.repaintSelectBox()
-        },
-        downEvent() {
-            const arr = this.component.children
-            const index = arr.findIndex(item => item.id === this.currentComponentId)
-            arr.splice(index + 1, 0, arr.splice(index, 1)[0])
-            this.repaintSelectBox()
-        },
-        deleteEvent() {
-            this.currentComponentId = ''
-            const arr = this.component.children
-            const index = arr.findIndex(item => item.id === this.currentComponentId)
-            arr.splice(index, 1)
-        },
-        registerResizeEvent(el, callback) {
-            this.$ResizeEvent.register(this.currentComponentId, {
-                el,
-                callback
-            })
-            console.log(this.$ResizeEvent)
+        registerResizeEvent(id, option) {
+            // option: el, callback
+            this.$ResizeEvent.register(id, option)
         },
         disposeResizeEvent(id) {
             this.$ResizeEvent.dispose(id)
@@ -533,7 +375,6 @@ export default {
         }
     },
     created() {
-        this.$EventStack.register('editor-container', 'mousemove', this.mousemove)
         this.$EventStack.register('editor-container', 'dragover', this.ondragover)
         this.$EventStack.register('editor-container', 'drop', this.ondrop)
         window.addEventListener('resize', this.resize, false)
@@ -544,13 +385,12 @@ export default {
                 el: this.$el,
                 callback: this.resize
             }
-            this.$ResizeEvent.register('EditorContainer', option)
+            this.registerResizeEvent('EditorContainer', option)
         })
     },
     destroyed() {
         this.$ResizeEvent.destroy()
 
-        this.$EventStack.dispose('editor-container', 'mousemove')
         this.$EventStack.dispose('editor-container', 'dragover')
         this.$EventStack.dispose('editor-container', 'drop')
         window.removeEventListener('resize', this.resize, false)
@@ -647,8 +487,8 @@ export default {
             i {
                 position: absolute;
                 display: inline-block;
-                width: 8px;
-                height: 8px;
+                width: 9px;
+                height: 9px;
                 border: 1px solid @primary-color;
             }
             .handle {

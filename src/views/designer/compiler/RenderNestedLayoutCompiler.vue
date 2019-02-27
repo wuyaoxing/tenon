@@ -1,5 +1,5 @@
 <template>
-    <component class="nested-container"
+    <component class="layout-container"
                :is="asyncLoadComponent(component.name)"
                :data-component-id="component.id"
                :data-component-name="component.name"
@@ -10,16 +10,16 @@
                                         :component="item"
                                         :project="project"
                                         :key="item.id" />
-            <RenderPositionLayoutCompiler class="nested-container"
+            <RenderPositionLayoutCompiler class="layout-container"
                                           v-else-if="item.name === 'PositionLayoutContainer'"
                                           :component="item"
                                           :key="item.id" />
-            <RenderTabPanelLayoutCompiler class="nested-container"
+            <RenderTabPanelLayoutCompiler class="layout-container"
                                           v-else-if="item.name === 'TabPanel'"
                                           :component="item"
                                           :project="project"
                                           :key="item.id" />
-            <component class="nested-container"
+            <component class="layout-container"
                        :is="asyncLoadComponent(item.name)"
                        :data-component-id="item.id"
                        :data-component-name="item.name"

@@ -24,12 +24,14 @@
                     </li>
                 </ul>
             </CollapseItem>
-            <CollapseItem name="size">
+            <CollapseItem :name="styleSchema.title"
+                          v-for="styleSchema in schema.style"
+                          :key="styleSchema.title">
                 <template slot="title">
-                    {{schema.sizeSchema.title}}
+                    {{styleSchema.title}}
                 </template>
                 <ul class="properties-item">
-                    <li v-for="(item, key) in schema.sizeSchema.properties"
+                    <li v-for="(item, key) in styleSchema.properties"
                         :key="key">
                         <span>{{key}}</span>
                         <component class="f-f-1"
@@ -40,170 +42,6 @@
                                    :value.sync="component.properties.css[key]"></component>
                     </li>
                 </ul>
-            </CollapseItem>
-            <CollapseItem name="position">
-                <template slot="title">
-                    {{schema.positionSchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.positionSchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="margin">
-                <template slot="title">
-                    {{schema.marginSchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.marginSchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="padding">
-                <template slot="title">
-                    {{schema.paddingSchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.paddingSchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="font">
-                <template slot="title">
-                    {{schema.fontSchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.fontSchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="shadow">
-                <template slot="title">
-                    {{schema.shadowSchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.shadowSchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="border">
-                <template slot="title">
-                    {{schema.borderSchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.borderSchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="background">
-                <template slot="title">
-                    {{schema.backgroundSchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.backgroundSchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="display">
-                <template slot="title">
-                    {{schema.displaySchema.title}}
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.displaySchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties.css[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="properties">
-                <template slot="title">
-                    properties
-                </template>
-                <ul class="properties-item">
-                    <li v-for="(item, key) in schema.commonSchema.properties"
-                        :key="key">
-                        <span>{{key}}</span>
-                        <component class="f-f-1"
-                                   :is="asyncLoadComponent(item.format)"
-                                   :schema="item"
-                                   :readonly="item.readonly"
-                                   :properties="component.properties"
-                                   :value.sync="component.properties[key]"></component>
-                    </li>
-                </ul>
-            </CollapseItem>
-            <CollapseItem name="data">
-                <template slot="title">
-                    data
-                </template>
-                <div>
-
-                    {{asyncSchema[component.name]}}
-
-                    {{component}}
-                </div>
             </CollapseItem>
             <CollapseItem name="style">
                 <template slot="title">
@@ -239,6 +77,11 @@ import asyncLoadSchemaMixins from './asyncLoadSchema'
 import asyncLoadComponentMixins from './asyncLoadComponent'
 
 import Code from './components/code'
+
+// TODO
+// 增加确认操作，或者输入框回车生效。避免实时生效带来的性能问题。
+// 声明临时数据承载用户编辑，保存后循环赋值。
+// 对属性定制UI视图
 
 export default {
     name: 'PropertiesContainer',
