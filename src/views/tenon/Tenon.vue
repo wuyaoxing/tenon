@@ -7,13 +7,39 @@
             <div class="tenon-project-card f f-fd-c f-jc-sb"
                  v-for="item in projects"
                  :key="item.id">
-                <div class="tenon-project-title f f-ai-c f-jc-sb">
-                    <h2>
+                <div class="tenon-project-title f f-ai-b f-jc-sb">
+                    <h2 class="ellipsis-line-clamp-2">
                         {{item.name}}
                     </h2>
-                    <i class="el-icon-delete"
-                       title="Remove"
-                       @click="removeProject(item.id)"></i>
+                    <Popover placement="bottom-end"
+                             width="120"
+                             trigger="click">
+                        <i class="el-icon-more"
+                           slot="reference"
+                           title="More"></i>
+                        <ul class="tenon-project-more">
+                            <li @click="removeProject(item.id)">
+                                <i class="el-icon-share"
+                                   title="Edit"></i>
+                                分享
+                            </li>
+                            <li @click="removeProject(item.id)">
+                                <i class="el-icon-edit-outline"
+                                   title="Edit"></i>
+                                编辑
+                            </li>
+                            <li @click="removeProject(item.id)">
+                                <i class="el-icon-edit-outline"
+                                   title="Edit"></i>
+                                复制
+                            </li>
+                            <li @click="removeProject(item.id)">
+                                <i class="el-icon-delete"
+                                   title="Remove"></i>
+                                删除
+                            </li>
+                        </ul>
+                    </Popover>
                 </div>
                 <div class="tenon-project-action f f-jc-sb">
                     <a :href="`/designer/#/projects/${item.id}`">Designer</a>
@@ -96,7 +122,7 @@ export default {
             width: 180px;
             height: 150px;
             margin: 10px 5px;
-            padding: 10px;
+            padding: 8px;
             border-radius: 3px;
             color: #464c59;
             background: @white-color;
@@ -110,14 +136,31 @@ export default {
             }
         }
         &-title {
-            padding: 0 8px;
             h2 {
+                padding: 0 8px;
                 font-size: 15px;
                 font-weight: 600;
                 color: @dark-text-color;
             }
             i {
+                padding: 8px;
+                transform: rotate(90deg);
                 cursor: pointer;
+                &:hover {
+                    color: @accent-color;
+                }
+            }
+        }
+        &-more {
+            li {
+                padding: 8px 15px;
+                cursor: pointer;
+                &:hover {
+                    background: @gray-color;
+                }
+                i {
+                    margin-right: 8px;
+                }
             }
         }
         &-action {

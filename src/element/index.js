@@ -1,7 +1,28 @@
 import './theme/index.css'
+import './override.less'
 
 import {
-    Button, Input, Autocomplete, Checkbox, Form, FormItem, Dropdown, DropdownItem, DropdownMenu, Select, Option, Message, MessageBox, Dialog, Switch, Loading, Tree, Collapse, CollapseItem, ColorPicker
+    Button,
+    Input,
+    Autocomplete,
+    Checkbox,
+    Form,
+    FormItem,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    Select,
+    Option,
+    Message,
+    MessageBox,
+    Dialog,
+    Switch,
+    Loading,
+    Tree,
+    Collapse,
+    CollapseItem,
+    ColorPicker,
+    Popover,
 } from 'element-ui'
 
 const components = {
@@ -22,7 +43,8 @@ const components = {
     Tree,
     Collapse,
     CollapseItem,
-    ColorPicker
+    ColorPicker,
+    Popover,
 }
 
 export default {
