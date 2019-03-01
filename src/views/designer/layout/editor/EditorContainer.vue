@@ -141,24 +141,28 @@ export default {
     methods: {
         findParentComponentById(componentId) {
             this.component = {}
-            if (!componentId) return null
+            if (!componentId) return {}
             let targetComponent = null
-            const recursion = (component, id) => {
-                if (component.id === id) {
-                    return
-                }
-                if (component.children) {
-                    for (let i = 0; i < component.children.length; i++) {
-                        const data = component.children[i]
-                        recursion(data, id)
-                        if (data.id === id) {
-                            targetComponent = component
-                            break
+            if (this.project.components.id === componentId) {
+                targetComponent = this.project.components
+            } else {
+                const recursion = (component, id) => {
+                    if (component.id === id) {
+                        return
+                    }
+                    if (component.children) {
+                        for (let i = 0; i < component.children.length; i++) {
+                            const data = component.children[i]
+                            recursion(data, id)
+                            if (data.id === id) {
+                                targetComponent = component
+                                break
+                            }
                         }
                     }
                 }
+                recursion(this.project.components, componentId)
             }
-            recursion(this.project.components, componentId)
 
             this.component = targetComponent
             return targetComponent
@@ -329,12 +333,12 @@ export default {
                         console.log(`Sorry, we are out of ${targetComponent.name}.`)
                 }
             }
+            this.snapshotProject()
             // 通过drop event插入组件数据，DOM重绘时间不确定，使用this.$nextTick()，仍不行，暂时加个延迟
             setTimeout(() => {
                 this.currentComponentId = newComponent.id
             }, 200)
 
-            this.snapshotProject()
 
             this.$Message({
                 showClose: true,

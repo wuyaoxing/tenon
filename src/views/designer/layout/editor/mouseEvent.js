@@ -14,7 +14,7 @@ export default {
         findComponentById(componentId) {
             let targetComponent = null
             const parentComponent = this.findParentComponentById(componentId)
-            if (parentComponent && parentComponent.children) targetComponent = parentComponent.children.find(item => item.id === componentId)
+            if (parentComponent.children) targetComponent = parentComponent.children.find(item => item.id === componentId)
             return targetComponent
         },
         mousedownEvent(e) {
@@ -121,7 +121,7 @@ export default {
                 // 移动距离
                 const moveDistance = {
                     x: clientX - this.mouseProperties.clientX,
-                    y: clientY - this.mouseProperties.clientY
+                    y: clientY - this.mouseProperties.clientY,
                 }
 
                 let top = parseInt(elementProperties.top) + moveDistance.y
@@ -216,7 +216,7 @@ export default {
                 })
                 this.repaintSelectBox()
             })
-        }
+        },
     },
     mounted() {
         this.$EventStack.register('position-select-handle', 'mousedown', this.mousedownEvent)
@@ -228,5 +228,5 @@ export default {
         this.$EventStack.dispose('position-select-handle', 'mousedown')
         this.$EventStack.dispose('position-select-handle', 'mousemove')
         this.$EventStack.dispose('position-select-handle', 'mouseup')
-    }
+    },
 }

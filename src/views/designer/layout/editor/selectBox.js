@@ -4,7 +4,7 @@ export default {
             selectBox: {
                 target: null,
                 layout: 'nestedLayout',
-                style: {}
+                style: {},
             },
         }
     },
@@ -13,7 +13,7 @@ export default {
             const visiable = {
                 showUp: false,
                 showDown: false,
-                showDelete: false
+                showDelete: false,
             }
             if (this.component.children) {
                 const index = this.component.children.findIndex(item => item.id === this.currentComponentId)
@@ -24,7 +24,7 @@ export default {
                 visiable.showDelete = this.project.components.id !== this.currentComponentId
             }
             return visiable
-        }
+        },
     },
     methods: {
         repaintSelectBox() {
@@ -33,8 +33,8 @@ export default {
                     target: null,
                     tagName: '',
                     style: {
-                        display: 'none'
-                    }
+                        display: 'none',
+                    },
                 }
                 return
             }
@@ -48,7 +48,7 @@ export default {
                     width: `${rect.width}px`,
                     height: `${rect.height}px`,
                     top: `${container.scrollTop - container.offsetTop + rect.top}px`,
-                    left: `${container.scrollLeft - container.offsetLeft + rect.left}px`
+                    left: `${container.scrollLeft - container.offsetLeft + rect.left}px`,
                 }
                 this.registerResizeEvent(this.currentComponentId, { el: target, callback: this.resize })
             })
@@ -58,26 +58,28 @@ export default {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 inputPattern: /\S/,
-                inputErrorMessage: '请输入 name'
-            }).then(({ value }) => {
-                const data = localStorage.getItem('Tenon-recombination-components')
-                const recombinationComponent = data ? JSON.parse(data) : []
-                const currentComponent = this.component.children.find(item => item.id === this.currentComponentId)
+                inputErrorMessage: '请输入 name',
+            })
+                .then(({ value }) => {
+                    const data = localStorage.getItem('Tenon-recombination-components')
+                    const recombinationComponent = data ? JSON.parse(data) : []
+                    const currentComponent = this.component.children.find(item => item.id === this.currentComponentId)
 
-                const formatComponent = JSON.parse(JSON.stringify(currentComponent))
-                formatComponent.properties.name = value
-                recombinationComponent.push({
-                    id: this.$uuid(),
-                    name: value,
-                    data: formatComponent
+                    const formatComponent = JSON.parse(JSON.stringify(currentComponent))
+                    formatComponent.properties.name = value
+                    recombinationComponent.push({
+                        id: this.$uuid(),
+                        name: value,
+                        data: formatComponent,
+                    })
+                    localStorage.setItem('Tenon-recombination-components', JSON.stringify(recombinationComponent))
+                    console.log('RecombinationComponent: ', recombinationComponent)
+                    this.$message({
+                        type: 'success',
+                        message: `Recombination component: ${value}`,
+                    })
                 })
-                localStorage.setItem('Tenon-recombination-components', JSON.stringify(recombinationComponent))
-                console.log('RecombinationComponent: ', recombinationComponent)
-                this.$message({
-                    type: 'success',
-                    message: `Recombination component: ${value}`
-                })
-            }).catch(() => { })
+                .catch(() => {})
         },
         selectParentComponentEvent() {
             const recursion = (component, id) => {
@@ -117,6 +119,6 @@ export default {
             const index = arr.findIndex(item => item.id === this.currentComponentId)
             arr.splice(index, 1)
             this.snapshotProject()
-        }
-    }
+        },
+    },
 }

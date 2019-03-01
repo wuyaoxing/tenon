@@ -198,7 +198,7 @@ export default {
         &-more {
             li {
                 i {
-                    margin-right: 8px;
+                    margin-right: 6px;
                 }
             }
         }
