@@ -102,18 +102,21 @@ export default {
             const index = arr.findIndex(item => item.id === this.currentComponentId)
             arr.splice(index - 1, 0, arr.splice(index, 1)[0])
             this.repaintSelectBox()
+            this.snapshotProject()
         },
         downEvent() {
             const arr = this.component.children
             const index = arr.findIndex(item => item.id === this.currentComponentId)
             arr.splice(index + 1, 0, arr.splice(index, 1)[0])
             this.repaintSelectBox()
+            this.snapshotProject()
         },
         deleteEvent() {
             this.currentComponentId = ''
             const arr = this.component.children
             const index = arr.findIndex(item => item.id === this.currentComponentId)
             arr.splice(index, 1)
+            this.snapshotProject()
         }
     }
 }

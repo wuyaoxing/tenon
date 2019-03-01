@@ -46,6 +46,7 @@ export default {
             this.isMove = true
         },
         mouseupEvent() {
+            if (this.isMove) this.snapshotProject()
             this.isMove = false
             this.direction = ''
             this.mouseProperties = {}

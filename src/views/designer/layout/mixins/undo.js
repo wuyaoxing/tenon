@@ -19,8 +19,8 @@ export default {
             if (this.undoIndex !== this.undos.length - 1) {
                 this.undos = this.undos.slice(0, this.undoIndex + 1)
             }
-            if(this.undos.length > 20) {
-                this.undos = this.undos.slice(0, 1)
+            if (this.undos.length > 20) {
+                this.undos.splice(0, 1)
             }
             this.undos.push(JSON.parse(JSON.stringify(data)))
             this.undoIndex = this.undos.length - 1

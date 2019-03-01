@@ -100,6 +100,7 @@ export default {
         componentId: String,
         project: Object
     },
+    inject: ['snapshotProject'],
     components: {
         RenderNestedLayoutCompiler
     },
@@ -332,6 +333,9 @@ export default {
             setTimeout(() => {
                 this.currentComponentId = newComponent.id
             }, 200)
+
+            this.snapshotProject()
+
             this.$Message({
                 showClose: true,
                 message,
@@ -413,6 +417,14 @@ export default {
         margin: 30px auto;
         background: @white-color;
         overflow: auto;
+        // background-image: linear-gradient(
+        //         rgb(232, 232, 232) 1px,
+        //         transparent 0px
+        //     ),
+        //     linear-gradient(90deg, rgb(232, 232, 232) 1px, transparent 0px),
+        //     linear-gradient(rgb(242, 242, 242) 1px, transparent 0px),
+        //     linear-gradient(90deg, rgb(242, 242, 242) 1px, transparent 0px);
+        // background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
     }
     .highlight-box,
     .dragover-box,

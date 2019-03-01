@@ -63,6 +63,11 @@ export default {
         SideContainer,
         PropertiesContainer
     },
+    provide() {
+        return {
+            snapshotProject: this.snapshotProject
+        }
+    },
     data() {
         return {
             handleVisiable: true,
@@ -76,17 +81,17 @@ export default {
         }
     },
     watch: {
-        project: {
-            handler(val, oldVal) {
-                if (this.enabled) {
-                    console.log('project change: ', val, oldVal)
-                    this.addUndo(val)
-                } else {
-                    this.enabled = true
-                }
-            },
-            deep: true
-        }
+        // project: {
+        //     handler(val, oldVal) {
+        //         if (this.enabled) {
+        //             console.log('project change: ', val, oldVal)
+        //             this.addUndo(val)
+        //         } else {
+        //             this.enabled = true
+        //         }
+        //     },
+        //     deep: true
+        // }
     },
     methods: {
         fullScreen() {
@@ -121,7 +126,12 @@ export default {
             const data = localStorage.getItem('Tenon-projects')
             const projects = data ? JSON.parse(data) : []
             this.project = projects.find(item => item.id === this.projectId) || {}
+            this.snapshotProject()
         },
+        snapshotProject() {
+            console.log('project change: ', this.project)
+            this.addUndo(this.project)
+        }
     },
     created() {
         this.fetchProject()

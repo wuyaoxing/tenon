@@ -103,7 +103,8 @@ export default {
             schema,
             // ['name', 'width', 'height', 'border', 'display', 'position', 'custom']
             actives: ['name', 'style', 'custom'],
-            component: {}
+            component: {},
+            originData: {}
         }
     },
     computed: {
