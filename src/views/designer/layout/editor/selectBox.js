@@ -40,15 +40,15 @@ export default {
             }
             this.$nextTick(() => {
                 const target = document.querySelector(`[data-component-id="${this.currentComponentId}"]`)
-                const container = this.$el
+                const containerRect = this.getContainerRect()
                 const rect = target.getBoundingClientRect()
                 this.selectBox.layout = target.dataset.componentLayout
                 this.selectBox.style = {
                     display: 'block',
                     width: `${rect.width}px`,
                     height: `${rect.height}px`,
-                    top: `${container.scrollTop - container.offsetTop + rect.top}px`,
-                    left: `${container.scrollLeft - container.offsetLeft + rect.left}px`,
+                    top: `${this.$el.scrollTop - containerRect.top + rect.top}px`,
+                    left: `${this.$el.scrollLeft - containerRect.left + rect.left}px`,
                 }
                 this.registerResizeEvent(this.currentComponentId, { el: target, callback: this.resize })
             })
@@ -79,7 +79,7 @@ export default {
                         message: `Recombination component: ${value}`,
                     })
                 })
-                .catch(() => {})
+                .catch(() => { })
         },
         selectParentComponentEvent() {
             const recursion = (component, id) => {

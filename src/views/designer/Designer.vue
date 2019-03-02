@@ -38,7 +38,7 @@
                              :project="project" />
             <Handle direction="right"
                     :offset="0"
-                    :handle.sync="handleVisiable">
+                    :visiable.sync="handleVisiable">
                 <PropertiesContainer class="tenon-designer-properties"
                                      :componentId.sync="componentId"
                                      :project="project"></PropertiesContainer>

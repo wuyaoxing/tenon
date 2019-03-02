@@ -1,7 +1,7 @@
 <template>
     <div class="handle"
          :class="[`handle-${direction}`, {
-             collapse: !handle
+             collapse: !visiable
          }]"
          :style="style"
          ref="handle">
@@ -13,7 +13,7 @@
 <script>
 export default {
     props: {
-        handle: Boolean,
+        visiable: Boolean,
         direction: {
             type: String,
             default: 'left'
@@ -29,16 +29,16 @@ export default {
         }
     },
     watch: {
-        handle() {
+        visiable() {
             this.repaint()
         }
     },
     methods: {
         handleEvent() {
-            this.$emit('update:handle', !this.handle)
+            this.$emit('update:visiable', !this.visiable)
         },
         repaint() {
-            const offset = this.handle ? 0 : this.offset - this.$refs.handle.offsetWidth
+            const offset = this.visiable ? 0 : this.offset - this.$refs.handle.offsetWidth
             if (this.direction === 'left') {
                 this.style = {
                     marginLeft: `${offset}px`,
