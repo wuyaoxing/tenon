@@ -11,17 +11,21 @@ export default {
     computed: {
         selectBoxVisiable() {
             const visiable = {
+                showRecombination: false,
+                showSelectParent: false,
                 showUp: false,
                 showDown: false,
                 showDelete: false,
             }
             if (this.component.children) {
                 const index = this.component.children.findIndex(item => item.id === this.currentComponentId)
-                // visiable.showRecombination = this.project.components.id !== this.currentComponentId
-                visiable.showSelectParent = this.project.components.id !== this.currentComponentId
-                visiable.showUp = index > 0
-                visiable.showDown = this.component.children.length > 0 && index !== this.component.children.length - 1
-                visiable.showDelete = this.project.components.id !== this.currentComponentId
+                if (index > -1) {
+                    // visiable.showRecombination = this.project.components.id !== this.currentComponentId
+                    visiable.showSelectParent = true
+                    visiable.showUp = index > 0
+                    visiable.showDown = this.component.children.length > 0 && index !== this.component.children.length - 1
+                    visiable.showDelete = this.project.components.id !== this.currentComponentId
+                }
             }
             return visiable
         },
