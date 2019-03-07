@@ -10,6 +10,12 @@
                 :key="item.fields">
                 <router-link :to="{ name: item.name }"><i :class="item.icon"></i></router-link>
             </li>
+            <li>
+                <a href="https://github.com/wuyaoxing/tenon"
+                   target="blank">
+                    <i class="icon-github"></i>
+                </a>
+            </li>
         </ul>
         <div class="side-content">
             <keep-alive include="PropertiesContainer">
@@ -110,6 +116,10 @@ export default {
                     color: @white-color;
                 }
             }
+        }
+        li:last-of-type {
+            position: absolute;
+            bottom: 0;
         }
     }
     &-content {

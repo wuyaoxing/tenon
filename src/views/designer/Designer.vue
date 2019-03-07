@@ -138,10 +138,10 @@ export default {
         overflow: hidden;
         z-index: 10;
         h1 {
-            padding: 0 15px;
             color: @white-color;
             font-size: 18px;
             font-weight: 700;
+            margin-left: 45px;
         }
         &-action {
             text-align: center;

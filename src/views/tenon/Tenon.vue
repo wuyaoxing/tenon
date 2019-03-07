@@ -1,7 +1,15 @@
 <template>
     <MainLayout class="tenon">
-        <header class="tenon-header">
-            Tenon
+        <header class="tenon-header f f-jc-sb">
+            <h1>Tenon</h1>
+            <ul>
+                <li>
+                    <a href="https://github.com/wuyaoxing/tenon"
+                       target="blank">
+                        <i class="icon-github"></i>
+                    </a>
+                </li>
+            </ul>
         </header>
         <div class="tenon-projects f-f-1 f f-fw-w f-ac-fs">
             <div class="tenon-project-card f f-fd-c f-jc-sb"
@@ -148,14 +156,26 @@ export default {
 .tenon {
     background: #e6e8ec;
     &-header {
-        height: 45px;
-        line-height: 45px;
-        padding: 0 15px;
-        font-size: 18px;
-        font-weight: 700;
-        color: @white-color;
+        height: 50px;
+        line-height: 50px;
         background-color: @primary-color;
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+        h1 {
+            color: @white-color;
+            font-size: 18px;
+            font-weight: 700;
+            margin-left: 45px;
+        }
+        i {
+            display: inline-block;
+            width: 50px;
+            text-align: center;
+            color: @primary-light-color;
+            font-size: 16px;
+            &:hover {
+                color: @white-color;
+            }
+        }
     }
     &-projects {
         padding: 30px 60px;
