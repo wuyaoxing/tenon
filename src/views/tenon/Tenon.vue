@@ -132,8 +132,8 @@ export default {
         },
         getProjectLink(id) {
             return {
-                editor: `/designer/#/projects/${id}`,
-                viewer: `/viewer/#/projects/${id}`
+                editor: `/tenon/designer#/projects/${id}`,
+                viewer: `/tenon/viewer#/projects/${id}`
             }
         }
     },

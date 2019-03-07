@@ -80,19 +80,6 @@ export default {
             return this.$route.params.id
         }
     },
-    watch: {
-        // project: {
-        //     handler(val, oldVal) {
-        //         if (this.enabled) {
-        //             console.log('project change: ', val, oldVal)
-        //             this.addUndo(val)
-        //         } else {
-        //             this.enabled = true
-        //         }
-        //     },
-        //     deep: true
-        // }
-    },
     methods: {
         fullScreen() {
             if (document.documentElement.requestFullScreen) {
@@ -120,7 +107,7 @@ export default {
             this.$Message.success('Save Success!')
         },
         preview() {
-            window.location = `/viewer/#/projects/${this.projectId}`
+            window.location = `/tenon/viewer#/projects/${this.projectId}`
         },
         fetchProject() {
             const data = localStorage.getItem('Tenon-projects')
