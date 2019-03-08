@@ -5,20 +5,16 @@
                :data-component-layout="component.layout"
                :properties.sync="component.properties">
         <RenderNestedLayoutCompiler :component="tabPanelComponent"
-                                    :project="project"
                                     v-if="tabPanelComponent" />
     </component>
 </template>
 <script>
-import asyncLoadComponentMixins from './asyncLoadComponent'
-
 export default {
     name: 'RenderTabPanelLayoutCompiler',
-    mixins: [asyncLoadComponentMixins],
     props: {
-        component: Object,
-        project: Object
+        component: Object
     },
+    inject: ['asyncLoadComponent', 'project'],
     components: {
         RenderNestedLayoutCompiler: () => import('./RenderNestedLayoutCompiler')
     },

@@ -5,7 +5,8 @@
             <ul>
                 <li>
                     <a href="https://github.com/wuyaoxing/tenon"
-                       target="blank">
+                       target="blank"
+                       title="github">
                         <i class="icon-github"></i>
                     </a>
                 </li>

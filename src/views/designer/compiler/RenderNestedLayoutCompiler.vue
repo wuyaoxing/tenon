@@ -8,7 +8,6 @@
         <template v-for="item in component.children">
             <RenderNestedLayoutCompiler v-if="item.name === 'NestedLayoutContainer'"
                                         :component="item"
-                                        :project="project"
                                         :key="item.id" />
             <RenderPositionLayoutCompiler class="layout-container"
                                           v-else-if="item.name === 'PositionLayoutContainer'"
@@ -17,7 +16,6 @@
             <RenderTabPanelLayoutCompiler class="layout-container"
                                           v-else-if="item.name === 'TabPanel'"
                                           :component="item"
-                                          :project="project"
                                           :key="item.id" />
             <component class="layout-container"
                        :is="asyncLoadComponent(item.name)"
@@ -32,17 +30,15 @@
     </component>
 </template>
 <script>
-import asyncLoadComponentMixins from './asyncLoadComponent'
 import RenderPositionLayoutCompiler from './RenderPositionLayoutCompiler'
 import RenderTabPanelLayoutCompiler from './RenderTabPanelLayoutCompiler'
 
 export default {
     name: 'RenderNestedLayoutCompiler',
-    mixins: [asyncLoadComponentMixins],
     props: {
-        component: Object,
-        project: Object
+        component: Object
     },
+    inject: ['asyncLoadComponent'],
     components: {
         RenderPositionLayoutCompiler,
         RenderTabPanelLayoutCompiler

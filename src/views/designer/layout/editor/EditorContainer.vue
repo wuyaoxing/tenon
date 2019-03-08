@@ -89,6 +89,8 @@
 <script>
 import RenderNestedLayoutCompiler from 'views/designer/compiler/RenderNestedLayoutCompiler'
 
+import asyncLoadComponentMixins from 'views/designer/compiler/asyncLoadComponent'
+
 import dragEventMixins from './dragEvent'
 import resizeEventMixins from './resizeEvent'
 
@@ -98,7 +100,14 @@ import mouseEventMixins from './mouseEvent'
 
 export default {
     name: 'EditContainer',
-    mixins: [dragEventMixins, resizeEventMixins, highlightBoxMixins, selectBoxMixins, mouseEventMixins],
+    mixins: [
+        asyncLoadComponentMixins,
+        dragEventMixins,
+        resizeEventMixins,
+        highlightBoxMixins,
+        selectBoxMixins,
+        mouseEventMixins
+    ],
     props: {
         componentId: String,
         project: Object
@@ -106,6 +115,12 @@ export default {
     inject: ['snapshotProject'],
     components: {
         RenderNestedLayoutCompiler
+    },
+    provide() {
+        return {
+            asyncLoadComponent: this.asyncLoadComponent,
+            project: this.project
+        }
     },
     data() {
         return {

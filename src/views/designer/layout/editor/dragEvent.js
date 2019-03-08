@@ -123,6 +123,9 @@ export default {
                     const praseDragData = JSON.parse(dragData)
                     newComponent = praseDragData
                     newComponent.layout = 'nestedLayout'
+
+                    this.asyncLoadComponent(newComponent.name)
+
                     if (targetComponent.name === 'PositionLayoutContainer') {
                         if (this.dragoverBox.placement === 'inside') {
                             const rect = e.target.getBoundingClientRect()
@@ -179,16 +182,17 @@ export default {
                 }
             }
             this.snapshotProject()
-            // 通过drop event插入组件数据，DOM重绘时间不确定，使用this.$nextTick()，仍不行，暂时加个延迟
-            setTimeout(() => {
-                this.currentComponentId = newComponent.id
-            }, 200)
 
             this.$Message({
                 showClose: true,
                 message,
                 type: 'success'
             })
+
+            // 通过drop event插入组件数据，DOM重绘时间不确定，使用this.$nextTick()，仍不行，暂时加个延迟
+            setTimeout(() => {
+                this.currentComponentId = newComponent.id
+            }, 200)
         },
     },
     created() {
