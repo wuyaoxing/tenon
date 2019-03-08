@@ -81,8 +81,7 @@
              @click="clickEvent"
              @scroll="resize">
             <RenderNestedLayoutCompiler class="editor-container-wrap"
-                                        :component="project.components"
-                                        :project="project" />
+                                        :component="project.components" />
         </div>
     </div>
 </template>

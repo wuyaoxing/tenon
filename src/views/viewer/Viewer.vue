@@ -1,16 +1,23 @@
 <template>
     <div class="tenon-viewer">
-        <RenderNestedLayoutCompiler :component="project.components"
-                                    :project="project" />
+        <RenderNestedLayoutCompiler :component="project.components" />
     </div>
 </template>
 <script>
 import RenderNestedLayoutCompiler from 'views/designer/compiler/RenderNestedLayoutCompiler'
+import asyncLoadComponentMixins from 'views/designer/compiler/asyncLoadComponent'
 
 export default {
     name: 'tenon-viewer',
+    mixins: [asyncLoadComponentMixins],
     components: {
         RenderNestedLayoutCompiler
+    },
+    provide() {
+        return {
+            asyncLoadComponent: this.asyncLoadComponent,
+            project: this.project
+        }
     },
     data() {
         return {
