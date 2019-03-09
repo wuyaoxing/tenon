@@ -51,5 +51,5 @@ module.exports = {
         config.resolve.modules.unshift(resolve('src'))
         config.plugins.push(new LodashModuleReplacementPlugin())
     },
-    productionSourceMap: true,
+    productionSourceMap: false,
 }

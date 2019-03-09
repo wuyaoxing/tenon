@@ -34,8 +34,11 @@ export default {
                 const parentDom = document.querySelector(`[data-component-id="${parentComponent.id}"]`)
                 const containerProperties = parentDom.getBoundingClientRect()
 
+                const selfDom = document.querySelector(`[data-component-id="${id}"]`)
                 const component = this.findComponentById(id)
                 const originComponentProperties = JSON.parse(JSON.stringify(component.properties))
+                originComponentProperties.css.width = selfDom.offsetWidth
+                originComponentProperties.css.height = selfDom.offsetHeight
                 originComponentProperties.mouseOffsetX = e.clientX - containerProperties.x - parseInt(originComponentProperties.css.left)
                 originComponentProperties.mouseOffsetY = e.clientY - containerProperties.y - parseInt(originComponentProperties.css.top)
 
@@ -212,7 +215,11 @@ export default {
                 }
                 // 对改变的属性赋值
                 Object.keys(cacheProperties).forEach(key => {
-                    component.properties.css[key] = cacheProperties[key]
+                    if (component.properties.css[key]) {
+                        component.properties.css[key] = cacheProperties[key]
+                    } else {
+                        this.$set(component.properties.css, key, cacheProperties[key])
+                    }
                 })
                 this.repaintSelectBox()
             })

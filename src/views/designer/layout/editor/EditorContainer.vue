@@ -189,15 +189,8 @@ export default {
             return specifyNode
         },
         clickEvent(e) {
-            if (e.target === this.$el) {
-                this.currentComponentId = ''
-                return
-            }
             const targetNode = this.findSpecifyNodeByClassName(e.target, 'layout-container')
-            if (!targetNode) {
-                this.currentComponentId = ''
-                return
-            }
+            if (!targetNode) return
             const { componentId } = targetNode.dataset
             this.currentComponentId = componentId
             this.componentSelectedStack = [componentId]

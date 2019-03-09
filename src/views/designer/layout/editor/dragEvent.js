@@ -192,6 +192,7 @@ export default {
             // 通过drop event插入组件数据，DOM重绘时间不确定，使用this.$nextTick()，仍不行，暂时加个延迟
             setTimeout(() => {
                 this.currentComponentId = newComponent.id
+                this.componentSelectedStack = [newComponent.id]
             }, 200)
         },
     },
