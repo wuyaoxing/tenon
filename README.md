@@ -5,6 +5,7 @@
 **Tenon**，取自 mortise and tenon（	卯榫）。
 
 由木工卯榫结构（tenon structure）启发，在规则内保持灵活性。
+
 榫卯作为一种传统工艺是一种文化，也代表着一种工匠精神，更是一种精致的生活体现~
 
 **愿景**
@@ -27,7 +28,7 @@
 
 **简单流程原理示意图**
 
-![简单流程原理示意图](https://github.com/wuyaoxing/tenon/tree/master/src/assets/images/sketch-map.png)
+![简单流程原理示意图](https://github.com/wuyaoxing/tenon/blob/master/src/assets/images/sketch-map.png)
 
 ## Project setup
 

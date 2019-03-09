@@ -21,7 +21,16 @@ export default {
                 return
             }
             const targetNode = this.findSpecifyNodeByClassName(e.target, 'layout-container')
-            if (!targetNode) return
+            if (!targetNode) {
+                this.highlightBox = {
+                    target: null,
+                    tagName: '',
+                    style: {
+                        display: 'none'
+                    }
+                }
+                return
+            }
 
             if (this.highlightBox.target === targetNode) return
 

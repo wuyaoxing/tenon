@@ -1,6 +1,7 @@
 <template>
     <div class="editor-container"
-         tabindex="1">
+         tabindex="1"
+         @click="clickEvent">
         <div class="editor-container-layer">
             <div class="highlight-box"
                  :style="highlightBox.style">
@@ -78,7 +79,6 @@
                 width: project.resolution.width + 'px',
                 height: project.resolution.height + 'px'
             }"
-             @click="clickEvent"
              @scroll="resize">
             <RenderNestedLayoutCompiler class="editor-container-wrap"
                                         :component="project.components" />
@@ -189,10 +189,18 @@ export default {
             return specifyNode
         },
         clickEvent(e) {
+            if (e.target === this.$el) {
+                this.currentComponentId = ''
+                return
+            }
             const targetNode = this.findSpecifyNodeByClassName(e.target, 'layout-container')
-            if (!targetNode) return
-            this.currentComponentId = targetNode.dataset.componentId
-            this.componentSelectedStack = [targetNode.dataset.componentId]
+            if (!targetNode) {
+                this.currentComponentId = ''
+                return
+            }
+            const { componentId } = targetNode.dataset
+            this.currentComponentId = componentId
+            this.componentSelectedStack = [componentId]
         },
         getContainerRect() {
             const rect = this.$el.getBoundingClientRect()
@@ -210,6 +218,7 @@ export default {
     transition: width 0.35s cubic-bezier(0.23, 1, 0.32, 1);
     outline: none;
     overflow: auto;
+    user-select: none;
     &-layer {
         pointer-events: none;
     }

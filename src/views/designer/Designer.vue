@@ -2,7 +2,6 @@
     <MainLayout class="tenon-designer">
         <header class="tenon-designer-header f f-ai-c f-jc-sb">
             <h1>Tenon</h1>
-            {{project.name}} Designer projectId: {{projectId}}
             <ul class="tenon-designer-header-action f">
                 <li @click="undo"
                     :class="{ disabled: isFirstUndo }"
