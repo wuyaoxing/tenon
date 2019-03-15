@@ -20,7 +20,7 @@ export default {
                 }
                 return
             }
-            const targetNode = this.findSpecifyNodeByClassName(e.target, 'layout-container')
+            const targetNode = e.target.closest('.layout-container')
             if (!targetNode) {
                 this.highlightBox = {
                     target: null,

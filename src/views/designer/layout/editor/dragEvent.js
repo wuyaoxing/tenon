@@ -40,7 +40,7 @@ export default {
                 }
                 return
             }
-            const targerNode = this.findSpecifyNodeByClassName(e.target, 'layout-container')
+            const targerNode = e.target.closest('.layout-container')
             if (!targerNode) return
 
             if (this.dragoverBox.target !== targerNode) {

@@ -173,23 +173,8 @@ export default {
             this.component = targetComponent
             return targetComponent
         },
-        findSpecifyNodeByClassName(el, className) {
-            let specifyNode = null
-            const recursion = node => {
-                if (node === this.$el) return
-                if (node.classList.contains(className)) {
-                    specifyNode = node
-                    return
-                }
-                if (node.parentNode) {
-                    recursion(node.parentNode, className)
-                }
-            }
-            recursion(el)
-            return specifyNode
-        },
         clickEvent(e) {
-            const targetNode = this.findSpecifyNodeByClassName(e.target, 'layout-container')
+            const targetNode = e.target.closest('.layout-container')
             if (!targetNode) return
             const { componentId } = targetNode.dataset
             this.currentComponentId = componentId
