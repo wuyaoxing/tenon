@@ -25,7 +25,7 @@ export const sideRouter = [
         path: 'properties',
         component: AsyncComp('designer/layout/properties/PropertiesContainer'),
         fields: 'properties',
-        icon: 'icon-editor',
+        icon: 'icon-edit',
     },
 ]
 

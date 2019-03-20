@@ -9,7 +9,8 @@
         <div class="f f-ai-c">
             <Input v-model="project.resolution.width" /> X <Input v-model="project.resolution.height" />
         </div>
-        <ul class="project-template f">
+        <ul class="project-template f"
+            v-if="!edit">
             <li v-for="(item, key) in template"
                 :key="key"
                 :class="{ active: key === templateId }"
@@ -26,17 +27,12 @@
 <script>
 export default {
     props: {
-        visiable: Boolean
+        visiable: Boolean,
+        edit: Boolean,
+        project: Object
     },
     data() {
         return {
-            project: {
-                name: '',
-                resolution: {
-                    width: 1920,
-                    height: 1080
-                }
-            },
             templateId: '1',
             template: {
                 1: {
@@ -153,20 +149,19 @@ export default {
     },
     methods: {
         confirm() {
-            const id = this.$uuid()
-            const project = {
-                id,
-                ...this.project,
-                components: {
+            let { project } = this
+            if (!this.edit) {
+                const id = this.$uuid()
+                project = {
                     id,
-                    ...this.formatComponents(this.template[this.templateId])
+                    ...this.project,
+                    components: {
+                        id,
+                        ...this.formatComponents(this.template[this.templateId])
+                    }
                 }
             }
             this.$emit('confirm', project)
-            this.reset()
-        },
-        reset() {
-            this.project.name = ''
         },
         formatComponents(data) {
             const recursion = children => children.map(item => {

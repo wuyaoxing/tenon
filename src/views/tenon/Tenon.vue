@@ -27,26 +27,12 @@
                            title="More"></i>
                         <DropdownMenu class="tenon-project-more"
                                       slot="dropdown">
-                            <DropdownItem command="share">
-                                <i class="el-icon-share"
-                                   title="Share"></i>
-                                分享
-                            </DropdownItem>
-                            <DropdownItem command="edit">
-                                <i class="el-icon-edit-outline"
-                                   title="Edit"></i>
-                                编辑
-                            </DropdownItem>
-                            <DropdownItem command="duplicate">
-                                <i class="el-icon-edit-outline"
-                                   title="Duplicate"></i>
-                                复制
-                            </DropdownItem>
-                            <DropdownItem command="remove"
-                                          divided>
-                                <i class="el-icon-delete"
-                                   title="Remove"></i>
-                                删除
+                            <DropdownItem :command="item.value"
+                                          v-for="item in moreList"
+                                          :key="item.value">
+                                <i :class="`icon-${item.value}`"
+                                   :title="item.text"></i>
+                                {{item.text}}
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
@@ -57,37 +43,94 @@
                 </div>
             </div>
             <div class="tenon-project-add"
-                 @click="visiable = true">
+                 @click="addEvent">
                 <i class="el-icon-plus"></i>
             </div>
         </div>
-        <AddProject :visiable.sync="visiable"
-                    @confirm="addProject"></AddProject>
+        <ProjectForm :visiable.sync="visiable"
+                     :edit="edit"
+                     :project="project"
+                     @confirm="confirm"></ProjectForm>
     </MainLayout>
 </template>
 <script>
 import MainLayout from 'components/layout/MainLayout'
-import AddProject from './AddProject'
+import ProjectForm from './ProjectForm'
 
 export default {
     name: 'tenon',
     components: {
         MainLayout,
-        AddProject
+        ProjectForm
     },
     data() {
         return {
             visiable: false,
-            currentProjectId: '',
-            projects: []
+            edit: false,
+            project: {
+                name: '',
+                resolution: {
+                    width: 1920,
+                    height: 1080
+                }
+            },
+            projects: [],
+            moreList: [
+                {
+                    text: 'Share',
+                    value: 'share'
+                },
+                {
+                    text: 'Edit',
+                    value: 'edit'
+                },
+                {
+                    text: 'Duplicate',
+                    value: 'duplicate'
+                },
+                {
+                    text: 'Remove',
+                    value: 'delete'
+                },
+            ]
         }
     },
     methods: {
+        confirm(data) {
+            this.edit ? this.updateProject(data) : this.addProject(data)
+        },
         addProject(data) {
             this.projects.push(data)
-            this.currentProjectId = data.id
             this.saveProjects()
             this.visiable = false
+            this.reset()
+        },
+        updateProject(data) {
+            const index = this.projects.findIndex(item => item.id === data.id)
+            this.projects.splice(index, 1, data)
+            this.saveProjects()
+            this.visiable = false
+            this.edit = false
+            this.reset()
+        },
+        reset() {
+            this.project = {
+                name: '',
+                resolution: {
+                    width: 1920,
+                    height: 1080
+                }
+            }
+        },
+        addEvent() {
+            this.reset()
+            this.visiable = true
+        },
+        editProject(id) {
+            const project = this.projects.find(item => item.id === id)
+            this.project = JSON.parse(JSON.stringify(project))
+            this.edit = true
+            this.visiable = true
         },
         removeProject(id) {
             const index = this.projects.findIndex(item => item.id === id)
@@ -119,12 +162,12 @@ export default {
                     this.shareProject(id)
                     break
                 case 'edit':
-                    this.shareProject(id)
+                    this.editProject(id)
                     break
                 case 'duplicate':
                     this.duplicateProject(id)
                     break
-                case 'remove':
+                case 'delete':
                     this.removeProject(id)
                     break
                 default:
