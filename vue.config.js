@@ -48,6 +48,7 @@ module.exports = {
         },
     },
     configureWebpack: config => {
+        config.devtool = 'source-map'
         config.resolve.modules.unshift(resolve('src'))
         config.plugins.push(new LodashModuleReplacementPlugin())
     },
