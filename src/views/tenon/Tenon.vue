@@ -32,7 +32,7 @@
                                           :key="item.value">
                                 <i :class="`icon-${item.value}`"
                                    :title="item.text"></i>
-                                {{item.text}}
+                                {{$i18n(`projects.action.${item.value}`)}}
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>

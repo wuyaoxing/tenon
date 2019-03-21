@@ -6,9 +6,11 @@ import uuid from 'utils/uuid'
 import sleep from 'utils/sleep'
 import EventStack from 'utils/EventStack'
 import ResizeEvent from 'utils/ResizeEvent'
+import loadLocaleData from 'utils/loadLocaleData'
 
 import components from 'components'
 import ElementUI from 'element'
+
 import router from './router'
 import App from './App.vue'
 
@@ -22,7 +24,9 @@ Vue.prototype.$sleep = sleep
 Vue.prototype.$EventStack = new EventStack()
 Vue.prototype.$ResizeEvent = new ResizeEvent()
 
-new Vue({
-    router,
-    render: h => h(App),
-}).$mount('#app')
+loadLocaleData(Vue, 'designer').then(() => {
+    new Vue({
+        router,
+        render: h => h(App),
+    }).$mount('#app')
+})
