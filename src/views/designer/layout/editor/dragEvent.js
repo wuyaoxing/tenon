@@ -22,8 +22,8 @@ export default {
                     display: 'block',
                     width: `${rect.width}px`,
                     height: `${rect.height}px`,
-                    top: `${this.$el.scrollTop - containerRect.top + rect.top}px`,
-                    left: `${this.$el.scrollLeft - containerRect.left + rect.left}px`
+                    top: `${rect.top - containerRect.top}px`,
+                    left: `${rect.left - containerRect.left}px`
                 }
             })
         },
@@ -46,7 +46,7 @@ export default {
             if (this.dragoverBox.target !== targerNode) {
                 this.dragoverBox.target = targerNode
 
-                this.isStage = targerNode.classList.contains('editor-container-wrap')
+                this.isStage = targerNode.classList.contains('editor-container-screen')
                 this.dragoverBox.componentId = this.dragoverBox.target.dataset.componentId
                 this.dragoverBox.rect = this.dragoverBox.target.getBoundingClientRect()
             }
@@ -157,23 +157,22 @@ export default {
         dropEvent(newComponent, targetComponent) {
             console.log('nested drop:', newComponent, targetComponent, this)
             let message = ''
+            let event = ''
             if (this.dragoverBox.placement === 'up') {
-                const index = this.component.children.findIndex(item => item.id === targetComponent.id)
-                this.component.children.splice(index, 0, newComponent)
+                event = 'componentInsertAbove'
                 message = `insert ${newComponent.properties.name} above ${targetComponent.properties.name}`
             } else if (this.dragoverBox.placement === 'down') {
-                const index = this.component.children.findIndex(item => item.id === targetComponent.id)
-                this.component.children.splice(index + 1, 0, newComponent)
+                event = 'componentInsertBelow'
                 message = `insert ${newComponent.properties.name} below ${targetComponent.properties.name}`
             } else {
                 switch (targetComponent.name) {
                     case 'NestedLayoutContainer': {
-                        targetComponent.children.push(newComponent)
+                        event = 'componentInsertInto'
                         message = `insert ${newComponent.properties.name} into ${targetComponent.properties.name}`
                         break
                     }
                     case 'PositionLayoutContainer': {
-                        targetComponent.children.push(newComponent)
+                        event = 'componentInsertInto'
                         message = `insert ${newComponent.properties.name} into ${targetComponent.properties.name}`
                         break
                     }
@@ -181,7 +180,9 @@ export default {
                         console.log(`Sorry, we are out of ${targetComponent.name}.`)
                 }
             }
-            this.snapshotProject()
+
+            this.emitEvent(event, newComponent, targetComponent.id)
+            this.emitEvent('snapshotProject')
 
             this.$Message({
                 showClose: true,

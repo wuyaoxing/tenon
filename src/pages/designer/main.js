@@ -21,6 +21,7 @@ Vue.config.productionTip = false
 
 Vue.prototype.$uuid = uuid
 Vue.prototype.$sleep = sleep
+Vue.prototype.$EventBus = new Vue()
 Vue.prototype.$EventStack = new EventStack()
 Vue.prototype.$ResizeEvent = new ResizeEvent()
 

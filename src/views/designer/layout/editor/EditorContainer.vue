@@ -2,85 +2,88 @@
     <div class="editor-container"
          tabindex="1"
          @click="clickEvent">
-        <div class="editor-container-layer">
-            <div class="highlight-box"
-                 :style="highlightBox.style">
-                <div class="highlight-name">{{highlightBox.tagName}}</div>
-            </div>
-            <div class="dragover-box"
-                 :style="dragoverBox.style">
-                <div class="dragover-hint">{{dragoverBox.hint}}</div>
-            </div>
-            <div class="select-box"
-                 :style="selectBox.style"
-                 v-if="selectBox.layout === 'nestedLayout'">
-                <div class="select-actions f f-ai-c">
-                    <i class="icon-generate-component"
-                       title="Generate component"
-                       @click="recombinationComponentEvent"></i>
-                    <i class="icon-left-up"
-                       title="Select parent"
-                       v-if="selectBoxVisiable.showSelectParent"
-                       @click="selectParentComponentEvent"></i>
-                    <i class="el-icon-caret-top"
-                       title="Up"
-                       v-if="selectBoxVisiable.showUp"
-                       @click="upEvent"></i>
-                    <i class="el-icon-caret-bottom"
-                       title="Down"
-                       v-if="selectBoxVisiable.showDown"
-                       @click="downEvent"></i>
-                    <i class="el-icon-delete"
-                       title="Remove"
-                       v-if="selectBoxVisiable.showDelete"
-                       @click="deleteEvent"></i>
-                </div>
-            </div>
-            <div class="position-select-box"
-                 :style="selectBox.style"
-                 v-if="selectBox.layout === 'positionLayout'">
-                <div class="position-select-handle"
-                     ref="positionSelectHandle">
-                    <i class="handle-top-left"
-                       data-direction="top-left"></i>
-                    <i class="handle-top"
-                       data-direction="top"></i>
-                    <i class="handle-top-right"
-                       data-direction="top-right"></i>
-                    <i class="handle-bottom-left"
-                       data-direction="bottom-left"></i>
-                    <i class="handle-bottom"
-                       data-direction="bottom"></i>
-                    <i class="handle-bottom-right"
-                       data-direction="bottom-right"></i>
-                    <i class="handle-left"
-                       data-direction="left"></i>
-                    <i class="handle-right"
-                       data-direction="right"></i>
-                </div>
-                <div class="position-select-actions f f-ai-c">
-                    <i class="icon-generate-component"
-                       title="Generate component"
-                       @click="recombinationComponentEvent"></i>
-                    <i class="icon-left-up"
-                       title="Select parent"
-                       v-if="selectBoxVisiable.showSelectParent"
-                       @click="selectParentComponentEvent"></i>
-                    <i class="el-icon-delete"
-                       title="Remove"
-                       v-if="selectBoxVisiable.showDelete"
-                       @click="deleteEvent"></i>
-                </div>
-            </div>
-        </div>
         <div class="editor-container-stage"
              ref="stage"
              :style="{
                 width: project.resolution.width + 'px',
                 height: project.resolution.height + 'px'
-            }"
-             @scroll="resize">
-            <RenderNestedLayoutCompiler class="editor-container-wrap"
+            }">
+            <div class="editor-container-layer">
+                <div class="highlight-box"
+                     :style="highlightBox.style">
+                    <div class="highlight-name"
+                         :style="highlightBox.actionsStyle">{{highlightBox.tagName}}</div>
+                </div>
+                <div class="dragover-box"
+                     :style="dragoverBox.style">
+                    <div class="dragover-hint">{{dragoverBox.hint}}</div>
+                </div>
+                <div class="select-box"
+                     :style="selectBox.style"
+                     v-if="selectBox.layout === 'nestedLayout'">
+                    <div class="select-actions f f-ai-c"
+                         :style="selectBox.actionsStyle">
+                        <i class="icon-generate-component"
+                           title="Generate component"
+                           @click="recombinationComponentEvent"></i>
+                        <i class="icon-left-up"
+                           title="Select parent"
+                           v-if="selectBoxVisiable.showSelectParent"
+                           @click="selectParentComponentEvent"></i>
+                        <i class="el-icon-caret-top"
+                           title="Up"
+                           v-if="selectBoxVisiable.showUp"
+                           @click="upEvent"></i>
+                        <i class="el-icon-caret-bottom"
+                           title="Down"
+                           v-if="selectBoxVisiable.showDown"
+                           @click="downEvent"></i>
+                        <i class="el-icon-delete"
+                           title="Remove"
+                           v-if="selectBoxVisiable.showDelete"
+                           @click="deleteEvent"></i>
+                    </div>
+                </div>
+                <div class="position-select-box"
+                     :style="selectBox.style"
+                     v-if="selectBox.layout === 'positionLayout'">
+                    <div class="position-select-handle"
+                         ref="positionSelectHandle">
+                        <i class="handle-top-left"
+                           data-direction="top-left"></i>
+                        <i class="handle-top"
+                           data-direction="top"></i>
+                        <i class="handle-top-right"
+                           data-direction="top-right"></i>
+                        <i class="handle-bottom-left"
+                           data-direction="bottom-left"></i>
+                        <i class="handle-bottom"
+                           data-direction="bottom"></i>
+                        <i class="handle-bottom-right"
+                           data-direction="bottom-right"></i>
+                        <i class="handle-left"
+                           data-direction="left"></i>
+                        <i class="handle-right"
+                           data-direction="right"></i>
+                    </div>
+                    <div class="position-select-actions f f-ai-c"
+                         :style="selectBox.actionsStyle">
+                        <i class="icon-generate-component"
+                           title="Generate component"
+                           @click="recombinationComponentEvent"></i>
+                        <i class="icon-left-up"
+                           title="Select parent"
+                           v-if="selectBoxVisiable.showSelectParent"
+                           @click="selectParentComponentEvent"></i>
+                        <i class="el-icon-delete"
+                           title="Remove"
+                           v-if="selectBoxVisiable.showDelete"
+                           @click="deleteEvent"></i>
+                    </div>
+                </div>
+            </div>
+            <RenderNestedLayoutCompiler class="editor-container-screen"
+                                        ref="screen"
                                         :component="project.components" />
         </div>
     </div>
@@ -111,7 +114,7 @@ export default {
         componentId: String,
         project: Object
     },
-    inject: ['snapshotProject'],
+    inject: ['emitEvent'],
     components: {
         RenderNestedLayoutCompiler
     },
@@ -181,7 +184,7 @@ export default {
             this.componentSelectedStack = [componentId]
         },
         getContainerRect() {
-            const rect = this.$el.getBoundingClientRect()
+            const rect = this.$refs.screen.$el.getBoundingClientRect()
             return rect
         }
     }
@@ -191,7 +194,6 @@ export default {
 @import "~styles/variables";
 
 .editor-container {
-    position: relative;
     scroll-behavior: smooth;
     transition: width 0.35s cubic-bezier(0.23, 1, 0.32, 1);
     outline: none;
@@ -201,6 +203,7 @@ export default {
         pointer-events: none;
     }
     &-stage {
+        position: relative;
         margin: 30px auto;
         background: @white-color;
         overflow: auto;

@@ -49,7 +49,7 @@ export default {
             this.isMove = true
         },
         mouseupEvent() {
-            if (this.isMove) this.snapshotProject()
+            if (this.isMove) this.$EventBus.$emit('snapshotProject')
             this.isMove = false
             this.direction = ''
             this.mouseProperties = {}

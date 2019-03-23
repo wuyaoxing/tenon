@@ -3,12 +3,12 @@
         <header class="tenon-designer-header f f-ai-c f-jc-sb">
             <h1>Tenon</h1>
             <ul class="tenon-designer-header-action f">
-                <li @click="undo"
+                <li @click="emitEvent('undo')"
                     :class="{ disabled: isFirstUndo }"
                     title="undo">
                     <i class="icon-undo"></i>
                 </li>
-                <li @click="redo"
+                <li @click="emitEvent('redo')"
                     :class="{ disabled: isLastUndo }"
                     title="redo">
                     <i class="icon-undo"
@@ -51,11 +51,11 @@ import EditorContainer from './layout/editor/EditorContainer'
 import SideContainer from './layout/side/SideContainer'
 import PropertiesContainer from './layout/properties/PropertiesContainer'
 
-import undoMixins from './layout/mixins/undo'
+import editorMixins from './core/Editor'
 
 export default {
     name: 'tenon-designer',
-    mixins: [undoMixins],
+    mixins: [editorMixins],
     components: {
         MainLayout,
         EditorContainer,
@@ -64,14 +64,13 @@ export default {
     },
     provide() {
         return {
-            snapshotProject: this.snapshotProject
+            emitEvent: this.emitEvent
         }
     },
     data() {
         return {
             handleVisiable: true,
-            componentId: '',
-            project: {}
+            componentId: ''
         }
     },
     computed: {
@@ -112,11 +111,11 @@ export default {
             const data = localStorage.getItem('Tenon-projects')
             const projects = data ? JSON.parse(data) : []
             this.project = projects.find(item => item.id === this.projectId) || {}
-            this.snapshotProject()
+            this.init()
+            this.emitEvent('snapshotProject')
         },
-        snapshotProject() {
-            console.log('project change: ', this.project)
-            this.addUndo(this.project)
+        emitEvent(eventName, ...values) {
+            this.$EventBus.$emit(eventName, ...values)
         }
     },
     created() {

@@ -4,7 +4,8 @@ export default {
             highlightBox: {
                 target: null,
                 tagName: '',
-                style: {}
+                style: {},
+                actionsStyle: {}
             },
         }
     },
@@ -44,13 +45,16 @@ export default {
             this.$nextTick(() => {
                 const containerRect = this.getContainerRect()
                 const rect = this.highlightBox.target.getBoundingClientRect()
+                const top = Math.floor(rect.top) - Math.floor(containerRect.top) + 1
+                const left = Math.floor(rect.left) - Math.floor(containerRect.left) + 1
                 this.highlightBox.style = {
                     display: 'block',
-                    width: `${rect.width}px`,
-                    height: `${rect.height}px`,
-                    top: `${this.$el.scrollTop - containerRect.top + rect.top}px`,
-                    left: `${this.$el.scrollLeft - containerRect.left + rect.left}px`
+                    width: `${Math.floor(rect.width) - 2}px`,
+                    height: `${Math.floor(rect.height) - 2}px`,
+                    top: `${top}px`,
+                    left: `${left}px`
                 }
+                this.highlightBox.actionsStyle = top < 30 ? { top: 0 } : {}
             })
         },
     },
