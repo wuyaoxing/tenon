@@ -5,7 +5,6 @@ export default {
                 target: null,
                 layout: 'nestedLayout',
                 style: {},
-                actionsStyle: {}
             },
         }
     },
@@ -48,16 +47,16 @@ export default {
                 const containerRect = this.getContainerRect()
                 const rect = target.getBoundingClientRect()
                 this.selectBox.layout = target.dataset.componentLayout
-                const top = Math.floor(rect.top) - Math.floor(containerRect.top) + 1
-                const left = Math.floor(rect.left) - Math.floor(containerRect.left) + 1
+                const { scrollTop, scrollLeft } = this.$el
+                const top = Math.floor(rect.top - containerRect.top + scrollTop)
+                const left = Math.floor(rect.left - containerRect.left + scrollLeft)
                 this.selectBox.style = {
                     display: 'block',
-                    width: `${Math.floor(rect.width) - 2}px`,
-                    height: `${Math.floor(rect.height) - 2}px`,
+                    width: `${Math.floor(rect.width)}px`,
+                    height: `${Math.floor(rect.height)}px`,
                     top: `${top}px`,
-                    left: `${left}px`
+                    left: `${left}px`,
                 }
-                this.selectBox.actionsStyle = top < 30 ? { top: 0 } : {}
                 this.registerResizeEvent(this.currentComponentId, { el: target, callback: this.resize })
             })
         },
@@ -87,7 +86,7 @@ export default {
                         message: `Recombination component: ${value}`,
                     })
                 })
-                .catch(() => { })
+                .catch(() => {})
         },
         selectParentComponentEvent() {
             const recursion = (component, id) => {

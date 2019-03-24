@@ -5,7 +5,6 @@ export default {
                 target: null,
                 tagName: '',
                 style: {},
-                actionsStyle: {}
             },
         }
     },
@@ -16,8 +15,8 @@ export default {
                     target: null,
                     tagName: '',
                     style: {
-                        display: 'none'
-                    }
+                        display: 'none',
+                    },
                 }
                 return
             }
@@ -27,8 +26,8 @@ export default {
                     target: null,
                     tagName: '',
                     style: {
-                        display: 'none'
-                    }
+                        display: 'none',
+                    },
                 }
                 return
             }
@@ -45,16 +44,16 @@ export default {
             this.$nextTick(() => {
                 const containerRect = this.getContainerRect()
                 const rect = this.highlightBox.target.getBoundingClientRect()
-                const top = Math.floor(rect.top) - Math.floor(containerRect.top) + 1
-                const left = Math.floor(rect.left) - Math.floor(containerRect.left) + 1
+                const { scrollTop, scrollLeft } = this.$el
+                const top = Math.floor(rect.top - containerRect.top + scrollTop)
+                const left = Math.floor(rect.left - containerRect.left + scrollLeft)
                 this.highlightBox.style = {
                     display: 'block',
-                    width: `${Math.floor(rect.width) - 2}px`,
-                    height: `${Math.floor(rect.height) - 2}px`,
+                    width: `${Math.floor(rect.width)}px`,
+                    height: `${Math.floor(rect.height)}px`,
                     top: `${top}px`,
-                    left: `${left}px`
+                    left: `${left}px`,
                 }
-                this.highlightBox.actionsStyle = top < 30 ? { top: 0 } : {}
             })
         },
     },
@@ -63,5 +62,5 @@ export default {
     },
     destroy() {
         this.$EventStack.dispose('highlight-box', 'mousemove')
-    }
+    },
 }

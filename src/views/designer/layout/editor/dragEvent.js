@@ -8,7 +8,7 @@ export default {
                 rect: {},
                 hint: '',
                 placement: 'inside',
-                style: {}
+                style: {},
             },
         }
     },
@@ -18,12 +18,15 @@ export default {
             this.$nextTick(() => {
                 const containerRect = this.getContainerRect()
                 const rect = this.dragoverBox.target.getBoundingClientRect()
+                const { scrollTop, scrollLeft } = this.$el
+                const top = Math.floor(rect.top - containerRect.top + scrollTop)
+                const left = Math.floor(rect.left - containerRect.left + scrollLeft)
                 this.dragoverBox.style = {
                     display: 'block',
-                    width: `${rect.width}px`,
-                    height: `${rect.height}px`,
-                    top: `${rect.top - containerRect.top}px`,
-                    left: `${rect.left - containerRect.left}px`
+                    width: `${Math.floor(rect.width)}px`,
+                    height: `${Math.floor(rect.height)}px`,
+                    top: `${top}px`,
+                    left: `${left}px`,
                 }
             })
         },
@@ -36,7 +39,7 @@ export default {
                     rect: {},
                     hint: '',
                     placement: 'inside',
-                    style: {}
+                    style: {},
                 }
                 return
             }
@@ -57,7 +60,7 @@ export default {
 
                 const offset = {
                     x: 0,
-                    y: 15
+                    y: 15,
                 }
 
                 if (componentName !== 'NestedLayoutContainer' && componentName !== 'PositionLayoutContainer') {
@@ -66,28 +69,28 @@ export default {
 
                 const point = {
                     x: e.clientX,
-                    y: e.clientY
+                    y: e.clientY,
                 }
                 // up
                 const rect1 = {
                     x: this.dragoverBox.rect.x + offset.x,
                     y: this.dragoverBox.rect.y,
-                    w: this.dragoverBox.rect.width - (offset.x * 2),
-                    h: offset.y
+                    w: this.dragoverBox.rect.width - offset.x * 2,
+                    h: offset.y,
                 }
                 // down
                 const rect2 = {
                     x: this.dragoverBox.rect.x + offset.x,
                     y: this.dragoverBox.rect.y + this.dragoverBox.rect.height - offset.y,
-                    w: this.dragoverBox.rect.width - (offset.x * 2),
-                    h: offset.y
+                    w: this.dragoverBox.rect.width - offset.x * 2,
+                    h: offset.y,
                 }
                 // inside
                 const rect3 = {
                     x: this.dragoverBox.rect.x + offset.x,
                     y: this.dragoverBox.rect.y + offset.y,
-                    w: this.dragoverBox.rect.width - (offset.x * 2),
-                    h: this.dragoverBox.rect.height - (offset.y * 2)
+                    w: this.dragoverBox.rect.width - offset.x * 2,
+                    h: this.dragoverBox.rect.height - offset.y * 2,
                 }
 
                 if (this.pointInRect(point, rect1)) this.dragoverBox.placement = 'up'
@@ -132,7 +135,7 @@ export default {
                             const css = {
                                 position: 'absolute',
                                 top: `${e.clientY - rect.top}px`,
-                                left: `${e.clientX - rect.left}px`
+                                left: `${e.clientX - rect.left}px`,
                             }
                             newComponent.layout = 'positionLayout'
                             newComponent.properties.css = Object.assign({}, newComponent.properties.css, css)
@@ -151,7 +154,7 @@ export default {
                 rect: {},
                 hint: '',
                 placement: 'inside',
-                style: {}
+                style: {},
             }
         },
         dropEvent(newComponent, targetComponent) {
@@ -187,7 +190,7 @@ export default {
             this.$Message({
                 showClose: true,
                 message,
-                type: 'success'
+                type: 'success',
             })
 
             // 通过drop event插入组件数据，DOM重绘时间不确定，使用this.$nextTick()，仍不行，暂时加个延迟
@@ -204,5 +207,5 @@ export default {
     destroyed() {
         this.$EventStack.dispose('editor-container', 'dragover')
         this.$EventStack.dispose('editor-container', 'drop')
-    }
+    },
 }
