@@ -1,7 +1,11 @@
 <template>
     <MainLayout class="tenon-designer">
         <header class="tenon-designer-header f f-ai-c f-jc-sb">
-            <h1>Tenon</h1>
+            <h1>
+                <img :src="require('assets/images/logo.png')"
+                     alt="logo">
+                Tenon
+            </h1>
             <ul class="tenon-designer-header-action f">
                 <li @click="emitEvent('undo')"
                     :class="{ disabled: isFirstUndo }"
@@ -139,7 +143,11 @@ export default {
             color: @white-color;
             font-size: 18px;
             font-weight: 700;
-            margin-left: 45px;
+        }
+        img {
+            width: 45px;
+            height: 45px;
+            padding: 8px;
         }
         &-action {
             text-align: center;

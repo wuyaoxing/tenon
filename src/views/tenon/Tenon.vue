@@ -1,7 +1,11 @@
 <template>
     <MainLayout class="tenon">
         <header class="tenon-header f f-jc-sb">
-            <h1>Tenon</h1>
+            <h1>
+                <img :src="require('assets/images/logo.png')"
+                     alt="logo">
+                Tenon
+            </h1>
             <ul>
                 <li>
                     <a href="https://github.com/wuyaoxing/tenon"
@@ -210,6 +214,11 @@ export default {
             font-weight: 700;
             margin-left: 45px;
         }
+        img {
+            width: 45px;
+            height: 45px;
+            padding: 8px;
+        }
         i {
             display: inline-block;
             width: 50px;
@@ -233,7 +242,9 @@ export default {
             padding: 8px;
             border-radius: 3px;
             color: #464c59;
-            background: @white-color;
+            background: @white-color center url("../../assets/images/bg.png")
+                no-repeat;
+            background-size: 54px 60px;
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
             transition-timing-function: ease-in-out;
             transition-duration: 0.2s;
