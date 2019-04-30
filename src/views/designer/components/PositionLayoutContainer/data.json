@@ -2,7 +2,6 @@
   "title": "Tenon",
   "css": {
     "position": "relative",
-    "padding": "8px",
     "minHeight": "150px"
   }
 }

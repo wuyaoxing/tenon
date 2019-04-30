@@ -33,15 +33,14 @@ export default {
     },
     data() {
         return {
-            templateId: '1',
+            templateId: '2',
             template: {
                 1: {
                     name: 'NestedLayoutContainer',
                     properties: {
                         name: 'NestedLayoutContainer',
                         css: {
-                            minHeight: '100%',
-                            padding: '8px'
+                            minHeight: '100%'
                         },
                         style: ''
                     },
@@ -113,7 +112,7 @@ export default {
                                 properties: {
                                     name: 'Text',
                                     css: {
-                                        fontSize: '6rem', color: '#FFFFFF', textAlign: 'center', fontWeight: '300'
+                                        fontSize: '5rem', color: '#FFFFFF', textAlign: 'center', fontWeight: '300'
                                     },
                                     style: '',
                                     label: 'h1',

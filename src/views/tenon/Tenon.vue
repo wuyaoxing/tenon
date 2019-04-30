@@ -74,7 +74,7 @@ export default {
             project: {
                 name: '',
                 resolution: {
-                    width: 1920,
+                    width: 1024,
                     height: 1080
                 }
             },
@@ -121,7 +121,7 @@ export default {
             this.project = {
                 name: '',
                 resolution: {
-                    width: 1920,
+                    width: 1024,
                     height: 1080
                 }
             }
@@ -212,7 +212,6 @@ export default {
             color: @white-color;
             font-size: 18px;
             font-weight: 700;
-            margin-left: 45px;
         }
         img {
             width: 45px;
@@ -233,18 +232,18 @@ export default {
     &-projects {
         padding: 30px 60px;
         overflow-y: auto;
+        background: center url("../../assets/images/bg.png") no-repeat;
     }
     &-project {
         &-card {
+            position: relative;
             width: 180px;
             height: 150px;
             margin: 10px 5px;
             padding: 8px;
             border-radius: 3px;
             color: #464c59;
-            background: @white-color center url("../../assets/images/bg.png")
-                no-repeat;
-            background-size: 54px 60px;
+            background: @white-color;
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
             transition-timing-function: ease-in-out;
             transition-duration: 0.2s;
@@ -253,6 +252,18 @@ export default {
                 box-shadow: 0 5px 6px 0 rgba(0, 0, 0, 0.15);
                 transform: translateY(-2px);
             }
+            // &:before {
+            //     position: absolute;
+            //     top: 0;
+            //     right: 0;
+            //     bottom: 0;
+            //     left: 0;
+            //     z-index: -1;
+            //     background: @white-color center
+            //         url("../../assets/images/bg.png") no-repeat;
+            //     background-size: 27px * 1.4 30px * 1.4;
+            //     content: "";
+            // }
         }
         &-title {
             h2 {

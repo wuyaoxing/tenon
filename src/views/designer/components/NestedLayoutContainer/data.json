@@ -1,7 +1,6 @@
 {
   "title": "Tenon",
   "css": {
-    "padding": "8px",
     "minHeight": "150px"
   }
 }

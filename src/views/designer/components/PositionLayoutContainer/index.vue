@@ -1,6 +1,5 @@
 <template>
     <div class="position-layout-container">
-        PositionLayoutContainer
         <slot></slot>
     </div>
 </template>
