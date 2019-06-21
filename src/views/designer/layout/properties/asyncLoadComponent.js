@@ -17,5 +17,11 @@ export default {
             }
             return this.asyncComponents[name]
         },
+        asyncLoadPanel(name) {
+            if (!this.asyncComponents[name]) {
+                this.asyncComponents[name] = () => import(`./layout/${name}`)
+            }
+            return this.asyncComponents[name]
+        },
     },
 }

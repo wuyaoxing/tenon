@@ -2,6 +2,7 @@ export default {
     props: {
         value: [String, Number],
         readonly: Boolean,
+        placeholder: String,
         properties: Object,
         schema: {
             type: Object,
@@ -18,8 +19,13 @@ export default {
             },
             set(val) {
                 const formatValue = this.schema.type === 'number' ? Number(val) : val
-                this.$emit('update:value', formatValue)
+                this.change(formatValue)
             },
         }
     },
+    methods: {
+        change(value) {
+            this.$emit('change', value)
+        }
+    }
 }

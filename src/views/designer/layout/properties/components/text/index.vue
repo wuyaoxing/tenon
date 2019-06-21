@@ -1,8 +1,8 @@
 <template>
-  <input class="properties-text"
-         type="text"
-         :readonly="readonly"
-         v-model="currentValue">
+    <input class="properties-text"
+           type="text"
+           :readonly="readonly"
+           v-model="currentValue">
 </template>
 <script>
 export default {
@@ -12,12 +12,12 @@ export default {
 
 <style lang="less">
 .properties-text {
-  min-width: 30px;
-  height: 23px;
-  // background: #545454;
-  border: 1px #2e2e2e solid;
-  // color: #fff;
-  line-height: 23px;
-  padding: 0 5px;
+    min-width: 30px;
+    height: 23px;
+    // background: #545454;
+    border: 1px #2e2e2e solid;
+    // color: #fff;
+    line-height: 23px;
+    padding: 0 5px;
 }
 </style>

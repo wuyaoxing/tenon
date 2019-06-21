@@ -23,11 +23,15 @@ import {
     CollapseItem,
     ColorPicker,
     Popover,
+    Radio,
+    RadioButton,
+    RadioGroup,
+    Slider
 } from 'element-ui'
 
 const components = {
     Button,
-    Input,
+    InputText: Input,
     Autocomplete,
     Checkbox,
     Form,
@@ -45,6 +49,10 @@ const components = {
     CollapseItem,
     ColorPicker,
     Popover,
+    Radio,
+    RadioButton,
+    RadioGroup,
+    Slider
 }
 
 export default {

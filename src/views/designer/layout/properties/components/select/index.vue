@@ -3,7 +3,7 @@
             v-model="currentValue"
             size="mini"
             filterable
-            placeholder="请选择">
+            :placeholder="placeholder">
         <Option v-for="item in schemaEnum"
                 :key="item.value"
                 :label="item.text"
@@ -22,7 +22,7 @@ export default {
     methods: {
         formatSchema() {
             const { schema } = this
-            if (this.properties.enum) {
+            if (this.properties && this.properties.enum) {
                 this.schemaEnum = this.properties.enum
             } else if (schema.enum) {
                 this.schemaEnum = schema.enum

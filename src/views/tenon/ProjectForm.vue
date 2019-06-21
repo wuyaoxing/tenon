@@ -4,10 +4,12 @@
             :append-to-body="true"
             :visible.sync="currentVisiable"
             class="project-add">
-        项目名称： <Input v-model="project.name" />
+        项目名称：
+        <InputText v-model="project.name" />
         项目分辨率：
         <div class="f f-ai-c">
-            <Input v-model="project.resolution.width" /> X <Input v-model="project.resolution.height" />
+            <InputText v-model="project.resolution.width" /> X
+            <InputText v-model="project.resolution.height" />
         </div>
         <ul class="project-template f"
             v-if="!edit">
