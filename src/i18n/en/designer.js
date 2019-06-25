@@ -13,6 +13,8 @@ export default {
             font: 'Font',
             background: 'Background',
             border: 'Border',
+            padding: 'Padding',
+            margin: 'Margin',
             boxShadow: 'BoxShadow',
             custom: 'Custom Properties'
         },
@@ -33,6 +35,14 @@ export default {
         backgroundRepeat: 'Repeat',
         borderWidth: 'W',
         borderRadius: 'R',
+        paddingTop: 'Top',
+        paddingRight: 'Right',
+        paddingBottom: 'Bottom',
+        paddingLeft: 'Left',
+        marginTop: 'Top',
+        marginRight: 'Right',
+        marginBottom: 'Bottom',
+        marginLeft: 'Left',
         shadow: ['X', 'Y', 'Blur', 'Spread'],
         custom: {
             text: 'Text',

@@ -12,7 +12,7 @@
                        :placeholder="placeholder"
                        :min="schema.minimum"
                        :max="schema.maximum"
-                       @change="val => change('value', val)" />
+                       @input="val => change('value', val)" />
             <Select class="properties-cssunit-unit f-fs-0"
                     :value="cssunit.unit"
                     size="mini"

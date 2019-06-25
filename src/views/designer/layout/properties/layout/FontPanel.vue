@@ -6,7 +6,7 @@
                 :key="key">
                 <RadioGroup :value="data[key]"
                             size="mini"
-                            @change="val => change(key, val)"
+                            @input="val => change(key, val)"
                             v-if="item.format === 'radio'">
                     <RadioButton v-for="item in item.enum"
                                  :key="item.value"
@@ -17,7 +17,7 @@
                 <InputText :value="data[key]"
                            :readonly="item.readonly"
                            size="mini"
-                           @change="e => change(key, e.target.value)"
+                           @input="val => change(key, val)"
                            v-else-if="key === 'fontFamily'">
                     <template slot="prepend">{{$i18n(`designer.properties.${key}`)}}</template>
                 </InputText>

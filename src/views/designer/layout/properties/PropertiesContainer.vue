@@ -315,6 +315,9 @@ export default {
             }
         }
     }
+    &-content {
+        padding-bottom: 150px;
+    }
     &-panel {
         padding: 20px 10px 10px;
         > ul > li {

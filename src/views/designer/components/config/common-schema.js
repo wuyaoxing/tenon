@@ -1036,6 +1036,68 @@ export default {
             },
         },
     },
+    padding: {
+        title: 'padding',
+        type: 'object',
+        format: 'BoxPanel',
+        properties: {
+            paddingTop: {
+                description: '上',
+                type: 'string',
+                format: 'cssunit',
+                enum: unitList
+            },
+            paddingRight: {
+                description: '右',
+                type: 'string',
+                format: 'cssunit',
+                enum: unitList
+            },
+            paddingBottom: {
+                description: '下',
+                type: 'string',
+                format: 'cssunit',
+                enum: unitList
+            },
+            paddingLeft: {
+                description: '左',
+                type: 'string',
+                format: 'cssunit',
+                enum: unitList
+            }
+        }
+    },
+    margin: {
+        title: 'margin',
+        type: 'object',
+        format: 'BoxPanel',
+        properties: {
+            marginTop: {
+                description: '上',
+                type: 'string',
+                format: 'cssunit',
+                enum: unitList
+            },
+            marginRight: {
+                description: '右',
+                type: 'string',
+                format: 'cssunit',
+                enum: unitList
+            },
+            marginBottom: {
+                description: '下',
+                type: 'string',
+                format: 'cssunit',
+                enum: unitList
+            },
+            marginLeft: {
+                description: '左',
+                type: 'string',
+                format: 'cssunit',
+                enum: unitList
+            }
+        }
+    },
     boxShadow: {
         title: 'boxShadow',
         type: 'object',

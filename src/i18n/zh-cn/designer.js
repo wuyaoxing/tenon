@@ -13,6 +13,8 @@ export default {
             font: '字体',
             background: '背景',
             border: '边框',
+            padding: '内边距',
+            margin: '外边距',
             boxShadow: '阴影',
             custom: '自定义属性'
         },
@@ -32,6 +34,14 @@ export default {
         backgroundRepeat: '重复',
         borderWidth: '线宽',
         borderRadius: '圆角',
+        paddingTop: '上',
+        paddingRight: '右',
+        paddingBottom: '下',
+        paddingLeft: '左',
+        marginTop: '上',
+        marginRight: '右',
+        marginBottom: '下',
+        marginLeft: '左',
         shadow: ['X', 'Y', '模糊', '扩散'],
         custom: {
             text: '文本',
