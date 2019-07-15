@@ -8,7 +8,7 @@
                            :value="originData.name"
                            size="mini"
                            :placeholder="$i18n(`designer.properties.name`)"
-                           @change="val => change('name', val)" />
+                           @input="val => change('name', val)" />
             </div>
             <RectPanel class="properties-panel"
                        :schema="formatSchemas.rect"

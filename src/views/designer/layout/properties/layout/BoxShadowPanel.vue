@@ -20,7 +20,7 @@
                            size="mini"
                            :placeholder="$i18n(`designer.properties.shadow.${index}`)"
                            style="width: auto"
-                           @change="val => change('vars', val, index)" />
+                           @input="val => change('vars', val, index)" />
                 <p style="margin-top: 10px;text-align: center;">{{$i18n(`designer.properties.shadow.${index}`)}}</p>
             </li>
         </ul>
