@@ -7,6 +7,7 @@ import 'styles/app.less'
 Vue.config.productionTip = false
 
 new Vue({
+    el: '#app',
     router,
     render: h => h(App),
-}).$mount('#app')
+})

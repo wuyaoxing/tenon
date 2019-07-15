@@ -20,6 +20,7 @@ Vue.prototype.$uuid = uuid
 
 loadLocaleData(Vue, 'projects').then(() => {
     new Vue({
+        el: '#app',
         render: h => h(App),
-    }).$mount('#app')
+    })
 })

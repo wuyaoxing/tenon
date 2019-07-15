@@ -6,27 +6,27 @@ const resolve = dir => path.join(__dirname, '', dir)
 
 const isDevMode = process.env.NODE_ENV === 'development'
 
-const baseUrl = isDevMode ? '/' : './'
+const publicPath = isDevMode ? '/' : './'
 const pagesDir = './src/pages'
 const entrys = fs.readdirSync(pagesDir)
 console.log('页面入口：', entrys)
 
 const pages = entrys.reduce((acc, name) => {
-    acc[name] = `${pagesDir}/${name}/main.js`
+    acc[name] = `${pagesDir}/${name}/index.js`
     return acc
 }, {})
 
 // path rewrite: /abc -> /abc.html
 const rewrites = entrys.map(name => ({
     from: `/${name}`,
-    to: path.posix.join(baseUrl, `${name}.html`),
+    to: path.posix.join(publicPath, `${name}.html`),
 }))
 
 process.env.VUE_APP_PAGES = JSON.stringify(entrys)
 
 // https://github.com/vuejs/vue-cli/tree/dev/docs/config
 module.exports = {
-    baseUrl,
+    publicPath,
     outputDir: 'dist',
     pages,
     devServer: {

@@ -1,15 +1,14 @@
 <template>
-  <div id="app">
     <AppLayout>
-      <Tenon></Tenon>
+        <Tenon></Tenon>
     </AppLayout>
-  </div>
 </template>
 <script>
 import AppLayout from 'components/layout/AppLayout'
 import Tenon from 'views/tenon/Tenon'
 
 export default {
+    name: 'App',
     components: {
         AppLayout,
         Tenon

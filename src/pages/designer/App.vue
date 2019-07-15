@@ -1,20 +1,15 @@
 <template>
-    <div id="app">
-        <AppLayout>
-            <router-view></router-view>
-        </AppLayout>
-    </div>
+    <AppLayout>
+        <router-view></router-view>
+    </AppLayout>
 </template>
 <script>
 import AppLayout from 'components/layout/AppLayout'
 
 export default {
-    name: 'app',
+    name: 'App',
     components: {
         AppLayout
     }
 }
 </script>
-<style lang="less">
-@import "~styles/variables";
-</style>

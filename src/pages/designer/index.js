@@ -27,7 +27,8 @@ Vue.prototype.$ResizeEvent = new ResizeEvent()
 
 loadLocaleData(Vue, 'designer').then(() => {
     new Vue({
+        el: '#app',
         router,
         render: h => h(App),
-    }).$mount('#app')
+    })
 })
