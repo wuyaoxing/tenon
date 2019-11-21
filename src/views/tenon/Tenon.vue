@@ -1,6 +1,6 @@
 <template>
     <MainLayout class="tenon">
-        <header class="tenon-header f f-jc-sb">
+        <header class="tenon-header f-fs-0 f f-jc-sb">
             <h1>
                 <img :src="require('assets/images/logo.png')"
                      alt="logo">

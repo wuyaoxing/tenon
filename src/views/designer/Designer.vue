@@ -1,6 +1,6 @@
 <template>
     <MainLayout class="tenon-designer">
-        <header class="tenon-designer-header f f-ai-c f-jc-sb">
+        <header class="tenon-designer-header f-fs-0 f f-ai-c f-jc-sb">
             <h1>
                 <img :src="require('assets/images/logo.png')"
                      alt="logo">
@@ -168,6 +168,9 @@ export default {
                 }
             }
         }
+    }
+    &-main {
+        overflow: hidden;
     }
     &-side {
         width: 300px;
