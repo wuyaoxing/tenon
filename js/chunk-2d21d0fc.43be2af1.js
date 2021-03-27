@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21d0fc"],{d060:function(t,e,r){"use strict";r.r(e),e["default"]={title:"Marquee",type:"object",properties:{text:{type:"string",format:"text"},duration:{type:"number",format:"number",minimum:1}},required:["text"]}}}]);

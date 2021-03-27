@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e8f62"],{"8c01":function(e,t,c){"use strict";c.r(t),t["default"]={action:{share:"Share",edit:"Edit",duplicate:"Duplicate",delete:"Remove"}}}}]);

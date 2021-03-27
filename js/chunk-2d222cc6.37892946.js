@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d222cc6"],{cfc0:function(n){n.exports={label:"h1",text:"Tenon"}}}]);

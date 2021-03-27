@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0c46a6"],{"3b78":function(e){e.exports={text:"marquee",duration:1e3,css:{width:"200px",height:"40px",minWidth:"10px",minHeight:"10px",textAlign:"center"}}}}]);

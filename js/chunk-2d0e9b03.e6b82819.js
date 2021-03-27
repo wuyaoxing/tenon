@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e9b03"],{"8f32":function(t,e,i){"use strict";i.r(e),e["default"]={title:"Text",type:"object",properties:{label:{description:"显示文本",type:"string",format:"text"},text:{description:"显示文本",type:"string",format:"text"}}}}}]);

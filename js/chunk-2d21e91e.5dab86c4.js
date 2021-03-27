@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21e91e"],{d5b9:function(e,n,c){"use strict";c.r(n),n["default"]={props:{schema:Object,data:Object},inject:["asyncLoadComponent"],methods:{change:function(e,n){this.$emit("change",e,n)}}}}}]);

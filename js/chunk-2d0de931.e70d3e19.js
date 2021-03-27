@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0de931"],{"85db":function(t,e,i){"use strict";i.r(e),e["default"]={title:"Header",type:"object",properties:{title:{description:"标题",type:"string",format:"text"}}}}}]);
