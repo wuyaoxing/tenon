@@ -1,7 +1,7 @@
 const componentCategory = {
     container: ['NestedLayoutContainer', 'PositionLayoutContainer'],
     layout: ['Header', 'Tabs', 'TabPanel'],
-    base: ['Text'],
+    base: ['Text', 'Marquee'],
     component: ['Button'],
 }
 

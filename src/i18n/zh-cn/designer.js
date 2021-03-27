@@ -46,7 +46,8 @@ export default {
         custom: {
             text: '文本',
             title: '标题',
-            label: '标签'
+            label: '标签',
+            duration: '动画时间(ms)'
         }
     },
 }

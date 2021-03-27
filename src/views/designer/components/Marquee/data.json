@@ -1,0 +1,11 @@
+{
+  "text": "marquee",
+  "duration": 1000,
+  "css": {
+    "width": "200px",
+    "height": "40px",
+    "minWidth": "10px",
+    "minHeight": "10px",
+    "textAlign": "center"
+  }
+}

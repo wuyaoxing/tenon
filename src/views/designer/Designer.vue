@@ -109,7 +109,7 @@ export default {
             this.$Message.success('Save Success!')
         },
         preview() {
-            window.location = `/tenon/viewer#/projects/${this.projectId}`
+            window.open(`/tenon/viewer#/projects/${this.projectId}`)
         },
         fetchProject() {
             const data = localStorage.getItem('Tenon-projects')

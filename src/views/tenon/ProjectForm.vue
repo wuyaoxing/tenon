@@ -5,8 +5,7 @@
             :visible.sync="currentVisiable"
             class="project-add">
         项目名称：
-        <InputText v-model="project.name" />
-        项目分辨率：
+        <InputText v-model="project.name" /> 项目分辨率：
         <div class="f f-ai-c">
             <InputText v-model="project.resolution.width" /> X
             <InputText v-model="project.resolution.height" />
@@ -79,7 +78,7 @@ export default {
                         properties: {
                             name: '所见即所得',
                             css: {
-                                padding: '10rem', minHeight: '150px', background: 'url(http://www.ypppt.com/uploads/allimg/181014/1-1Q014121J1-50.jpg) no-repeat center center', backgroundSize: 'cover'
+                                padding: '10rem', minHeight: '150px'
                             },
                             style: '',
                             title: 'Tenon'
@@ -90,22 +89,22 @@ export default {
                             properties: {
                                 name: 'NestedLayoutContainer',
                                 css: {
-                                    padding: '5rem', minHeight: '150px', textAlign: 'center', color: '#FFFFFF'
+                                    padding: '5rem', minHeight: '150px', textAlign: 'center'
                                 },
                                 style: '',
                                 title: 'Tenon'
                             },
                             children: [{
                                 id: '8a31f19c-2649-4333-bfbd-ba4947191a34',
-                                name: 'Text',
+                                name: 'Marquee',
                                 properties: {
-                                    name: 'Text',
+                                    name: 'Marquee',
                                     css: {
-                                        fontSize: '3rem', fontWeight: '300', textAlign: 'center', color: '#FFFFFF'
+                                        fontSize: '3rem', fontWeight: '300', textAlign: 'center'
                                     },
                                     style: '',
-                                    label: 'h2',
-                                    text: '全可视化操作，所见即所得'
+                                    text: '全可视化操作，所见即所得',
+                                    duration: 8000
                                 },
                                 layout: 'nestedLayout'
                             }, {
@@ -114,18 +113,18 @@ export default {
                                 properties: {
                                     name: 'Text',
                                     css: {
-                                        fontSize: '5rem', color: '#FFFFFF', textAlign: 'center', fontWeight: '300'
+                                        fontSize: '5rem', textAlign: 'center', fontWeight: '300'
                                     },
                                     style: '',
                                     label: 'h1',
-                                    text: 'what you see is what you get'
+                                    text: 'what you see is what you get',
                                 },
                                 layout: 'nestedLayout'
                             }, {
                                 id: '6c27b5f2-4075-431f-ba9f-69da9bd17621',
-                                name: 'Text',
+                                name: 'Marquee',
                                 properties: {
-                                    name: 'Text', css: { fontSize: '3rem', fontWeight: '300' }, style: '', label: 'h2', text: '内容可配置，页面结构可配置，逻辑可配置'
+                                    name: 'Marquee', css: { fontSize: '3rem', fontWeight: '300' }, style: '', text: '内容可配置，页面结构可配置，逻辑可配置', duration: 8000
                                 },
                                 layout: 'nestedLayout'
                             }],
