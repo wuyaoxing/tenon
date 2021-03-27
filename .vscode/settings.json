@@ -35,14 +35,8 @@
   "eslint.validate": [
     "javascript",
     "javascriptreact",
-    {
-      "autoFix": true,
-      "language": "vue"
-    },
-    {
-      "autoFix": true,
-      "language": "html"
-    }
+    "vue",
+    "html"
   ],
   "files.eol": "\n",
   "editor.lineHeight": 24,
@@ -51,7 +45,6 @@
   "editor.wrappingIndent": "indent",
   "editor.minimap.enabled": true,
   "editor.formatOnSave": true,
-  "eslint.autoFixOnSave": true,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "html.format.extraLiners": "",
@@ -87,6 +80,7 @@
     "unitless-zero": true,
     "vendor-prefix-align": true
   },
+  "vetur.format.options.tabSize": 4,
   "vetur.format.defaultFormatter.js": "vscode-typescript",
   "vetur.format.defaultFormatter.html": "js-beautify-html",
   "vetur.format.defaultFormatterOptions": {
@@ -105,5 +99,8 @@
   "explorer.confirmDelete": false,
   "workbench.startupEditor": "newUntitledFile",
   "less.lint.emptyRules": "ignore",
-  "less.lint.duplicateProperties": "warning"
+  "less.lint.duplicateProperties": "warning",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
