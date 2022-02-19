@@ -1,29 +1,32 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Designer from '@/views/designer/Designer.vue'
+import TreeContainer from '@/views/designer/layout/tree/TreeContainer.vue'
+import ComponentsContainer from '@/views/designer/layout/components/ComponentsContainer.vue'
+import PropertiesContainer from '@/views/designer/layout/properties/PropertiesContainer.vue'
+import NotFound from '@/views/404/index.vue'
 
 Vue.use(VueRouter)
-
-const AsyncComp = pagePath => () => import(`views/${pagePath}`)
 
 export const sideRouter = [
     {
         name: 'tree',
         path: 'tree',
-        component: AsyncComp('designer/layout/tree/TreeContainer'),
+        component: TreeContainer,
         fields: 'tree',
         icon: 'icon-tree',
     },
     {
         name: 'components',
         path: 'components',
-        component: AsyncComp('designer/layout/components/ComponentsContainer'),
+        component: ComponentsContainer,
         fields: 'components',
         icon: 'icon-components',
     },
     {
         name: 'properties',
         path: 'properties',
-        component: AsyncComp('designer/layout/properties/PropertiesContainer'),
+        component:PropertiesContainer,
         fields: 'properties',
         icon: 'icon-edit',
     },
@@ -34,14 +37,14 @@ const routes = [
         name: 'designer',
         path: '/projects/:id',
         redirect: { name: 'components' },
-        component: AsyncComp('designer/Designer'),
+        component: Designer,
         fields: 'designer',
         children: sideRouter,
     },
     {
         name: '404',
         path: '/404',
-        component: AsyncComp('404'),
+        component: NotFound,
         fields: 404,
     },
     {

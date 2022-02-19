@@ -184,8 +184,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "~styles/variables";
-
 .project {
     &-template {
         padding: 15px 0;

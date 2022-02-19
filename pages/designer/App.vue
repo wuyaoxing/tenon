@@ -4,7 +4,7 @@
     </AppLayout>
 </template>
 <script>
-import AppLayout from 'components/layout/AppLayout'
+import AppLayout from '@/components/layout/AppLayout.vue'
 
 export default {
     name: 'App',

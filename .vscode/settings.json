@@ -1,17 +1,9 @@
 // 将设置放入此文件中以覆盖默认设置
 {
-  "emmet.triggerExpansionOnTab": true,
-  "emmet.includeLanguages": {
-    "vue": "html",
-    "vue-html": "html"
-  },
-  "emmet.syntaxProfiles": {
-    "vue": "html",
-    "vue-html": "html"
-  },
   "files.associations": {
     "*.vue": "vue",
-    "*.template": "html"
+    "*.template": "html",
+    ".env.production.local": "env"
   },
   "search.exclude": {
     "**/node_modules": true,
@@ -38,13 +30,19 @@
     "vue",
     "html"
   ],
+  "eslint.workingDirectories": [
+    "packages"
+  ],
   "files.eol": "\n",
-  "editor.lineHeight": 24,
+  "editor.lineHeight": 26,
   "editor.wordWrap": "on",
   "editor.wordWrapColumn": 160,
   "editor.wrappingIndent": "indent",
   "editor.minimap.enabled": true,
-  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "breadcrumbs.enabled": true,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "html.format.extraLiners": "",
@@ -53,54 +51,23 @@
   "vsicons.dontShowNewVersionMessage": true,
   "vsicons.projectDetection.disableDetect": true,
   "vsicons.presets.angular": false,
-  "workbench.iconTheme": "vscode-icons",
-  "csscomb.formatOnSave": true,
-  "csscomb.preset": {
-    "remove-empty-rulesets": true,
-    "always-semicolon": false,
-    "color-case": "lower",
-    "block-indent": "    ",
-    "color-shorthand": true,
-    "element-case": "lower",
-    "eof-newline": true,
-    "leading-zero": false,
-    "quotes": "double",
-    "space-before-colon": "",
-    "space-after-colon": " ",
-    "space-before-combinator": " ",
-    "space-after-combinator": "",
-    "space-between-declarations": "\n",
-    "space-before-opening-brace": " ",
-    "space-after-opening-brace": "\n",
-    "space-after-selector-delimiter": "\n",
-    "space-before-selector-delimiter": "",
-    "space-before-closing-brace": "\n",
-    "strip-spaces": true,
-    "tab-size": true,
-    "unitless-zero": true,
-    "vendor-prefix-align": true
-  },
-  "vetur.format.options.tabSize": 4,
-  "vetur.format.defaultFormatter.js": "vscode-typescript",
-  "vetur.format.defaultFormatter.html": "js-beautify-html",
-  "vetur.format.defaultFormatterOptions": {
-    "js-beautify-html": {
-      "wrap_attributes": "force-aligned"
-    }
-  },
-  "prettier.eslintIntegration": true,
-  "prettier.singleQuote": true,
-  "prettier.semi": false,
-  "prettier.tabWidth": 4,
-  "prettier.printWidth": 140,
-  "prettier.trailingComma": "es5",
-  "prettier.disableLanguages": ["json"],
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "workbench.startupEditor": "newUntitledFile",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "window.zoomLevel": 0,
   "less.lint.emptyRules": "ignore",
-  "less.lint.duplicateProperties": "warning",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+  "css.lint.emptyRules": "ignore",
+  "terminal.integrated.fontFamily": "Consolas, 'Courier New', monospace",
+  "terminal.integrated.fontSize": 16,
+  "terminal.integrated.lineHeight": 1.2,
+  "gitlens.hovers.currentLine.over": "line",
+  "workbench.sideBar.location": "left",
+  "workbench.activityBar.visible": true,
+  "gitlens.gitCommands.closeOnFocusOut": true,
+  "workbench.statusBar.visible": true,
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "volar.codeLens.scriptSetupTools": true,
+  "editor.formatOnSave": false,
 }

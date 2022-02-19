@@ -35,8 +35,6 @@ export default {
 </script>
 
 <style lang="less">
-@import "~styles/variables";
-
 .tabs {
     border: 1px solid @primary-border-color;
     &-item {

@@ -1,15 +1,15 @@
 import Vue from 'vue'
 
-import 'styles/app.less'
+import '@/styles/app.less'
 
-import uuid from 'utils/uuid'
-import sleep from 'utils/sleep'
-import EventStack from 'utils/EventStack'
-import ResizeEvent from 'utils/ResizeEvent'
-import loadLocaleData from 'utils/loadLocaleData'
+import uuid from '@/utils/uuid'
+import sleep from '@/utils/sleep'
+import EventStack from '@/utils/EventStack'
+import ResizeEvent from '@/utils/ResizeEvent'
+import loadLocaleData from '@/utils/loadLocaleData'
 
-import components from 'components'
-import ElementUI from 'element'
+import components from '@/components'
+import ElementUI from '@/element'
 
 import router from './router'
 import App from './App.vue'

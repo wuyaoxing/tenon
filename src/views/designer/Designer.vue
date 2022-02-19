@@ -2,7 +2,7 @@
     <MainLayout class="tenon-designer">
         <header class="tenon-designer-header f-fs-0 f f-ai-c f-jc-sb">
             <h1>
-                <img :src="require('assets/images/logo.png')"
+                <img :src="require('@/assets/images/logo.png')"
                      alt="logo">
                 Tenon
             </h1>
@@ -50,10 +50,10 @@
     </MainLayout>
 </template>
 <script>
-import MainLayout from 'components/layout/MainLayout'
-import EditorContainer from './layout/editor/EditorContainer'
-import SideContainer from './layout/side/SideContainer'
-import PropertiesContainer from './layout/properties/PropertiesContainer'
+import MainLayout from '@/components/layout/MainLayout.vue'
+import EditorContainer from './layout/editor/EditorContainer.vue'
+import SideContainer from './layout/side/SideContainer.vue'
+import PropertiesContainer from './layout/properties/PropertiesContainer.vue'
 
 import editorMixins from './core/Editor'
 
@@ -128,8 +128,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "~styles/variables";
-
 .tenon-designer {
     background: #e6e8ec;
     &-header {

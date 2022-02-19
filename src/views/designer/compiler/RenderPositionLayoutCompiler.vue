@@ -29,7 +29,7 @@
     </component>
 </template>
 <script>
-import RenderTabPanelLayoutCompiler from './RenderTabPanelLayoutCompiler'
+import RenderTabPanelLayoutCompiler from './RenderTabPanelLayoutCompiler.vue'
 
 export default {
     name: 'RenderPositionLayoutCompiler',
@@ -38,7 +38,7 @@ export default {
     },
     inject: ['asyncLoadComponent'],
     components: {
-        RenderNestedLayoutCompiler: () => import('./RenderNestedLayoutCompiler'),
+        RenderNestedLayoutCompiler: () => import('./RenderNestedLayoutCompiler.vue'),
         RenderTabPanelLayoutCompiler
     }
 }

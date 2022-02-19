@@ -61,8 +61,6 @@ export default {
 </script>
 
 <style lang="less">
-@import "~styles/variables";
-
 .handle {
     position: relative;
     &-bar {

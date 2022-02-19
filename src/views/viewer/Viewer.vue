@@ -4,8 +4,8 @@
     </div>
 </template>
 <script>
-import RenderNestedLayoutCompiler from 'views/designer/compiler/RenderNestedLayoutCompiler'
-import asyncLoadComponentMixins from 'views/designer/compiler/asyncLoadComponent'
+import RenderNestedLayoutCompiler from '@/views/designer/compiler/RenderNestedLayoutCompiler.vue'
+import asyncLoadComponentMixins from '@/views/designer/compiler/asyncLoadComponent.js'
 
 export default {
     name: 'tenon-viewer',

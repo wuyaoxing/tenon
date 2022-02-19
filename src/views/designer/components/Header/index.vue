@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <img :src="require('assets/images/logo.png')"
+        <img :src="require('@/assets/images/logo.png')"
              alt="logo">
         Tenon
     </div>

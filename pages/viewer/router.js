@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Viewer from '@/views/viewer/Viewer.vue'
+import NotFound from '@/views/404/index.vue'
 
 Vue.use(VueRouter)
-
-const AsyncComp = pagePath => () => import(`views/${pagePath}`)
 
 const routes = [
     {
         name: 'viewer',
         path: '/projects/:id',
-        component: AsyncComp('viewer/Viewer'),
+        component: Viewer,
         fields: 'viewer',
     },
     {
         name: '404',
         path: '/404',
-        component: AsyncComp('404'),
+        component: NotFound,
         fields: 404,
     },
     {

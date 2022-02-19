@@ -16,7 +16,7 @@ export default {
     },
     inject: ['asyncLoadComponent', 'project'],
     components: {
-        RenderNestedLayoutCompiler: () => import('./RenderNestedLayoutCompiler')
+        RenderNestedLayoutCompiler: () => import('./RenderNestedLayoutCompiler.vue')
     },
     computed: {
         tabPanelComponent() {

@@ -111,8 +111,8 @@ import commonSchemas, {
 import asyncLoadSchemaMixins from './asyncLoadSchema'
 import asyncLoadComponentMixins from './asyncLoadComponent'
 
-import Code from './components/code'
-import RectPanel from './layout/RectPanel'
+import Code from './components/code/index.vue'
+import RectPanel from './layout/RectPanel.vue'
 
 // TODO
 // 增加确认操作，或者输入框回车生效。避免实时生效带来的性能问题。
@@ -286,7 +286,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "~styles/variables";
 .properties {
     &-container {
         .el-collapse {

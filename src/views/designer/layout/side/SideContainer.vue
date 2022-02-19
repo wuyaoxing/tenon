@@ -26,7 +26,7 @@
     </div>
 </template>
 <script>
-import { sideRouter } from 'pages/designer/router'
+import { sideRouter } from '@pages/designer/router'
 
 export default {
     name: 'SideContainer',
@@ -66,8 +66,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "~styles/variables";
-
 .side {
     &-container {
         position: relative;

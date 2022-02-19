@@ -1,4 +1,4 @@
-import Handle from './handle/Handle'
+import Handle from './handle/Handle.vue'
 
 const components = {
     Handle

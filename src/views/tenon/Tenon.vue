@@ -2,7 +2,7 @@
     <MainLayout class="tenon">
         <header class="tenon-header f-fs-0 f f-jc-sb">
             <h1>
-                <img :src="require('assets/images/logo.png')"
+                <img :src="require('@/assets/images/logo.png')"
                      alt="logo">
                 Tenon
             </h1>
@@ -58,8 +58,8 @@
     </MainLayout>
 </template>
 <script>
-import MainLayout from 'components/layout/MainLayout'
-import ProjectForm from './ProjectForm'
+import MainLayout from '@/components/layout/MainLayout.vue'
+import ProjectForm from './ProjectForm.vue'
 
 export default {
     name: 'tenon',
@@ -199,8 +199,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "~styles/variables";
-
 .tenon {
     background: #e6e8ec;
     &-header {

@@ -4,8 +4,8 @@
     </AppLayout>
 </template>
 <script>
-import AppLayout from 'components/layout/AppLayout'
-import Tenon from 'views/tenon/Tenon'
+import AppLayout from '@/components/layout/AppLayout.vue'
+import Tenon from '@/views/tenon/Tenon.vue'
 
 export default {
     name: 'App',

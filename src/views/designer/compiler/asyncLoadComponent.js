@@ -1,5 +1,7 @@
 import propertiesMixins from './properties'
 
+const modules = import.meta.globEager('../components/**/index.vue')
+
 export default {
     data() {
         return {
@@ -9,11 +11,15 @@ export default {
     methods: {
         asyncLoadComponent(name) {
             if (!this.asyncComponents[name]) {
-                this.asyncComponents[name] = () => import(`views/designer/components/${name}`).then(module => {
-                    const newModule = Object.create(module)
-                    newModule.default.mixins = (newModule.default.mixins || []).concat(propertiesMixins)
-                    return newModule
-                })
+                try {
+                    const component = modules[`../components/${name}/index.vue`].default
+                    this.asyncComponents[name] = {
+                        extends: component,
+                        mixins: [propertiesMixins]
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
             }
             return this.asyncComponents[name]
         }

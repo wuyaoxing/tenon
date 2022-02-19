@@ -87,9 +87,9 @@
     </div>
 </template>
 <script>
-import RenderNestedLayoutCompiler from 'views/designer/compiler/RenderNestedLayoutCompiler'
+import RenderNestedLayoutCompiler from '@/views/designer/compiler/RenderNestedLayoutCompiler.vue'
 
-import asyncLoadComponentMixins from 'views/designer/compiler/asyncLoadComponent'
+import asyncLoadComponentMixins from '@/views/designer/compiler/asyncLoadComponent'
 
 import dragEventMixins from './dragEvent'
 import resizeEventMixins from './resizeEvent'
@@ -189,8 +189,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "~styles/variables";
-
 .editor-container {
     position: relative;
     scroll-behavior: smooth;

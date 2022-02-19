@@ -30,8 +30,8 @@
     </component>
 </template>
 <script>
-import RenderPositionLayoutCompiler from './RenderPositionLayoutCompiler'
-import RenderTabPanelLayoutCompiler from './RenderTabPanelLayoutCompiler'
+import RenderPositionLayoutCompiler from './RenderPositionLayoutCompiler.vue'
+import RenderTabPanelLayoutCompiler from './RenderTabPanelLayoutCompiler.vue'
 
 export default {
     name: 'RenderNestedLayoutCompiler',
